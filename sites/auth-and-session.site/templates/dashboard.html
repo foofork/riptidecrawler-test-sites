@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - Auth Test Site</title>
+    <style>
+        body { font-family: Arial, sans-serif; max-width: 800px; margin: 50px auto; padding: 20px; }
+        .header { background: #2c3e50; color: white; padding: 20px; border-radius: 8px; margin-bottom: 30px; }
+        .card { border: 1px solid #ddd; padding: 20px; border-radius: 8px; background: #f9f9f9; margin-bottom: 20px; }
+        button { padding: 10px 20px; background: #e74c3c; color: white; border: none;
+                 border-radius: 4px; cursor: pointer; }
+        button:hover { background: #c0392b; }
+        .info { color: #7f8c8d; }
+        .api-test { background: #ecf0f1; padding: 15px; border-radius: 4px; margin-top: 20px; }
+        #api-result { margin-top: 10px; padding: 10px; background: #fff; border-radius: 4px; }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>✅ Dashboard</h1>
+        <p>Welcome, <strong>{{ username }}</strong>!</p>
+    </div>
+
+    <div class="card">
+        <h2>Session Information</h2>
+        <p><strong>Username:</strong> {{ username }}</p>
+        <p><strong>Session Created:</strong> {{ session_created }}</p>
+        <p class="info">Session expires after 1 hour of inactivity</p>
+    </div>
+
+    <div class="card">
+        <h2>Protected Content</h2>
+        <p>This page requires authentication. Try accessing it without logging in!</p>
+
+        <div class="api-test">
+            <h3>Test Protected API</h3>
+            <button onclick="testProtectedAPI()">Fetch Protected Data</button>
+            <div id="api-result"></div>
+        </div>
+    </div>
+
+    <div class="card">
+        <h2>Logout</h2>
+        <form method="POST" action="/logout">
+            <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+            <button type="submit">Logout</button>
+        </form>
+    </div>
+
+    <script>
+        async function testProtectedAPI() {
+            const resultDiv = document.getElementById('api-result');
+            resultDiv.textContent = 'Loading...';
+
+            try {
+                const response = await fetch('/protected-data');
+                const data = await response.json();
+
+                if (response.ok) {
+                    resultDiv.innerHTML = `<strong>Success!</strong><pre>${JSON.stringify(data, null, 2)}</pre>`;
+                    resultDiv.style.background = '#d4edda';
+                } else {
+                    resultDiv.innerHTML = `<strong>Error:</strong> ${data.detail}`;
+                    resultDiv.style.background = '#f8d7da';
+                }
+            } catch (error) {
+                resultDiv.innerHTML = `<strong>Error:</strong> ${error.message}`;
+                resultDiv.style.background = '#f8d7da';
+            }
+        }
+    </script>
+</body>
+</html>

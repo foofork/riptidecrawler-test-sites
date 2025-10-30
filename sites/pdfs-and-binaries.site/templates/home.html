@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PDFs and Binaries Test Site</title>
+    <style>
+        body { font-family: Arial, sans-serif; max-width: 1200px; margin: 0 auto; padding: 20px; }
+        .header { background: #8e44ad; color: white; padding: 20px; border-radius: 8px; margin-bottom: 30px; }
+        .nav { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; }
+        .card { border: 1px solid #ddd; padding: 20px; border-radius: 8px; background: #f9f9f9; }
+        .badge { display: inline-block; padding: 5px 10px; border-radius: 4px; font-size: 12px; color: white; }
+        .badge-pdf { background: #e74c3c; }
+        .badge-image { background: #3498db; }
+        .badge-video { background: #9b59b6; }
+        .badge-binary { background: #95a5a6; }
+        a { color: #3498db; text-decoration: none; }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>📄 PDFs and Binaries Test Site</h1>
+        <p>Test binary file handling, Content-Type detection, and skip logic</p>
+    </div>
+
+    <div class="nav">
+        <div class="card">
+            <h3><span class="badge badge-pdf">PDF</span> PDF Documents</h3>
+            <p>Generated PDFs with and without tables</p>
+            <ul>
+                <li><a href="/pdf/simple" target="_blank">Simple PDF</a></li>
+                <li><a href="/pdf/with-table" target="_blank">PDF with Table</a></li>
+            </ul>
+        </div>
+
+        <div class="card">
+            <h3><span class="badge badge-image">IMAGE</span> Images</h3>
+            <p>PNG images (test Content-Type detection)</p>
+            <ul>
+                <li><a href="/image/1" target="_blank">Image 1 (PNG)</a></li>
+                <li><a href="/image/2" target="_blank">Image 2 (PNG)</a></li>
+                <li><a href="/image/3" target="_blank">Image 3 (PNG)</a></li>
+            </ul>
+        </div>
+
+        <div class="card">
+            <h3><span class="badge badge-video">VIDEO</span> Videos</h3>
+            <p>MP4 video files (test skip logic)</p>
+            <ul>
+                <li><a href="/video/1" target="_blank">Video 1 (MP4)</a></li>
+                <li><a href="/video/2" target="_blank">Video 2 (MP4)</a></li>
+            </ul>
+        </div>
+
+        <div class="card">
+            <h3><span class="badge badge-binary">BINARY</span> Binary Files</h3>
+            <p>Generic binary data (application/octet-stream)</p>
+            <ul>
+                <li><a href="/binary/1">Binary File 1</a></li>
+                <li><a href="/binary/2">Binary File 2</a></li>
+            </ul>
+        </div>
+
+        <div class="card">
+            <h3>🔀 Mixed Content</h3>
+            <p>HTML page with links to various file types</p>
+            <ul>
+                <li><a href="/mixed-content">Mixed Content Page</a></li>
+            </ul>
+        </div>
+
+        <div class="card">
+            <h3>📊 Content Types Info</h3>
+            <p>JSON map of all content types</p>
+            <ul>
+                <li><a href="/content-types">View Content Types JSON</a></li>
+            </ul>
+        </div>
+    </div>
+
+    <div style="margin-top: 30px; padding: 20px; background: #fff3cd; border-radius: 8px;">
+        <h3>💡 Testing Tips</h3>
+        <ul>
+            <li>Check <code>Content-Type</code> headers before parsing</li>
+            <li>Skip non-HTML content types (PDFs, images, videos)</li>
+            <li>PDFs contain tables that can be extracted</li>
+            <li>Use <code>/content-types</code> endpoint for automated detection</li>
+        </ul>
+    </div>
+</body>
+</html>

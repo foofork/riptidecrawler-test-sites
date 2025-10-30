@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Static vs Headless Test Site</title>
+    <style>
+        body { font-family: Arial, sans-serif; max-width: 1200px; margin: 0 auto; padding: 20px; }
+        .header { background: #34495e; color: white; padding: 20px; border-radius: 8px; margin-bottom: 30px; }
+        .nav { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; }
+        .card { border: 1px solid #ddd; padding: 20px; border-radius: 8px; background: #f9f9f9; }
+        .badge { display: inline-block; padding: 5px 10px; border-radius: 4px; font-size: 12px; }
+        .badge-static { background: #27ae60; color: white; }
+        .badge-dynamic { background: #e67e22; color: white; }
+        a { color: #3498db; text-decoration: none; }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>⚡ Static vs Headless Test Site</h1>
+        <p>Test static HTML parsing vs JavaScript-required content</p>
+    </div>
+
+    <div class="nav">
+        <div class="card">
+            <h3><span class="badge badge-static">STATIC</span> Static Pages (75%)</h3>
+            <p>No JavaScript required - fast static parsing</p>
+            <ul>
+                <li><a href="/static/0">Article 0 - Static</a></li>
+                <li><a href="/static/1">Article 1 - Static</a></li>
+                <li><a href="/static/2">Article 2 - Static</a></li>
+                <li><a href="/static/3">Article 3 - Static</a></li>
+            </ul>
+        </div>
+
+        <div class="card">
+            <h3><span class="badge badge-dynamic">DYNAMIC</span> Dynamic Pages (25%)</h3>
+            <p>JavaScript required - needs headless browser</p>
+            <ul>
+                <li><a href="/dynamic/0">Article 0 - Dynamic</a></li>
+                <li><a href="/dynamic/1">Article 1 - Dynamic</a></li>
+                <li><a href="/dynamic/2">Article 2 - Dynamic</a></li>
+            </ul>
+        </div>
+
+        <div class="card">
+            <h3>🤖 Anti-Bot Detection</h3>
+            <p>Test navigator.webdriver detection</p>
+            <ul>
+                <li><a href="/anti-bot-check">Bot Detection Test</a></li>
+            </ul>
+        </div>
+
+        <div class="card">
+            <h3>📊 Routing Logic</h3>
+            <p>Intelligent routing recommendations</p>
+            <ul>
+                <li><a href="/routing-logic">View Routing Logic JSON</a></li>
+            </ul>
+        </div>
+    </div>
+</body>
+</html>

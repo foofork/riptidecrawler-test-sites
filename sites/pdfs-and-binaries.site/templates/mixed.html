@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Mixed Content Page</title>
+    <style>
+        body { font-family: Arial, sans-serif; max-width: 800px; margin: 0 auto; padding: 20px; }
+        .content { border: 1px solid #ddd; padding: 20px; border-radius: 8px; margin-bottom: 20px; }
+        h1 { color: #2c3e50; }
+        a { color: #3498db; text-decoration: none; padding: 8px 12px; background: #ecf0f1;
+            border-radius: 4px; display: inline-block; margin: 5px; }
+        a:hover { background: #bdc3c7; }
+    </style>
+</head>
+<body>
+    <div class="content">
+        <h1>Mixed Content Page</h1>
+        <p>This page contains regular HTML content AND links to binary files.</p>
+
+        <h2>Regular HTML Content</h2>
+        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. This is parseable HTML content.</p>
+
+        <h2>Links to Binary Files</h2>
+        <div>
+            <a href="/pdf/simple" target="_blank">📄 PDF Document</a>
+            <a href="/image/1" target="_blank">🖼️ Image File</a>
+            <a href="/video/1" target="_blank">🎥 Video File</a>
+            <a href="/binary/1">💾 Binary File</a>
+        </div>
+
+        <h2>More HTML Content</h2>
+        <p>This content should be extracted by HTML parsers, while binary links should be detected
+           by their Content-Type headers and handled appropriately.</p>
+
+        <div style="margin-top: 20px;">
+            <a href="/">← Back to Home</a>
+        </div>
+    </div>
+</body>
+</html>

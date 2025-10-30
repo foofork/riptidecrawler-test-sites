@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Messy Table Data</title>
+    <style>
+        body { font-family: Arial, sans-serif; max-width: 1000px; margin: 0 auto; padding: 20px; }
+        div { padding: 5px; }
+        .badge { background: #e74c3c; color: white; padding: 5px 10px; border-radius: 4px; }
+    </style>
+</head>
+<body>
+    <span class="badge">MESSY TABLE</span>
+    <h1>Product Inventory - Messy Structure</h1>
+
+    <div style="border: 1px solid #ddd; padding: 10px;">
+        <div style="display: flex; background: #333; color: white; padding: 10px;">
+            <div style="flex: 1;">Product</div>
+            <div style="flex: 1;">Price</div>
+            <div style="flex: 1;">Stock</div>
+        </div>
+        {% for item in data %}
+        <div style="display: flex; padding: 10px; border-bottom: 1px solid #eee;">
+            <div style="flex: 1;">{{ item.product }}</div>
+            <div style="flex: 1;">${{ item.price }}</div>
+            <div style="flex: 1;">{{ item.stock }}</div>
+        </div>
+        {% endfor %}
+    </div>
+
+    <div style="margin-top: 20px; padding: 10px; background: #fff3cd; border-radius: 4px;">
+        <strong>Extraction Confidence:</strong> {{ confidence }} (Low - Requires LLM for table extraction)
+    </div>
+
+    <div style="margin-top: 20px;">
+        <a href="/">← Back to Home</a>
+    </div>
+</body>
+</html>

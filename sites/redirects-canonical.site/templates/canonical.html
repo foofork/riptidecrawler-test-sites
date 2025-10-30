@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ title }} - Redirects Test Site</title>
+    <link rel="canonical" href="{{ canonical_url }}" />
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        header {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            color: white;
+            padding: 30px;
+            border-radius: 10px;
+            margin-bottom: 30px;
+        }
+        .back-link {
+            color: white;
+            opacity: 0.9;
+            text-decoration: none;
+            font-size: 14px;
+            margin-bottom: 10px;
+            display: inline-block;
+        }
+        .back-link:hover { opacity: 1; }
+        h1 { margin: 0; }
+        .content {
+            background: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .canonical-box {
+            background: #fff3cd;
+            border-left: 4px solid #ffc107;
+            padding: 15px;
+            margin-top: 20px;
+            border-radius: 4px;
+        }
+        code {
+            background: #f4f4f4;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-family: 'Monaco', 'Courier New', monospace;
+            font-size: 13px;
+            word-break: break-all;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <a href="/" class="back-link">← Back to Tests</a>
+        <h1>{{ title }}</h1>
+    </header>
+
+    <div class="content">
+        <p>{{ content }}</p>
+
+        <div class="canonical-box">
+            <strong>🔗 Canonical URL:</strong><br>
+            <code>{{ canonical_url }}</code>
+            <p style="margin-top: 10px; margin-bottom: 0; font-size: 14px;">
+                Search engines will treat this URL as the preferred version of this page.
+            </p>
+        </div>
+    </div>
+</body>
+</html>

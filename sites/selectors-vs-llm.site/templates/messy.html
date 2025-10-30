@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ product }}</title>
+    <style>
+        body { font-family: Arial, sans-serif; max-width: 800px; margin: 0 auto; padding: 20px; }
+        div { padding: 10px; }
+        .x1 { font-size: 24px; color: #2c3e50; }
+        .x2 { font-size: 28px; color: #27ae60; font-weight: bold; }
+        .x3 { color: #555; line-height: 1.6; }
+        .x4 { color: #f39c12; font-size: 18px; }
+        .x5 { color: #7f8c8d; }
+        .badge { background: #e74c3c; color: white; padding: 5px 10px; border-radius: 4px; font-size: 12px; }
+    </style>
+</head>
+<body>
+    <div>
+        <span class="badge">MESSY HTML</span>
+        <div class="x1">{{ product }}</div>
+        <div class="x2">${{ price }}</div>
+        <div class="x4">⭐ {{ rating }} / 5.0</div>
+        <div class="x5">{{ reviews }} reviews</div>
+        <div class="x3">{{ description }}</div>
+
+        <div style="margin-top: 20px; padding: 10px; background: #fff3cd; border-radius: 4px;">
+            <strong>Extraction Confidence:</strong> {{ confidence }} (Low - Requires LLM for reliable extraction)
+        </div>
+
+        <div style="margin-top: 20px;">
+            <a href="/">← Back to Home</a>
+        </div>
+    </div>
+</body>
+</html>

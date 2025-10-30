@@ -1,0 +1,61 @@
+version: '3.8'
+
+services:
+  selectors-vs-llm:
+    build:
+      context: ./sites/selectors-vs-llm.site
+      dockerfile: Dockerfile
+    container_name: selectors-vs-llm
+    ports:
+      - "5002:5002"
+    restart: unless-stopped
+    networks:
+      - phase2-network
+
+  static-vs-headless:
+    build:
+      context: ./sites/static-vs-headless.site
+      dockerfile: Dockerfile
+    container_name: static-vs-headless
+    ports:
+      - "5003:5003"
+    restart: unless-stopped
+    networks:
+      - phase2-network
+
+  slowpoke-and-retries:
+    build:
+      context: ./sites/slowpoke-and-retries.site
+      dockerfile: Dockerfile
+    container_name: slowpoke-and-retries
+    ports:
+      - "5007:5007"
+    restart: unless-stopped
+    networks:
+      - phase2-network
+
+  auth-and-session:
+    build:
+      context: ./sites/auth-and-session.site
+      dockerfile: Dockerfile
+    container_name: auth-and-session
+    ports:
+      - "5008:5008"
+    restart: unless-stopped
+    networks:
+      - phase2-network
+
+  pdfs-and-binaries:
+    build:
+      context: ./sites/pdfs-and-binaries.site
+      dockerfile: Dockerfile
+    container_name: pdfs-and-binaries
+    ports:
+      - "5004:5004"
+    restart: unless-stopped
+    networks:
+      - phase2-network
+
+networks:
+  phase2-network:
+    driver: bridge

@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Test Site - {{ site_name|title }}{% endblock %}</title>
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', path='/css/style.css') }}">
+
+    <!-- Meta tags -->
+    <meta name="description" content="Automated test site with deterministic data generation">
+    <meta name="faker-seed" content="42">
+
+    {% block extra_head %}{% endblock %}
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <nav class="navbar">
+            <div class="container">
+                <div class="nav-brand">
+                    <h1>{{ site_name|title }} Test Site</h1>
+                </div>
+                <ul class="nav-menu">
+                    <li><a href="/">Home</a></li>
+                    <li><a href="/api/docs">API Docs</a></li>
+                    <li><a href="/api/health">Health</a></li>
+                    <li><a href="/api/ground-truth">Ground Truth</a></li>
+                </ul>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Main content -->
+    <main class="main-content">
+        <div class="container">
+            {% block content %}{% endblock %}
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2025 Test Site - {{ site_name|title }}</p>
+            <p>Generated with Faker (seed=42) | FastAPI + Jinja2</p>
+            <div class="footer-links">
+                <a href="/api/stats">Stats</a>
+                <a href="/api/health">Health</a>
+                <a href="/api/ground-truth">Ground Truth</a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JavaScript -->
+    <script src="{{ url_for('static', path='/js/main.js') }}"></script>
+    {% block extra_scripts %}{% endblock %}
+</body>
+</html>

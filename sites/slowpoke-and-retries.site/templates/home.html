@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Slowpoke and Retries Test Site</title>
+    <style>
+        body { font-family: Arial, sans-serif; max-width: 1200px; margin: 0 auto; padding: 20px; }
+        .header { background: #c0392b; color: white; padding: 20px; border-radius: 8px; margin-bottom: 30px; }
+        .nav { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; }
+        .card { border: 1px solid #ddd; padding: 20px; border-radius: 8px; background: #f9f9f9; }
+        code { background: #f4f4f4; padding: 2px 6px; border-radius: 3px; }
+        a { color: #3498db; text-decoration: none; }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>🐌 Slowpoke and Retries Test Site</h1>
+        <p>Test timeout handling, rate limiting, and retry logic (inspired by httpbin.org)</p>
+    </div>
+
+    <div class="nav">
+        <div class="card">
+            <h3>⏱️ Delay Endpoints</h3>
+            <p>Test timeout handling with configurable delays</p>
+            <ul>
+                <li><a href="/delay/1">1 second delay</a></li>
+                <li><a href="/delay/5">5 second delay</a></li>
+                <li><a href="/delay/10">10 second delay</a></li>
+                <li><a href="/delay/30">30 second delay</a></li>
+                <li><code>/delay/{'{seconds}'}</code> - Custom delay</li>
+            </ul>
+        </div>
+
+        <div class="card">
+            <h3>🚦 Rate Limiting</h3>
+            <p>Test 429 responses with Retry-After headers</p>
+            <ul>
+                <li><a href="/rate-limited">Rate Limited Endpoint</a></li>
+                <li>Limit: 5 requests per 60 seconds</li>
+                <li>Returns <code>Retry-After</code> header</li>
+            </ul>
+        </div>
+
+        <div class="card">
+            <h3>💥 Unstable Endpoint</h3>
+            <p>Randomly returns 200, 429, or 503</p>
+            <ul>
+                <li><a href="/unstable">Unstable Endpoint</a></li>
+                <li>60% success, 20% rate limit, 20% error</li>
+                <li>Perfect for retry logic testing</li>
+            </ul>
+        </div>
+
+        <div class="card">
+            <h3>⏳ Timeout Test</h3>
+            <p>Test long timeouts (60 second hang)</p>
+            <ul>
+                <li><a href="/timeout">60 Second Timeout</a></li>
+                <li>Will hang for 60 seconds</li>
+                <li>Set timeout &lt; 60s to test</li>
+            </ul>
+        </div>
+
+        <div class="card">
+            <h3>🔴 Server Errors</h3>
+            <p>Test 503 responses with retry logic</p>
+            <ul>
+                <li><a href="/503-error">503 Service Unavailable</a></li>
+                <li><a href="/retry-test?attempt=1">Retry Test (succeeds on 3rd attempt)</a></li>
+            </ul>
+        </div>
+
+        <div class="card">
+            <h3>🎯 Custom Status Codes</h3>
+            <p>Return any HTTP status code</p>
+            <ul>
+                <li><a href="/status/200">200 OK</a></li>
+                <li><a href="/status/429">429 Too Many Requests</a></li>
+                <li><a href="/status/503">503 Service Unavailable</a></li>
+                <li><code>/status/{'{code}'}</code> - Any status</li>
+            </ul>
+        </div>
+    </div>
+
+    <div style="margin-top: 30px; padding: 20px; background: #fff3cd; border-radius: 8px;">
+        <h3>💡 Testing Tips</h3>
+        <ul>
+            <li>Use <code>/delay/{'{n}'}</code> to test timeout configurations</li>
+            <li>Hit <code>/rate-limited</code> 6 times quickly to trigger 429</li>
+            <li>Use <code>/unstable</code> to test exponential backoff</li>
+            <li>Check <code>Retry-After</code> headers for proper retry timing</li>
+        </ul>
+    </div>
+</body>
+</html>

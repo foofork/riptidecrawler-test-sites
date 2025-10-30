@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ job.title }} at {{ job.company }}</title>
+    <script type="application/ld+json">
+{{ jsonld | safe }}
+    </script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 20px;
+            background: #fafafa;
+        }
+        .wrapper {
+            background: white;
+            border-radius: 8px;
+            padding: 35px;
+            box-shadow: 0 3px 15px rgba(0,0,0,0.15);
+            border-left: 5px solid #ff9800;
+        }
+        .alert {
+            background: #fff3e0;
+            color: #e65100;
+            padding: 5px 15px;
+            border-radius: 15px;
+            font-size: 0.85em;
+            font-weight: bold;
+            display: inline-block;
+            margin-bottom: 20px;
+        }
+        .header-section {
+            margin-bottom: 25px;
+        }
+        .title-text {
+            font-size: 1.9em;
+            color: #222;
+            margin: 10px 0;
+        }
+        .org-name {
+            font-size: 1.2em;
+            color: #764ba2;
+            margin: 10px 0;
+        }
+        .info-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin: 25px 0;
+            padding: 15px;
+            background: #f0f0f0;
+            border-radius: 6px;
+        }
+        .info-cell {
+            padding: 10px;
+        }
+        .label-text {
+            font-weight: 600;
+            color: #555;
+            font-size: 0.85em;
+            text-transform: uppercase;
+        }
+        .value-text {
+            color: #111;
+            font-size: 1.05em;
+            margin-top: 5px;
+        }
+        .content-block {
+            margin: 25px 0;
+            padding: 15px 0;
+        }
+        .heading-text {
+            font-size: 1.2em;
+            color: #764ba2;
+            margin-bottom: 12px;
+            font-weight: 600;
+        }
+        .description-text {
+            line-height: 1.6;
+            color: #444;
+        }
+        .item-list {
+            list-style: none;
+            padding: 0;
+            margin: 15px 0;
+        }
+        .item-list .list-item {
+            padding: 6px 0;
+            padding-left: 20px;
+            position: relative;
+            color: #333;
+        }
+        .item-list .list-item:before {
+            content: "→";
+            position: absolute;
+            left: 0;
+            color: #ff9800;
+        }
+        .nav-link {
+            display: inline-block;
+            margin-top: 25px;
+            color: #764ba2;
+            text-decoration: none;
+            font-weight: 600;
+        }
+        .nav-link:hover {
+            text-decoration: underline;
+        }
+        /* Additional messy wrapper divs */
+        .outer-container {
+            position: relative;
+        }
+        .inner-wrapper {
+            display: block;
+        }
+        .content-holder {
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+    <div class="outer-container">
+        <div class="inner-wrapper">
+            <div class="content-holder">
+                <div class="wrapper">
+                    <div class="alert">⚡ Complex HTML - LLM Extraction Required</div>
+
+                    <div class="header-section">
+                        <div class="title-text">
+                            <span>{{ job.title }}</span>
+                        </div>
+                        <div class="org-name">
+                            <span>{{ job.company }}</span>
+                        </div>
+                    </div>
+
+                    <div class="info-grid">
+                        <div class="info-cell">
+                            <div class="label-text">Location</div>
+                            <div class="value-text">
+                                <span>{{ job.location }}</span>
+                            </div>
+                        </div>
+                        <div class="info-cell">
+                            <div class="label-text">Type</div>
+                            <div class="value-text">
+                                <span>{{ job.employment_type.replace('_', ' ').title() }}</span>
+                            </div>
+                        </div>
+                        <div class="info-cell">
+                            <div class="label-text">Compensation</div>
+                            <div class="value-text">
+                                <span>${{ "{:,}".format(job.salary_min) }}</span>
+                                <span> to </span>
+                                <span>${{ "{:,}".format(job.salary_max) }}</span>
+                            </div>
+                        </div>
+                        <div class="info-cell">
+                            <div class="label-text">Posted</div>
+                            <div class="value-text">
+                                <span>{{ job.date_posted }}</span>
+                            </div>
+                        </div>
+                        <div class="info-cell">
+                            <div class="label-text">Expires</div>
+                            <div class="value-text">
+                                <span>{{ job.valid_through }}</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="content-block">
+                        <div class="heading-text">About This Position</div>
+                        <div class="description-text">
+                            <p>{{ job.description }}</p>
+                        </div>
+                    </div>
+
+                    <div class="content-block">
+                        <div class="heading-text">What We're Looking For</div>
+                        <ul class="item-list">
+                            {% for req in job.requirements %}
+                            <li class="list-item">
+                                <span>{{ req }}</span>
+                            </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+
+                    <div class="content-block">
+                        <div class="heading-text">What We Offer</div>
+                        <ul class="item-list">
+                            {% for benefit in job.benefits %}
+                            <li class="list-item">
+                                <span>{{ benefit }}</span>
+                            </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+
+                    <a href="/" class="nav-link">← View All Opportunities</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Anti-Bot Detection Test</title>
+    <style>
+        body { font-family: Arial, sans-serif; max-width: 800px; margin: 0 auto; padding: 20px; }
+        .result { padding: 20px; border-radius: 8px; margin: 20px 0; }
+        .bot { background: #f8d7da; border: 1px solid #f5c6cb; }
+        .human { background: #d4edda; border: 1px solid #c3e6cb; }
+        code { background: #f4f4f4; padding: 2px 6px; border-radius: 3px; }
+    </style>
+</head>
+<body>
+    <h1>🤖 Anti-Bot Detection Test</h1>
+    <p>This page detects headless browsers using navigator.webdriver</p>
+
+    <div id="result" class="result">
+        <p>Analyzing browser...</p>
+    </div>
+
+    <script>
+        const isBot = navigator.webdriver === true;
+        const userAgent = navigator.userAgent;
+
+        const resultDiv = document.getElementById('result');
+
+        if (isBot) {
+            resultDiv.className = 'result bot';
+            resultDiv.innerHTML = `
+                <h2>🚨 Bot Detected!</h2>
+                <p><code>navigator.webdriver</code> is <strong>true</strong></p>
+                <p><strong>User Agent:</strong> ${userAgent}</p>
+                <p><strong>Recommendation:</strong> Use stealth mode or undetected-chromedriver</p>
+            `;
+        } else {
+            resultDiv.className = 'result human';
+            resultDiv.innerHTML = `
+                <h2>✅ Normal Browser Detected</h2>
+                <p><code>navigator.webdriver</code> is <strong>false</strong></p>
+                <p><strong>User Agent:</strong> ${userAgent}</p>
+                <p><strong>Result:</strong> No bot detection triggered</p>
+            `;
+        }
+
+        // Send result to backend
+        fetch(`/api/bot-check?user_agent=${encodeURIComponent(userAgent)}&webdriver=${isBot}`)
+            .then(r => r.json())
+            .then(data => console.log('Bot check result:', data));
+    </script>
+
+    <div style="margin-top: 20px;">
+        <a href="/">← Back to Home</a>
+    </div>
+</body>
+</html>

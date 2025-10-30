@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Clean Table Data</title>
+    <style>
+        body { font-family: Arial, sans-serif; max-width: 1000px; margin: 0 auto; padding: 20px; }
+        table { width: 100%; border-collapse: collapse; margin: 20px 0; }
+        th, td { padding: 12px; text-align: left; border: 1px solid #ddd; }
+        th { background: #2c3e50; color: white; }
+        tr:nth-child(even) { background: #f2f2f2; }
+        .badge { background: #27ae60; color: white; padding: 5px 10px; border-radius: 4px; }
+    </style>
+</head>
+<body>
+    <span class="badge">CLEAN TABLE</span>
+    <h1>Product Inventory - Clean Structure</h1>
+
+    <table data-testid="product-table">
+        <thead>
+            <tr>
+                <th data-testid="header-product">Product</th>
+                <th data-testid="header-price">Price</th>
+                <th data-testid="header-stock">Stock</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in data %}
+            <tr data-testid="product-row">
+                <td class="product-name" data-testid="product-name">{{ item.product }}</td>
+                <td class="product-price" data-testid="product-price">${{ item.price }}</td>
+                <td class="product-stock" data-testid="product-stock">{{ item.stock }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <div style="margin-top: 20px; padding: 10px; background: #d4edda; border-radius: 4px;">
+        <strong>Extraction Confidence:</strong> {{ confidence }} (Very High - Perfect table structure)
+    </div>
+
+    <div style="margin-top: 20px;">
+        <a href="/">← Back to Home</a>
+    </div>
+</body>
+</html>

@@ -1,0 +1,38 @@
+/* Print Stylesheet */
+
+@media print {
+    body {
+        background: white;
+        color: black;
+        font-size: 12pt;
+    }
+
+    .container {
+        box-shadow: none;
+        padding: 0;
+    }
+
+    h1 {
+        font-size: 18pt;
+        page-break-after: avoid;
+    }
+
+    h2 {
+        font-size: 14pt;
+        page-break-after: avoid;
+    }
+
+    .image-gallery,
+    .bg-image-box {
+        page-break-inside: avoid;
+    }
+
+    a {
+        color: black;
+        text-decoration: underline;
+    }
+
+    a[href]:after {
+        content: " (" attr(href) ")";
+    }
+}

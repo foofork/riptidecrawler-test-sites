@@ -1,0 +1,90 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="hero">
+    <h2>Welcome to {{ site_name|title }} Test Site</h2>
+    <p class="subtitle">Automated test environment with deterministic data generation</p>
+</div>
+
+<div class="info-cards">
+    <div class="card">
+        <h3>Data Generation</h3>
+        <p>All data generated using Faker with seed=42 for reproducibility</p>
+        <p class="metric">Total Entities: <strong>{{ data|length if data is iterable and data is not mapping else 'N/A' }}</strong></p>
+    </div>
+
+    <div class="card">
+        <h3>API Endpoints</h3>
+        <ul class="endpoint-list">
+            <li><code>GET /</code> - Homepage</li>
+            <li><code>GET /api/data</code> - Paginated data</li>
+            <li><code>GET /api/ground-truth</code> - Complete dataset</li>
+            <li><code>GET /api/health</code> - Health check</li>
+            <li><code>GET /api/stats</code> - Statistics</li>
+        </ul>
+    </div>
+
+    <div class="card">
+        <h3>Testing</h3>
+        <p>Access ground-truth data for automated validation</p>
+        <a href="/api/ground-truth" class="button">View Ground Truth</a>
+        <a href="/api/docs" class="button">API Documentation</a>
+    </div>
+</div>
+
+<div class="data-preview">
+    <h3>Data Preview</h3>
+    <div class="table-container">
+        {% if data is iterable and data is not mapping %}
+            <table>
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Name</th>
+                        <th>Details</th>
+                        <th>Created</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for item in data[:10] %}
+                    <tr>
+                        <td>{{ item.id }}</td>
+                        <td>{{ item.name }}</td>
+                        <td>
+                            {% if item.email %}{{ item.email }}{% endif %}
+                            {% if item.description %}{{ item.description[:50] }}...{% endif %}
+                        </td>
+                        <td>{{ item.created_at }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            <p class="preview-note">Showing 10 of {{ data|length }} total items</p>
+        {% else %}
+            <p>Custom data structure - see <a href="/api/ground-truth">ground-truth endpoint</a></p>
+        {% endif %}
+    </div>
+</div>
+
+<div class="quick-links">
+    <h3>Quick Links</h3>
+    <div class="link-grid">
+        <a href="/api/data?limit=20" class="link-card">
+            <h4>View Data (Paginated)</h4>
+            <p>First 20 items with pagination support</p>
+        </a>
+        <a href="/api/ground-truth" class="link-card">
+            <h4>Ground Truth Export</h4>
+            <p>Complete dataset for validation</p>
+        </a>
+        <a href="/api/stats" class="link-card">
+            <h4>Site Statistics</h4>
+            <p>Metrics and site information</p>
+        </a>
+        <a href="/api/docs" class="link-card">
+            <h4>API Documentation</h4>
+            <p>Interactive Swagger UI</p>
+        </a>
+    </div>
+</div>
+{% endblock %}

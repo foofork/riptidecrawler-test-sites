@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jobs & Offers - Find Your Next Opportunity</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: #333;
+        }
+        .container {
+            background: white;
+            border-radius: 10px;
+            padding: 30px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+        }
+        h1 {
+            color: #667eea;
+            text-align: center;
+            margin-bottom: 10px;
+        }
+        .stats {
+            background: #f0f4ff;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+        .stats strong {
+            color: #667eea;
+        }
+        .job-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 20px;
+            margin-top: 30px;
+        }
+        .job-card {
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            padding: 20px;
+            transition: all 0.3s ease;
+            background: white;
+        }
+        .job-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 20px rgba(102, 126, 234, 0.3);
+            border-color: #667eea;
+        }
+        .job-card.clean {
+            border-left: 4px solid #4caf50;
+        }
+        .job-card.messy {
+            border-left: 4px solid #ff9800;
+        }
+        .job-title {
+            font-size: 1.3em;
+            font-weight: bold;
+            color: #667eea;
+            margin-bottom: 10px;
+        }
+        .company {
+            font-size: 1.1em;
+            color: #555;
+            margin-bottom: 8px;
+        }
+        .location, .salary, .posted {
+            color: #777;
+            font-size: 0.9em;
+            margin: 5px 0;
+        }
+        .extraction-badge {
+            display: inline-block;
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-size: 0.75em;
+            font-weight: bold;
+            margin-top: 10px;
+        }
+        .extraction-badge.css {
+            background: #e8f5e9;
+            color: #2e7d32;
+        }
+        .extraction-badge.llm {
+            background: #fff3e0;
+            color: #e65100;
+        }
+        .view-btn {
+            display: inline-block;
+            margin-top: 15px;
+            padding: 10px 20px;
+            background: #667eea;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: background 0.3s;
+        }
+        .view-btn:hover {
+            background: #5568d3;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🚀 Jobs & Offers</h1>
+        <p style="text-align: center; color: #666;">Your gateway to amazing career opportunities</p>
+
+        <div class="stats">
+            <strong>{{ total_jobs }}</strong> active job postings |
+            <strong style="color: #4caf50;">{{ clean_html_count }}</strong> clean HTML (30%) |
+            <strong style="color: #ff9800;">{{ messy_html_count }}</strong> complex HTML (70%)
+        </div>
+
+        <div class="job-grid">
+            {% for job in jobs %}
+            <div class="job-card {{ 'clean' if job.is_clean_html else 'messy' }}">
+                <div class="job-title">{{ job.title }}</div>
+                <div class="company">🏢 {{ job.company }}</div>
+                <div class="location">📍 {{ job.location }}</div>
+                <div class="salary">💰 ${{ "{:,}".format(job.salary_min) }} - ${{ "{:,}".format(job.salary_max) }}/year</div>
+                <div class="posted">📅 Posted: {{ job.date_posted }}</div>
+
+                <span class="extraction-badge {{ 'css' if job.is_clean_html else 'llm' }}">
+                    {{ '✓ CSS Selector' if job.is_clean_html else '⚡ LLM Required' }}
+                </span>
+
+                <a href="/job/{{ job.id }}" class="view-btn">View Details →</a>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</body>
+</html>

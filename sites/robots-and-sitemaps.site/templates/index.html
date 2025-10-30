@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Robots.txt & Sitemaps Test Site</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 40px;
+            border-radius: 10px;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+        h1 { margin: 0 0 10px 0; }
+        .subtitle { opacity: 0.9; font-size: 18px; }
+        .test-section {
+            background: white;
+            padding: 25px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        h2 {
+            color: #667eea;
+            margin-top: 0;
+        }
+        .test-links {
+            display: grid;
+            gap: 10px;
+        }
+        .test-link {
+            padding: 12px 15px;
+            background: #f8f9fa;
+            border: 1px solid #dee2e6;
+            border-radius: 5px;
+            text-decoration: none;
+            color: #495057;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            transition: all 0.2s;
+        }
+        .test-link:hover {
+            background: #667eea;
+            color: white;
+            border-color: #667eea;
+        }
+        .test-link .status {
+            font-size: 12px;
+            padding: 4px 8px;
+            border-radius: 3px;
+            background: #e9ecef;
+        }
+        .test-link:hover .status {
+            background: rgba(255,255,255,0.2);
+        }
+        .allowed { color: #28a745; }
+        .blocked { color: #dc3545; }
+        .description {
+            color: #6c757d;
+            font-size: 14px;
+            margin-bottom: 15px;
+        }
+        .code-section {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 5px;
+            border-left: 4px solid #667eea;
+            margin-top: 15px;
+        }
+        .code-section h3 {
+            margin-top: 0;
+            font-size: 16px;
+        }
+        code {
+            background: #e9ecef;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-size: 13px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>🤖 Robots.txt & Sitemaps</h1>
+        <p class="subtitle">Test robots.txt rules, crawl delays, and sitemap indexes</p>
+    </header>
+
+    <div class="test-section">
+        <h2>Robots.txt Configuration</h2>
+        <p class="description">View the robots.txt file with complex rules for different user-agents</p>
+        <div class="test-links">
+            <a href="/robots.txt" class="test-link">
+                <strong>View robots.txt</strong>
+                <span class="status">📄 Text File</span>
+            </a>
+        </div>
+        <div class="code-section">
+            <h3>Rules Include:</h3>
+            <ul>
+                <li>General rules: Allow /public/, /blog/, Disallow /private/, /admin/, /api/</li>
+                <li>Googlebot: Allow /api/public/, Crawl-delay: 0</li>
+                <li>Bingbot: Crawl-delay: 2</li>
+                <li>BadBot: Complete block</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="test-section">
+        <h2>Sitemap Index</h2>
+        <p class="description">Multi-sitemap architecture with index pointing to specialized sitemaps</p>
+        <div class="test-links">
+            <a href="/sitemap-index.xml" class="test-link">
+                <strong>Sitemap Index</strong>
+                <span class="status">🗂️ Index</span>
+            </a>
+            <a href="/sitemap-main.xml" class="test-link">
+                <strong>Main Sitemap</strong>
+                <span class="status">📄 XML</span>
+            </a>
+            <a href="/sitemap-blog.xml" class="test-link">
+                <strong>Blog Sitemap</strong>
+                <span class="status">📄 XML (20 posts)</span>
+            </a>
+            <a href="/sitemap-products.xml" class="test-link">
+                <strong>Products Sitemap</strong>
+                <span class="status">📄 XML (30 items)</span>
+            </a>
+        </div>
+    </div>
+
+    <div class="test-section">
+        <h2>Allowed Pages (Crawlable)</h2>
+        <p class="description">These pages are allowed by robots.txt and included in sitemaps</p>
+        <div class="test-links">
+            <a href="/public/" class="test-link">
+                <strong>Public Page</strong>
+                <span class="status allowed">✅ Allowed</span>
+            </a>
+            <a href="/blog/" class="test-link">
+                <strong>Blog Index</strong>
+                <span class="status allowed">✅ Allowed</span>
+            </a>
+            <a href="/blog/post-1" class="test-link">
+                <strong>Sample Blog Post</strong>
+                <span class="status allowed">✅ Allowed</span>
+            </a>
+            <a href="/products/item-1" class="test-link">
+                <strong>Sample Product</strong>
+                <span class="status allowed">✅ Allowed</span>
+            </a>
+            <a href="/about" class="test-link">
+                <strong>About Page</strong>
+                <span class="status allowed">✅ Allowed</span>
+            </a>
+            <a href="/contact" class="test-link">
+                <strong>Contact Page</strong>
+                <span class="status allowed">✅ Allowed</span>
+            </a>
+        </div>
+    </div>
+
+    <div class="test-section">
+        <h2>Blocked Pages (Not Crawlable)</h2>
+        <p class="description">These pages are disallowed by robots.txt</p>
+        <div class="test-links">
+            <a href="/private/" class="test-link">
+                <strong>Private Page</strong>
+                <span class="status blocked">🚫 Blocked</span>
+            </a>
+            <a href="/admin/" class="test-link">
+                <strong>Admin Page</strong>
+                <span class="status blocked">🚫 Blocked</span>
+            </a>
+            <a href="/api/" class="test-link">
+                <strong>API Endpoint</strong>
+                <span class="status blocked">🚫 Blocked (except Googlebot)</span>
+            </a>
+        </div>
+    </div>
+
+    <div class="test-section">
+        <h2>Crawl Delay Testing</h2>
+        <p class="description">Test rate limiting with different crawl-delay values per bot</p>
+        <div class="test-links">
+            <a href="/crawl-delay-test" class="test-link">
+                <strong>Crawl Delay Test Page</strong>
+                <span class="status">⏱️ Rate Limited</span>
+            </a>
+        </div>
+        <div class="code-section">
+            <h3>Crawl Delays:</h3>
+            <ul>
+                <li>Default: 1 second</li>
+                <li>Googlebot: 0 seconds (no delay)</li>
+                <li>Bingbot: 2 seconds</li>
+            </ul>
+        </div>
+    </div>
+</body>
+</html>
