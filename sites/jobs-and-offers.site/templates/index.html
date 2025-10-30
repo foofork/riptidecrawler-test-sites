@@ -118,7 +118,7 @@
 
         <div class="job-grid">
             {% for job in jobs %}
-            <div class="job-card {{ 'clean' if job.is_clean_html else 'messy' }}">
+            <article class="job-listing job-card {{ 'clean' if job.is_clean_html else 'messy' }}">
                 <div class="job-title">{{ job.title }}</div>
                 <div class="company">🏢 {{ job.company }}</div>
                 <div class="location">📍 {{ job.location }}</div>
@@ -130,7 +130,7 @@
                 </span>
 
                 <a href="/job/{{ job.id }}" class="view-btn">View Details →</a>
-            </div>
+            </article>
             {% endfor %}
         </div>
     </div>

@@ -42,7 +42,7 @@ COMPANIES = [
     "TechGenius", "SoftwarePlus", "DevTeam", "ProductHQ", "DesignStudio"
 ]
 
-EMPLOYMENT_TYPES = ["FULL_TIME", "PART_TIME", "CONTRACT", "TEMPORARY", "INTERN"]
+EMPLOYMENT_TYPES = ["FULL_TIME", "PART_TIME", "CONTRACTOR", "TEMPORARY", "INTERN"]
 
 def generate_job_data() -> List[Dict]:
     """Generate 50 job postings with mixed HTML quality."""
@@ -55,11 +55,17 @@ def generate_job_data() -> List[Dict]:
         posted_date = fake.date_between(start_date='-60d', end_date='today')
         valid_through = posted_date + timedelta(days=random.randint(30, 90))
 
+        # Make some jobs remote (every 10th job)
+        if i % 10 == 0:
+            location = "Remote"
+        else:
+            location = f"{fake.city()}, {fake.state_abbr()}"
+
         job = {
             'id': job_id,
             'title': random.choice(JOB_CATEGORIES),
             'company': random.choice(COMPANIES),
-            'location': f"{fake.city()}, {fake.state_abbr()}",
+            'location': location,
             'employment_type': random.choice(EMPLOYMENT_TYPES),
             'date_posted': posted_date.isoformat(),
             'valid_through': valid_through.isoformat(),
@@ -108,7 +114,8 @@ def create_job_jsonld(job: Dict) -> str:
                 "unitText": "YEAR"
             }
         },
-        "description": job['description']
+        "description": job['description'],
+        "url": f"https://jobs-and-offers.site/jobs/{job['id']}"
     }
     return json.dumps(jsonld, indent=2)
 
@@ -160,14 +167,51 @@ async def api_job(job_id: int):
     return job
 
 @app.get("/jobs", response_class=HTMLResponse)
-async def jobs_listing(request: Request):
-    """Job listings page (alias for home page) - tests expect this"""
-    return await home(request)
+async def jobs_listing(request: Request, location: str = None):
+    """Job listings page with optional filtering - tests expect this"""
+    filtered_jobs = JOBS
+
+    # Apply location filter if provided
+    if location:
+        location_lower = location.lower()
+        filtered_jobs = [
+            job for job in JOBS
+            if location_lower in job['location'].lower()
+        ]
+
+    return templates.TemplateResponse("index.html", {
+        "request": request,
+        "jobs": filtered_jobs,
+        "total_jobs": len(filtered_jobs),
+        "clean_html_count": sum(1 for j in filtered_jobs if j['is_clean_html']),
+        "messy_html_count": sum(1 for j in filtered_jobs if not j['is_clean_html'])
+    })
 
 @app.get("/jobs/{job_id}", response_class=HTMLResponse)
-async def jobs_detail(request: Request, job_id: int):
+async def jobs_detail(request: Request, job_id: str):
     """Job detail page (alias for /job/{id}) - tests expect this"""
-    return await job_detail(request, job_id)
+    # Handle special case for "expired" endpoint
+    if job_id == "expired":
+        return HTMLResponse(
+            """
+            <html>
+            <head><title>Job Expired</title></head>
+            <body>
+                <h1>This position is no longer available</h1>
+                <p>This job posting has expired and is no longer accepting applications.</p>
+                <a href="/jobs">View all current opportunities</a>
+            </body>
+            </html>
+            """,
+            status_code=200
+        )
+
+    # Convert to int for normal job IDs
+    try:
+        job_id_int = int(job_id)
+        return await job_detail(request, job_id_int)
+    except ValueError:
+        return HTMLResponse("<h1>Invalid job ID</h1>", status_code=404)
 
 @app.get("/health")
 async def health():

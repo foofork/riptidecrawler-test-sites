@@ -21,21 +21,21 @@ Allow: /
 Allow: /public/
 Allow: /blog/
 Allow: /admin/public/
-crawl-delay: 1
+Crawl-delay: 2
 
 # Google-specific rules
 User-agent: Googlebot
 Allow: /
 Allow: /api/public/
 Disallow: /private/
-crawl-delay: 0
+Crawl-delay: 0
 
 # Bing-specific rules
 User-agent: Bingbot
 Allow: /
 Disallow: /private/
 Disallow: /admin/
-crawl-delay: 2
+Crawl-delay: 2
 
 # Block bad bots
 User-agent: BadBot
@@ -43,8 +43,8 @@ Disallow: /
 
 # Sitemap locations
 Sitemap: https://robots-and-sitemaps.site/sitemap-index.xml
-Sitemap: https://robots-and-sitemaps.site/sitemap-main.xml
-Sitemap: https://robots-and-sitemaps.site/sitemap-blog.xml
+Sitemap: https://robots-and-sitemaps.site/sitemap-pages.xml
+Sitemap: https://robots-and-sitemaps.site/sitemap-events.xml
 """
     return Response(content=content, media_type="text/plain")
 
@@ -58,15 +58,11 @@ async def sitemap_index():
     sitemap_xml = f"""<?xml version="1.0" encoding="UTF-8"?>
 <sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <sitemap>
-    <loc>https://robots-and-sitemaps.site/sitemap-main.xml</loc>
+    <loc>https://robots-and-sitemaps.site/sitemap-pages.xml</loc>
     <lastmod>{now}</lastmod>
   </sitemap>
   <sitemap>
-    <loc>https://robots-and-sitemaps.site/sitemap-blog.xml</loc>
-    <lastmod>{now}</lastmod>
-  </sitemap>
-  <sitemap>
-    <loc>https://robots-and-sitemaps.site/sitemap-products.xml</loc>
+    <loc>https://robots-and-sitemaps.site/sitemap-events.xml</loc>
     <lastmod>{now}</lastmod>
   </sitemap>
 </sitemapindex>"""
@@ -161,17 +157,37 @@ async def sitemap_pages():
   </url>""")
 
     urls.append("""  <url>
-    <loc>https://robots-and-sitemaps.site/blog/</loc>
+    <loc>https://robots-and-sitemaps.site/admin/public/info</loc>
     <changefreq>weekly</changefreq>
-    <priority>0.7</priority>
+    <priority>0.6</priority>
   </url>""")
 
-    # Add 50 static pages to meet test requirements
+    # Add 50 static pages to meet test requirements (53 total with above pages)
     for i in range(1, 51):
         urls.append(f"""  <url>
     <loc>https://robots-and-sitemaps.site/page/{i}</loc>
     <changefreq>weekly</changefreq>
-    <priority>0.6</priority>
+    <priority>0.5</priority>
+  </url>""")
+
+    sitemap_xml = f"""<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+{chr(10).join(urls)}
+</urlset>"""
+
+    return Response(content=sitemap_xml, media_type="application/xml")
+
+@app.get("/sitemap-events.xml", response_class=Response)
+async def sitemap_events():
+    """Events sitemap with 100 URLs"""
+    urls = []
+
+    # Add 100 event pages
+    for i in range(1, 101):
+        urls.append(f"""  <url>
+    <loc>https://robots-and-sitemaps.site/events/{i}</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
   </url>""")
 
     sitemap_xml = f"""<?xml version="1.0" encoding="UTF-8"?>
@@ -227,6 +243,11 @@ async def admin_public_info(request: Request):
         "content": "This public info page is allowed by robots.txt despite being in /admin/",
         "status": "✅ Crawlable (Allow override)"
     })
+
+@app.get("/admin/secret", response_class=Response)
+async def admin_secret():
+    """Disallowed admin secret page - returns 403"""
+    return Response(content="Forbidden", status_code=403, media_type="text/plain")
 
 @app.get("/api/", response_class=HTMLResponse)
 async def api_page(request: Request):
@@ -288,6 +309,28 @@ async def contact(request: Request):
         "status": "✅ Crawlable"
     })
 
+# ===== EVENTS PAGES =====
+
+@app.get("/events/{event_id}")
+async def event_page(request: Request, event_id: int):
+    """Individual event page"""
+    return templates.TemplateResponse("page.html", {
+        "request": request,
+        "title": f"Event {event_id}",
+        "content": f"This is event #{event_id}, included in sitemap-events.xml",
+        "status": "✅ Crawlable"
+    })
+
+@app.get("/page/{page_id}")
+async def static_page(request: Request, page_id: int):
+    """Static page"""
+    return templates.TemplateResponse("page.html", {
+        "request": request,
+        "title": f"Page {page_id}",
+        "content": f"This is static page #{page_id}, included in sitemap-pages.xml",
+        "status": "✅ Crawlable"
+    })
+
 # ===== CRAWL DELAY TESTING =====
 
 @app.get("/crawl-delay-test")
@@ -306,10 +349,10 @@ async def health_check():
     return {
         "status": "healthy",
         "service": "robots-and-sitemaps.site",
-        "port": 5006,
-        "features": ["robots.txt", "sitemap_index", "crawl_delay", "multiple_sitemaps"]
+        "port": 5003,
+        "features": ["robots.txt", "sitemap_index", "crawl_delay", "multiple_sitemaps", "events"]
     }
 
 if __name__ == "__main__":
     import uvicorn
-    uvicorn.run(app, host="0.0.0.0", port=5006)
+    uvicorn.run(app, host="0.0.0.0", port=8000)

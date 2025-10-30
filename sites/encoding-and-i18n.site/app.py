@@ -55,6 +55,7 @@ async def latin1_page():
     company = fake_en.company()
     address = fake_en.address().replace('\n', ', ')
 
+    # Use only Latin-1 safe characters (no emoji)
     html = f"""
     <!DOCTYPE html>
     <html lang="fr">
@@ -69,38 +70,42 @@ async def latin1_page():
         </style>
     </head>
     <body>
-        <h1>☕ Café de Paris</h1>
+        <h1>Café de Paris</h1>
         <p><strong>Adresse:</strong> {address}</p>
         <h2>Menu du Jour</h2>
         <div class="menu-item">
-            <span class="price">€8.50</span>
+            <span class="price">8.50 EUR</span>
             <strong>Café au lait</strong><br>
             Café noir mélangé avec du lait chaud et mousseux
         </div>
         <div class="menu-item">
-            <span class="price">€12.00</span>
+            <span class="price">12.00 EUR</span>
             <strong>Crêpe Française</strong><br>
             Crêpe traditionnelle avec confiture de fraises et crème fraîche
         </div>
         <div class="menu-item">
-            <span class="price">€6.50</span>
+            <span class="price">6.50 EUR</span>
             <strong>Croissant Beurré</strong><br>
             Croissant frais avec beurre de Normandie
         </div>
         <div class="menu-item">
-            <span class="price">€15.00</span>
+            <span class="price">15.00 EUR</span>
             <strong>Spécialité du Chef</strong><br>
             Soufflé au fromage avec salade niçoise
         </div>
         <p style="margin-top: 30px; font-style: italic;">
-            «La vie est trop courte pour boire du mauvais café!» - Napoléon
+            La vie est trop courte pour boire du mauvais café! - Napoléon
         </p>
-        <p><a href="/">← Retour à l'accueil</a></p>
+        <p><a href="/">Retour à l'accueil</a></p>
     </body>
     </html>
     """
-    # Return with ISO-8859-1 encoding
-    return Response(content=html.encode('iso-8859-1'), media_type="text/html; charset=iso-8859-1")
+    try:
+        # Return with ISO-8859-1 encoding
+        return Response(content=html.encode('iso-8859-1', errors='replace'), media_type="text/html; charset=iso-8859-1")
+    except Exception as e:
+        # Fallback to UTF-8 if encoding fails
+        return HTMLResponse(content=html)
 
 @app.get("/utf8-arabic")
 async def arabic_page():
@@ -289,6 +294,7 @@ async def emoji_page():
 @app.get("/mismatch")
 async def mismatch_page():
     """Content-Type mismatch test - declares UTF-8 but sends ISO-8859-1"""
+    # Use only Latin-1 safe characters (no emoji or smart quotes)
     html = """
     <!DOCTYPE html>
     <html lang="en">
@@ -303,7 +309,7 @@ async def mismatch_page():
         </style>
     </head>
     <body>
-        <h1>⚠️ Content-Type Mismatch Test</h1>
+        <h1>Content-Type Mismatch Test</h1>
         <div class="warning">
             <h2>Warning: Encoding Mismatch!</h2>
             <p>This page declares <code>charset=utf-8</code> in the HTTP header but the content is actually encoded as <code>ISO-8859-1</code>.</p>
@@ -312,21 +318,23 @@ async def mismatch_page():
         <h2>Test Characters</h2>
         <p>These characters may display incorrectly:</p>
         <ul>
-            <li>Euro sign: €</li>
             <li>French: café, crème, naïve</li>
             <li>German: Mädchen, Größe, Füße</li>
             <li>Spanish: niño, año, señor</li>
-            <li>Quotes: "smart quotes" and 'apostrophes'</li>
         </ul>
 
         <p>If your crawler properly detects encoding, it should notice this mismatch and handle it appropriately.</p>
 
-        <p><a href="/">← Back to Home</a></p>
+        <p><a href="/">Back to Home</a></p>
     </body>
     </html>
     """
-    # Declare UTF-8 in header but encode as ISO-8859-1
-    return Response(content=html.encode('iso-8859-1'), media_type="text/html; charset=utf-8")
+    try:
+        # Declare UTF-8 in header but encode as ISO-8859-1
+        return Response(content=html.encode('iso-8859-1', errors='replace'), media_type="text/html; charset=utf-8")
+    except Exception as e:
+        # Fallback to UTF-8 if encoding fails
+        return HTMLResponse(content=html)
 
 @app.get("/ja/")
 async def japanese_page():
@@ -569,6 +577,153 @@ async def french_page():
             </div>
         </div>
         <p style="margin-top: 20px; text-align: center;"><a href="/">← Retour à l'accueil</a></p>
+    </body>
+    </html>"""
+    return HTMLResponse(content=html, headers={"Content-Type": "text/html; charset=UTF-8", "Content-Language": "fr"})
+
+@app.get("/en/")
+async def english_page():
+    """English page with UTF-8 encoding"""
+    html = """<!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>English Page</title>
+        <style>
+            body { font-family: Arial, sans-serif; max-width: 800px; margin: 50px auto; padding: 20px; background: #e8f5e9; }
+            h1 { color: #2e7d32; text-align: center; }
+            .content { background: white; padding: 20px; border-radius: 5px; line-height: 1.8; }
+            a { color: #2e7d32; }
+        </style>
+    </head>
+    <body>
+        <h1>English Test Page</h1>
+        <div class="content">
+            <h2>Welcome</h2>
+            <p>This is an English test page for UTF-8 encoding validation.</p>
+            <p>The quick brown fox jumps over the lazy dog.</p>
+        </div>
+        <p style="margin-top: 20px; text-align: center;"><a href="/">← Back to Home</a></p>
+    </body>
+    </html>"""
+    return HTMLResponse(content=html, headers={"Content-Type": "text/html; charset=UTF-8", "Content-Language": "en"})
+
+@app.get("/es/")
+async def spanish_page():
+    """Spanish page with UTF-8 encoding"""
+    html = """<!DOCTYPE html>
+    <html lang="es">
+    <head>
+        <meta charset="UTF-8">
+        <title>Página en español</title>
+        <style>
+            body { font-family: Arial, sans-serif; max-width: 800px; margin: 50px auto; padding: 20px; background: #fff3e0; }
+            h1 { color: #e65100; text-align: center; }
+            .content { background: white; padding: 20px; border-radius: 5px; line-height: 1.8; }
+            a { color: #e65100; }
+        </style>
+    </head>
+    <body>
+        <h1>🇪🇸 Página de prueba en español</h1>
+        <div class="content">
+            <h2>Hola mundo</h2>
+            <p>Esta es una página de prueba en español para validar la codificación UTF-8.</p>
+            <p><strong>Caracteres especiales:</strong> ñ, á, é, í, ó, ú, ü, ¿, ¡</p>
+            <p>Palabras: niño, año, señor, España</p>
+        </div>
+        <p style="margin-top: 20px; text-align: center;"><a href="/">← Volver al inicio</a></p>
+    </body>
+    </html>"""
+    return HTMLResponse(content=html, headers={"Content-Type": "text/html; charset=UTF-8", "Content-Language": "es"})
+
+@app.get("/mixed/")
+async def mixed_language_page():
+    """Mixed language content page"""
+    html = """<!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Mixed Language Page</title>
+        <style>
+            body { font-family: Arial, sans-serif; max-width: 800px; margin: 50px auto; padding: 20px; }
+            .language-block { margin: 20px 0; padding: 15px; border-left: 4px solid #3498db; background: #f8f9fa; }
+            a { color: #3498db; }
+        </style>
+    </head>
+    <body>
+        <h1>Mixed Language Content</h1>
+        <div class="language-block" lang="en">
+            <h2>English</h2>
+            <p>This is English content.</p>
+        </div>
+        <div class="language-block" lang="es">
+            <h2>Español</h2>
+            <p>Este es contenido en español.</p>
+        </div>
+        <div class="language-block" lang="fr">
+            <h2>Français</h2>
+            <p>Ceci est du contenu en français.</p>
+        </div>
+        <div class="language-block" lang="ja">
+            <h2>日本語</h2>
+            <p>これは日本語のコンテンツです。</p>
+        </div>
+        <p style="margin-top: 20px;"><a href="/">← Back to Home</a></p>
+    </body>
+    </html>"""
+    return HTMLResponse(content=html, headers={"Content-Type": "text/html; charset=UTF-8"})
+
+@app.get("/symbols/")
+async def symbols_page():
+    """Page with various symbols and emoji"""
+    html = """<!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Symbols and Emoji</title>
+        <style>
+            body { font-family: Arial, sans-serif; max-width: 800px; margin: 50px auto; padding: 20px; }
+            .symbol-group { margin: 20px 0; padding: 15px; background: #f0f0f0; border-radius: 5px; }
+            a { color: #3498db; }
+        </style>
+    </head>
+    <body>
+        <h1>Symbols and Emoji Test</h1>
+        <div class="symbol-group">
+            <h2>Currency Symbols</h2>
+            <p>$ € £ ¥ ₹ ₽ ₩ ₪</p>
+        </div>
+        <div class="symbol-group">
+            <h2>Mathematical Symbols</h2>
+            <p>± × ÷ ≠ ≤ ≥ ∞ √ ∑ ∏</p>
+        </div>
+        <div class="symbol-group">
+            <h2>Emoji</h2>
+            <p>😀 😃 😄 😁 😆 😅 🤣 😂 🙂 🙃 😉 😊</p>
+            <p>🎉 🎊 🎈 🎁 🎀 🎂 🍰 🧁 🍪 🍩</p>
+        </div>
+        <p style="margin-top: 20px;"><a href="/">← Back to Home</a></p>
+    </body>
+    </html>"""
+    return HTMLResponse(content=html, headers={"Content-Type": "text/html; charset=UTF-8"})
+
+@app.get("/search")
+async def search_page():
+    """Search page with query parameters"""
+    html = """<!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Search Page</title>
+        <style>
+            body { font-family: Arial, sans-serif; max-width: 800px; margin: 50px auto; padding: 20px; }
+            a { color: #3498db; }
+        </style>
+    </head>
+    <body>
+        <h1>Search Results</h1>
+        <p>This page accepts query parameters for testing URL-encoded special characters.</p>
+        <p style="margin-top: 20px;"><a href="/">← Back to Home</a></p>
     </body>
     </html>"""
     return HTMLResponse(content=html, headers={"Content-Type": "text/html; charset=UTF-8"})

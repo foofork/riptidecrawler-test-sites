@@ -190,6 +190,49 @@ async def text_sample_pdf():
     )
 
 
+@app.get("/documents/table-data.pdf")
+async def table_data_pdf():
+    """PDF with table data for extraction testing"""
+    pdf_content = generate_pdf("Table Data Document", include_table=True)
+    return Response(
+        content=pdf_content,
+        media_type="application/pdf",
+        headers={"Content-Disposition": "inline; filename=table-data.pdf"}
+    )
+
+
+@app.get("/images/sample.jpg")
+async def sample_image():
+    """Sample JPEG image"""
+    image_data = generate_fake_image()
+    return Response(
+        content=image_data,
+        media_type="image/jpeg",
+        headers={"Content-Disposition": "inline; filename=sample.jpg"}
+    )
+
+
+@app.get("/downloads/archive.zip")
+async def archive_file():
+    """Sample ZIP archive file"""
+    # Minimal valid ZIP file (empty archive)
+    zip_data = bytes([
+        0x50, 0x4B, 0x05, 0x06,  # End of central directory signature
+        0x00, 0x00, 0x00, 0x00,  # Number of this disk
+        0x00, 0x00, 0x00, 0x00,  # Disk where central directory starts
+        0x00, 0x00,              # Number of central directory records on this disk
+        0x00, 0x00,              # Total number of central directory records
+        0x00, 0x00, 0x00, 0x00,  # Size of central directory
+        0x00, 0x00, 0x00, 0x00,  # Offset of start of central directory
+        0x00, 0x00               # ZIP file comment length
+    ])
+    return Response(
+        content=zip_data,
+        media_type="application/zip",
+        headers={"Content-Disposition": "attachment; filename=archive.zip"}
+    )
+
+
 @app.get("/mixed-content", response_class=HTMLResponse)
 async def mixed_content(request: Request):
     """Page with mixed HTML and binary links"""
