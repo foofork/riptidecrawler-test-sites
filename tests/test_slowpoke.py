@@ -13,7 +13,7 @@ import pytest
 import time
 
 
-SITE_PORT = 5007
+SITE_PORT = 5004
 
 
 @pytest.mark.phase2

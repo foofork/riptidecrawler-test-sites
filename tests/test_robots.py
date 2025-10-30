@@ -15,7 +15,7 @@ import urllib.robotparser
 from urllib.parse import urlparse
 
 
-SITE_PORT = 5006
+SITE_PORT = 5003
 
 
 @pytest.mark.phase1

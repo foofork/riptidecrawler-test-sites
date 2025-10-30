@@ -13,7 +13,7 @@ import pytest
 from bs4 import BeautifulSoup
 
 
-SITE_PORT = 5004
+SITE_PORT = 5007
 
 
 @pytest.mark.phase2

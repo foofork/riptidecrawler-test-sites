@@ -12,7 +12,7 @@ import pytest
 import requests
 
 
-SITE_PORT = 5005
+SITE_PORT = 5002
 
 
 @pytest.mark.phase1

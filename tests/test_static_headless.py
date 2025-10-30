@@ -13,7 +13,7 @@ import time
 from bs4 import BeautifulSoup
 
 
-SITE_PORT = 5003
+SITE_PORT = 5006
 
 
 @pytest.mark.phase2

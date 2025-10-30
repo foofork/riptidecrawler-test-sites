@@ -168,6 +168,28 @@ async def get_binary(file_id: int):
     )
 
 
+@app.get("/documents/sample.pdf")
+async def sample_pdf():
+    """Sample PDF document"""
+    pdf_content = generate_pdf("Sample Document", include_table=False)
+    return Response(
+        content=pdf_content,
+        media_type="application/pdf",
+        headers={"Content-Disposition": "inline; filename=sample.pdf"}
+    )
+
+
+@app.get("/documents/text-sample.pdf")
+async def text_sample_pdf():
+    """Text-based PDF for extraction testing"""
+    pdf_content = generate_pdf("Text Sample for Extraction", include_table=False)
+    return Response(
+        content=pdf_content,
+        media_type="application/pdf",
+        headers={"Content-Disposition": "inline; filename=text-sample.pdf"}
+    )
+
+
 @app.get("/mixed-content", response_class=HTMLResponse)
 async def mixed_content(request: Request):
     """Page with mixed HTML and binary links"""

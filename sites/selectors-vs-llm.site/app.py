@@ -64,6 +64,12 @@ async def messy_list(request: Request):
     })
 
 
+@app.get("/products/clean/{item_id}", response_class=HTMLResponse)
+async def products_clean_page(request: Request, item_id: int):
+    """70% - Clean HTML with proper semantic tags and classes (products prefix)"""
+    return await clean_page(request, item_id)
+
+
 @app.get("/clean/{item_id}", response_class=HTMLResponse)
 async def clean_page(request: Request, item_id: int):
     """70% - Clean HTML with proper semantic tags and classes"""
@@ -80,6 +86,12 @@ async def clean_page(request: Request, item_id: int):
         "reviews": random.randint(10, 500),
         "confidence": 0.95
     })
+
+
+@app.get("/products/messy/{item_id}", response_class=HTMLResponse)
+async def products_messy_page(request: Request, item_id: int):
+    """30% - Messy HTML requiring LLM extraction (products prefix)"""
+    return await messy_page(request, item_id)
 
 
 @app.get("/messy/{item_id}", response_class=HTMLResponse)
