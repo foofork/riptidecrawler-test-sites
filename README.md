@@ -1,20 +1,20 @@
-# RipTide Test Sites
+# 🧪 RipTide Test Sites
 
-A **containerized multi-site testing platform** with 13 independent web applications for evaluating web crawling, data extraction, and validation capabilities across diverse scenarios.
+A **containerized multi-site testing platform** featuring **13 independent FastAPI web apps** for evaluating web crawling, data extraction, and validation across real-world scenarios.
 
 ---
 
 ## 🚀 Quick Start (5 Minutes)
 
 ```bash
-# Clone repository
+# Clone the repository
 git clone <repo-url>
 cd riptide-test-sites
 
 # Start all 13 sites
 docker compose up -d
 
-# Verify all sites are running
+# Verify all sites are healthy
 for port in {5001..5013}; do
   curl -s http://localhost:$port/health | jq
 done
@@ -43,60 +43,53 @@ docker compose logs -f
 
 ---
 
-## 📋 Overview
+## 📘 Overview
 
-**RipTide Test Sites** provides 13 specialized web apps for testing web crawlers and extractors.
-All data is **deterministically generated** (Faker seed = 42) for fully reproducible runs.
+**RipTide Test Sites** provides a reproducible environment for testing and benchmarking web crawlers, extractors, and agents across 13 deterministic site types.
 
-**Key Features**
+**Highlights**
 
-* ✅ Deterministic data generation
-* ✅ Isolated Docker containers
-* ✅ Comprehensive scenarios (from HTML to WebSocket streams)
+* ✅ Deterministic data generation (`Faker.seed = 42`)
+* ✅ 13 fully isolated Docker containers
+* ✅ Diverse coverage — from HTML and JS rendering to WebSockets
 * ✅ Built-in health checks
-* ✅ Fast startup (~10 seconds)
-* ✅ No external APIs or DBs required
+* ✅ Startup in under 10 seconds
+* ✅ No external APIs or databases required
 
+> 💡 A **self-contained testbed for any web crawler**.
 
 ---
 
-### 🧩 Use With Any Crawler
+## 🧩 Integration
 
-RipTide Test Sites is an **agnostic** testing platform for web crawlers, extractors, and agents. Originally built to validate [**RipTideCrawler**](https://github.com/foofork/riptidecrawler), it works with any crawler framework.
+RipTide Test Sites is **framework-agnostic**.
+It was designed to validate [**RipTideCrawler**](https://github.com/foofork/riptidecrawler) but works seamlessly with **any crawler or agent system**.
 
-**See the [Integration Guide](docs/INTEGRATION_GUIDE.md) for examples in Rust, Python, Node.js, and more!**
+See the [**Integration Guide**](docs/INTEGRATION_GUIDE.md) for ready-to-run examples in **Rust, Python, and Node.js**.
 
-It covers 100% of common crawling and extraction cases, including:
+**Covers all key crawling & extraction patterns:**
 
-* WASM-based selector extraction
-* LLM fallback extraction
-* Static vs headless routing
-* PDF and binary handling
-* Robots/sitemap compliance
-* Real-time NDJSON / SSE / WebSocket streaming
-* Job storage + pagination
+* Static vs. headless rendering
+* CSS selectors vs. LLM-based extraction
+* Robots.txt & sitemap compliance
+* PDF and binary file handling
+* Auth/session persistence
+* Rate-limiting and retry logic
+* Streaming via NDJSON, SSE, and WebSocket
 * Multi-language and encoding edge cases
-* Auth / session / rate-limit resilience
-
-> 💡 A **“testbed for any web crawler”**.
 
 ---
 
 ## 🏗️ Architecture
 
-Each site is a **FastAPI** application running in Docker with:
-
-* Deterministic Faker-generated data (seed = 42)
-* Semantic HTML + structured metadata
-* Health check endpoints
-* REST and WebSocket interfaces
+Each test site is an independent **FastAPI** app packaged in Docker, exposing both REST and WebSocket interfaces.
 
 ```
-┌─────────────────────────────────────────────────────────┐
-│              Docker Compose Network (bridge)             │
-├─────────────────────────────────────────────────────────┤
+┌──────────────────────────────────────────────────────────┐
+│       Docker Compose Network (bridge)                    │
+├──────────────────────────────────────────────────────────┤
 │  Site1 ... Site13  →  FastAPI apps on ports 5001–5013    │
-└─────────────────────────────────────────────────────────┘
+└──────────────────────────────────────────────────────────┘
 ```
 
 **Stack**
@@ -109,78 +102,48 @@ Each site is a **FastAPI** application running in Docker with:
 
 ---
 
-## 📊 Site Catalog
+## 📚 Site Catalog
 
 ### Phase 1 — Foundation
 
-| # | Site                         | Port | Purpose              | Highlights                           |
-| - | ---------------------------- | ---- | -------------------- | ------------------------------------ |
-| 1 | **happy-path.site**          | 5001 | Baseline crawling    | Simple HTML + pagination (100 items) |
-| 2 | **redirects-canonical.site** | 5002 | URL normalization    | 301/302 chains + canonical tags      |
-| 3 | **robots-and-sitemaps.site** | 5003 | Standards compliance | robots.txt + XML sitemaps            |
+| # | Site                         | Port | Purpose              | Highlights                      |
+| - | ---------------------------- | ---- | -------------------- | ------------------------------- |
+| 1 | **happy-path.site**          | 5001 | Baseline crawling    | Simple HTML + pagination        |
+| 2 | **redirects-canonical.site** | 5002 | URL normalization    | 301/302 chains + canonical tags |
+| 3 | **robots-and-sitemaps.site** | 5003 | Standards compliance | robots.txt + XML sitemaps       |
 
 ### Phase 2 — Intermediate
 
 | # | Site                          | Port | Purpose             | Highlights                   |
 | - | ----------------------------- | ---- | ------------------- | ---------------------------- |
 | 4 | **slowpoke-and-retries.site** | 5004 | Resilience testing  | Delays, rate limits, retries |
-| 5 | **selectors-vs-llm.site**     | 5005 | Extraction methods  | CSS vs LLM comparison        |
+| 5 | **selectors-vs-llm.site**     | 5005 | Extraction methods  | CSS vs. LLM extraction       |
 | 6 | **static-vs-headless.site**   | 5006 | Rendering detection | JS-rendered content          |
-| 7 | **pdfs-and-binaries.site**    | 5007 | Binary handling     | PDF + image serving          |
-| 8 | **auth-and-session.site**     | 5008 | Authentication      | Login + session flows        |
+| 7 | **pdfs-and-binaries.site**    | 5007 | Binary handling     | PDFs and images              |
+| 8 | **auth-and-session.site**     | 5008 | Authentication      | Login + sessions             |
 
 ### Phase 3 — Advanced
 
-| #  | Site                       | Port | Purpose              | Highlights                      |
-| -- | -------------------------- | ---- | -------------------- | ------------------------------- |
-| 9  | **encoding-and-i18n.site** | 5009 | Internationalization | Multiple encodings + RTL        |
-| 10 | **media-and-nonhtml.site** | 5010 | Content types        | JSON, XML, CSV, OpenGraph       |
-| 11 | **anti-bot-lite.site**     | 5011 | Bot detection        | User-Agent checks, CAPTCHA sim  |
-| 12 | **jobs-and-offers.site**   | 5012 | Schema.org tests     | JobPosting JSON-LD + messy HTML |
-| 13 | **websocket-stream-sink**  | 5013 | Real-time streams    | NDJSON WebSocket output         |
-
----
-
-## 🛠️ Development Workflow
-
-### Site Control
-
-```bash
-docker compose up -d            # Start all sites
-docker compose up -d happy-path # Start one site
-docker compose restart jobs-and-offers
-docker compose down             # Stop all
-```
-
-### Logs & Health
-
-```bash
-docker compose logs -f selectors-vs-llm
-for port in {5001..5013}; do
-  curl -s http://localhost:$port/health | jq
-done
-```
-
-Expected `/health` response:
-
-```json
-{ "status": "healthy", "site": "happy-path", "uptime": 3600, "data_generated": true }
-```
+| #  | Site                       | Port | Purpose              | Highlights                    |
+| -- | -------------------------- | ---- | -------------------- | ----------------------------- |
+| 9  | **encoding-and-i18n.site** | 5009 | Internationalization | Multiple encodings + RTL text |
+| 10 | **media-and-nonhtml.site** | 5010 | Content types        | JSON, XML, CSV, OpenGraph     |
+| 11 | **anti-bot-lite.site**     | 5011 | Bot detection        | UA checks, CAPTCHA sim        |
+| 12 | **jobs-and-offers.site**   | 5012 | Schema.org tests     | JobPosting JSON-LD            |
+| 13 | **websocket-stream-sink**  | 5013 | Real-time streaming  | NDJSON via WebSocket          |
 
 ---
 
 ## 🧪 Testing
 
-### Manual Checks
-
-Use `curl`, `jq`, or `wscat` to test behavior:
+### Manual
 
 ```bash
-curl http://localhost:5001/                     # simple HTML
-curl -L http://localhost:5002/redirect-chain/3  # redirect test
+curl http://localhost:5001/
+curl -L http://localhost:5002/redirect-chain/3
 curl http://localhost:5003/robots.txt
 time curl http://localhost:5004/slow-page
-wscat -c ws://localhost:5013/ws/crawl           # WebSocket test
+wscat -c ws://localhost:5013/ws/crawl
 ```
 
 ### Automated (pytest-style)
@@ -205,65 +168,45 @@ def test_websocket_stream():
 
 ---
 
-## 📁 Repository Layout
+## ⚙️ Development Workflow
 
-```
-riptide-test-sites/
-├── docker-compose.yml
-├── sites/
-│   ├── happy-path.site/
-│   ├── redirects-canonical.site/
-│   ├── robots-and-sitemaps.site/
-│   ├── slowpoke-and-retries.site/
-│   ├── selectors-vs-llm.site/
-│   ├── static-vs-headless.site/
-│   ├── pdfs-and-binaries.site/
-│   ├── auth-and-session.site/
-│   ├── encoding-and-i18n.site/
-│   ├── media-and-nonhtml.site/
-│   ├── anti-bot-lite.site/
-│   ├── jobs-and-offers.site/
-│   └── websocket-stream-sink/
-├── docs/
-│   ├── QUICK_REFERENCE.md
-│   ├── GROUND_TRUTH_QUICK_REFERENCE.md
-│   ├── ROADMAP.md
-│   ├── architecture.md
-│   ├── deployment-guide.md
-│   ├── development.md
-│   ├── testing.md
-│   └── archive/ (historical reports)
-└── scripts/
-    ├── health_check.sh
-    └── validate_all.sh
+**Start, stop, and restart:**
+
+```bash
+docker compose up -d             # All sites
+docker compose up -d happy-path  # One site
+docker compose restart jobs-and-offers
+docker compose down              # Stop all
 ```
 
----
+**Health & Logs**
 
-## 🚢 Deployment Options
+```bash
+for port in {5001..5013}; do curl -s http://localhost:$port/health | jq; done
+docker compose logs -f selectors-vs-llm
+```
 
-| Environment                        | Cost       | Setup Time | Notes                         |
-| ---------------------------------- | ---------- | ---------- | ----------------------------- |
-| **Local (default)**                | Free       | 5 min      | `docker compose up -d`        |
-| **Docker Swarm / K8s**             | Varies     | 1–2 h      | Auto-scaling, health checks   |
-| **Cloud Run / ECS / ACI / Heroku** | Free–Low   | 30–60 min  | Use container deploy workflow |
-| **VPS (Compose)**                  | $5–10 / mo | 30 min     | DigitalOcean, Hetzner, etc.   |
+Expected `/health`:
+
+```json
+{ "status": "healthy", "site": "happy-path", "uptime": 3600, "data_generated": true }
+```
 
 ---
 
 ## 🔧 Configuration
 
-All sites accept:
+All sites share these environment variables:
 
 ```bash
-FAKER_SEED=42     # Deterministic data
+FAKER_SEED=42
 SITE_NAME=happy-path
 PORT=8000
 DATA_SIZE=100
 DEBUG=true
 ```
 
-To customize:
+Customize via `docker-compose.yml`:
 
 ```yaml
 environment:
@@ -287,19 +230,19 @@ custom-site:
 
 ## 🐛 Troubleshooting
 
-| Issue                  | Fix                                              |
-| ---------------------- | ------------------------------------------------ |
-| **Sites won’t start**  | `docker info` → rebuild → `docker compose up -d` |
-| **Port conflicts**     | Change `ports:` mapping                          |
-| **Health check fails** | Wait 15 s → `docker compose logs happy-path`     |
-| **High CPU/mem**       | Limit in Compose: `cpus: '0.5'`, `memory: 512M`  |
-| **WebSocket issues**   | Test with `wscat`, check proxies/firewalls       |
+| Problem                      | Solution                                                  |
+| ---------------------------- | --------------------------------------------------------- |
+| **Sites not starting**       | Check `docker info`, rebuild, then `docker compose up -d` |
+| **Port conflicts**           | Edit `ports:` mapping in Compose                          |
+| **Health check fails**       | Wait 15s → `docker compose logs happy-path`               |
+| **High CPU/memory**          | Add `cpus: '0.5'`, `memory: 512M` limits                  |
+| **WebSocket not connecting** | Use `wscat`, disable reverse proxies/firewalls            |
 
 ---
 
-## 📚 Docs
+## 📄 Documentation
 
-* **[Integration Guide](docs/INTEGRATION_GUIDE.md)** ⭐ - How to use these test sites with your crawler
+* ⭐ [Integration Guide](docs/INTEGRATION_GUIDE.md)
 * [Quick Reference](docs/QUICK_REFERENCE.md)
 * [Architecture](docs/architecture.md)
 * [Deployment Guide](docs/deployment-guide.md)
@@ -312,58 +255,51 @@ custom-site:
 
 ## 🎯 Use Cases
 
-* **Crawler development:** HTML crawl, redirects, robots, rate limits
-* **Extraction testing:** CSS vs LLM, JSON-LD, messy HTML, OpenGraph
-* **Edge cases:** encodings, binaries, auth, JS rendering, WebSockets
-* **Benchmarking:** performance across content types and encodings
+* **Crawler development** — redirects, robots.txt, rate-limits
+* **Extraction validation** — LLM vs selector-based, messy HTML
+* **Edge case handling** — encodings, binaries, auth, JS rendering
+* **Benchmarking** — performance across formats and locales
 
 ---
 
 ## 🤝 Contributing
 
-1. Create a new site directory under `sites/`.
-2. Add a simple FastAPI app with `/` and `/health`.
-3. Update `docker-compose.yml`.
-4. Keep `Faker.seed(42)` for reproducibility.
+1. Add a new directory under `sites/`
+2. Include a minimal FastAPI app with `/` and `/health`
+3. Update `docker-compose.yml`
+4. Use `Faker.seed(42)` for deterministic output
 
 ---
 
 ## 🔐 Security
 
 * Isolated Docker containers
-* No external DBs
-* Stateless, in-memory data
-* Test-only auth credentials
-* Safe for CI/CD environments
+* Stateless in-memory data
+* No external databases or APIs
+* Safe for CI/CD and sandbox use
 
 ---
 
 ## 📊 Performance Snapshot
 
-| Metric           | Value                    |
-| ---------------- | ------------------------ |
-| Startup (all 13) | 10–15 s                  |
-| Memory           | ~50–100 MB per container |
-| CPU              | Low (FastAPI async)      |
-| Disk             | ~200 MB total            |
-| Network          | Local bridge             |
+| Metric           | Value                   |
+| ---------------- | ----------------------- |
+| Startup (all 13) | 10–15 s                 |
+| Memory           | 50–100 MB per container |
+| CPU              | Low (FastAPI async)     |
+| Disk             | ~200 MB total           |
+| Network          | Local bridge            |
 
 ---
 
 ## 📝 License
 
-[MIT License] —or your chosen license.
+[MIT License](LICENSE)
 
 ---
 
-## 🙏 Acknowledgments
+## ❤️ Acknowledgments
 
 Built with [FastAPI](https://fastapi.tiangolo.com/), [Faker](https://faker.readthedocs.io/), [Docker](https://www.docker.com/), and [Jinja2](https://jinja.palletsprojects.com/).
 
----
-
-**Made with ❤️ for reliable web-crawling and data-extraction testing.**
-
----
-
-Would you like me to tailor this version for your **`riptide-fixtures`** repo specifically (with fewer phase references and tighter alignment to the sites we generated), or keep it general for the full 13-site suite?
+> **Made with ❤️ for reliable web crawling and extraction testing.**
