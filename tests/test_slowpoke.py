@@ -237,19 +237,24 @@ class TestBackoffStrategy:
         for i, delay in enumerate(backoff_sequence):
             assert delay == 2 ** i, f"Backoff should be exponential"
 
-    def test_max_retries_limit(self, site_url, http_client):
+    def test_max_retries_limit(self, site_url):
         """Test that retries have a maximum limit."""
+        import requests
+
         url = site_url(SITE_PORT, "/always-fail/")
+
+        # Create session WITHOUT retry logic to test max retries behavior
+        session = requests.Session()
 
         # Should eventually give up
         with pytest.raises(Exception):
             # After max retries, should raise exception
             for _ in range(10):
-                response = http_client.get(url, timeout=2)
+                response = session.get(url, timeout=2)
                 if response.status_code != 200:
                     raise Exception("Failed")
 
-    def test_circuit_breaker_opens(self, site_url, http_client):
+    def test_circuit_breaker_opens(self, site_url):
         """
         Test circuit breaker opens after repeated failures.
 
@@ -258,14 +263,19 @@ class TestBackoffStrategy:
         - Return error immediately
         - Circuit resets after timeout
         """
+        import requests
+
         url = site_url(SITE_PORT, "/always-fail/")
+
+        # Create session WITHOUT retry logic for this test
+        session = requests.Session()
 
         # Make rapid requests to trigger circuit breaker
         failure_count = 0
 
         for _ in range(5):
             try:
-                response = http_client.get(url, timeout=2)
+                response = session.get(url, timeout=2)
                 if response.status_code >= 500:
                     failure_count += 1
             except Exception:
