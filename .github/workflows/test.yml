@@ -69,6 +69,7 @@ jobs:
         with:
           name: test-report-${{ matrix.test-phase }}-py${{ matrix.python-version }}
           path: report-${{ matrix.test-phase }}.html
+          if-no-files-found: ignore
 
       - name: View Docker logs on failure
         if: failure()

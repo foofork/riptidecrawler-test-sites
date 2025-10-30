@@ -1,6 +1,15 @@
 # Test dependencies for RipTide Test Sites
 pytest>=7.4.0
 pytest-cov>=4.1.0
+pytest-html>=4.1.0
+pytest-metadata>=3.1.0
+pytest-timeout>=2.4.0
+pytest-xdist>=3.8.0
+pytest-asyncio>=0.21.0
+pytest-mock>=3.10.0
+pytest-benchmark>=4.0.0
+pytest-integration>=0.2.3
+pytest-anyio>=4.9.0
 requests>=2.31.0
 beautifulsoup4>=4.12.0
 lxml>=4.9.0
