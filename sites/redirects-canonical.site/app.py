@@ -57,14 +57,6 @@ async def redirect_chain(step: int, id: int):
     next_step = step + 1
     return RedirectResponse(url=f"/chain/{next_step}/{id}", status_code=301)
 
-@app.get("/old-event/{event_id}")
-async def old_event_redirect(event_id: int):
-    """Old event URL that redirects to new location (301 permanent redirect)"""
-    return RedirectResponse(
-        url=f"/events/{event_id}",
-        status_code=301
-    )
-
 @app.get("/events/{id}")
 async def events_page(id: int, request: Request):
     """Final destination for event pages"""

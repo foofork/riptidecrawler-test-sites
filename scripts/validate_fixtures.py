@@ -26,7 +26,7 @@ SITES_CONFIG = {
         "checks": ["json-ld", "sitemap", "robots", "pagination"]
     },
     "redirects-canonical": {
-        "port": 5005,
+        "port": 5002,
         "expected_pages": 50,
         "checks": ["redirects", "canonical", "deduplication"]
     },
