@@ -31,7 +31,7 @@ SITES_CONFIG = {
         "checks": ["redirects", "canonical", "deduplication"]
     },
     "robots-and-sitemaps": {
-        "port": 5006,
+        "port": 5003,
         "expected_pages": 151,
         "checks": ["robots-compliance", "sitemap-coverage", "crawl-delay"]
     }
@@ -193,6 +193,11 @@ class FixtureValidator:
         print("  Checking robots.txt compliance...")
 
         response = self.session.get(f"{self.base_url}/robots.txt")
+
+        if response.status_code != 200:
+            self.errors.append(f"robots.txt returned status {response.status_code}")
+            return
+
         content = response.text
         content_lower = content.lower()
 
@@ -227,7 +232,7 @@ class FixtureValidator:
             sitemaps = soup.find_all('sitemap')
             print(f"    ✓ Sitemap index with {len(sitemaps)} child sitemaps")
         else:
-            self.warnings.append("No sitemap index found")
+            self.errors.append(f"Sitemap index returned status {response.status_code}")
 
     def check_deterministic_data(self):
         """Validate deterministic data generation."""

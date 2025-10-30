@@ -115,8 +115,8 @@ def validate_session(session_id: Optional[str], ip: str) -> bool:
 async def rate_limit_middleware(request: Request, call_next):
     """Middleware to enforce rate limiting and header validation"""
 
-    # Skip rate limiting for static files, config endpoint, and robots.txt
-    if request.url.path in ["/favicon.ico", "/stats", "/robots.txt", "/health"]:
+    # Skip rate limiting for static files, health check, and referer test endpoint
+    if request.url.path in ["/favicon.ico", "/robots.txt", "/health", "/protected"]:
         return await call_next(request)
 
     ip = get_client_ip(request)
