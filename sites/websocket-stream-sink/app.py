@@ -10,8 +10,8 @@ Features:
 - Simulates crawling with progress updates
 """
 
-from fastapi import FastAPI, WebSocket, WebSocketDisconnect
-from fastapi.responses import HTMLResponse
+from fastapi import FastAPI, WebSocket, WebSocketDisconnect, Request
+from fastapi.responses import HTMLResponse, StreamingResponse
 import asyncio
 import json
 from typing import Dict, List
@@ -509,6 +509,71 @@ async def home():
 </html>
 """
 
+@app.get("/events")
+async def sse_events():
+    """Server-Sent Events (SSE) endpoint for real-time updates."""
+    async def event_generator():
+        """Generate SSE events."""
+        # Send initial connection event
+        yield f"data: {json.dumps({'type': 'connected', 'timestamp': datetime.utcnow().isoformat()})}\n\n"
+
+        # Send periodic updates
+        for i in range(10):
+            await asyncio.sleep(0.5)
+            event_data = {
+                "type": "update",
+                "id": i + 1,
+                "message": f"Event {i + 1}",
+                "timestamp": datetime.utcnow().isoformat()
+            }
+            yield f"data: {json.dumps(event_data)}\n\n"
+
+        # Send completion event
+        yield f"data: {json.dumps({'type': 'complete', 'timestamp': datetime.utcnow().isoformat()})}\n\n"
+
+    return StreamingResponse(
+        event_generator(),
+        media_type="text/event-stream",
+        headers={
+            "Cache-Control": "no-cache",
+            "Connection": "keep-alive",
+            "X-Accel-Buffering": "no"  # Disable buffering in nginx
+        }
+    )
+
+@app.get("/ws")
+async def websocket_info(request: Request):
+    """
+    WebSocket endpoint info - Returns appropriate status for upgrade requests.
+
+    When Upgrade header is present, returns 426 Upgrade Required.
+    Otherwise returns info about WebSocket endpoints.
+    """
+    # Check if this is a WebSocket upgrade request
+    upgrade_header = request.headers.get("upgrade", "").lower()
+    connection_header = request.headers.get("connection", "").lower()
+
+    if "websocket" in upgrade_header and "upgrade" in connection_header:
+        # Return 426 to indicate WebSocket upgrade is required
+        # (Cannot use 101 with FastAPI's regular endpoint, need @app.websocket)
+        return HTMLResponse(
+            content="WebSocket endpoint - use /ws/crawl for WebSocket connection",
+            status_code=426,
+            headers={
+                "Upgrade": "websocket",
+                "Connection": "Upgrade"
+            }
+        )
+
+    # Regular HTTP request - return info
+    return {
+        "message": "WebSocket endpoint",
+        "endpoints": {
+            "/ws/crawl": "WebSocket crawl streaming endpoint"
+        },
+        "upgrade_to": "websocket"
+    }
+
 @app.get("/health")
 async def health():
     """Health check endpoint."""
@@ -520,7 +585,8 @@ async def health():
             "WebSocket echo server",
             "NDJSON streaming",
             "Backpressure support",
-            "Real-time progress updates"
+            "Real-time progress updates",
+            "Server-Sent Events (SSE)"
         ]
     }
 
