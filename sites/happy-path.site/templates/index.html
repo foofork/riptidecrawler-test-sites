@@ -108,9 +108,9 @@
 
     <div class="events-grid">
         {% for event in events %}
-        <div class="event-card">
+        <div class="event-card event-item">
             <h2 class="event-title">
-                <a href="/event/{{ event.id }}">{{ event.name }}</a>
+                <a href="/events/{{ event.id }}">{{ event.name }}</a>
             </h2>
             <div class="event-date">
                 📅 {{ event.startDate[:10] }} at {{ event.startDate[11:16] }}

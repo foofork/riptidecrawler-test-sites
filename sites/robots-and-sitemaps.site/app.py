@@ -13,13 +13,13 @@ async def robots():
     """Complex robots.txt with various rules"""
     content = """# Main crawler rules
 User-agent: *
-Allow: /
-Allow: /public/
-Allow: /blog/
 Disallow: /private/
 Disallow: /admin/
 Disallow: /api/
 Disallow: /temp/
+Allow: /
+Allow: /public/
+Allow: /blog/
 Crawl-delay: 1
 
 # Google-specific rules
@@ -143,24 +143,39 @@ async def sitemap_products():
 
 @app.get("/sitemap-pages.xml", response_class=Response)
 async def sitemap_pages():
-    """Static pages sitemap"""
-    sitemap_xml = """<?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url>
+    """Static pages sitemap with 50+ URLs"""
+    urls = []
+
+    # Main pages
+    urls.append("""  <url>
     <loc>https://robots-and-sitemaps.site/</loc>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
-  </url>
-  <url>
+  </url>""")
+
+    urls.append("""  <url>
     <loc>https://robots-and-sitemaps.site/public/</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
-  </url>
-  <url>
+  </url>""")
+
+    urls.append("""  <url>
     <loc>https://robots-and-sitemaps.site/blog/</loc>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
-  </url>
+  </url>""")
+
+    # Add 50 static pages to meet test requirements
+    for i in range(1, 51):
+        urls.append(f"""  <url>
+    <loc>https://robots-and-sitemaps.site/page/{i}</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.6</priority>
+  </url>""")
+
+    sitemap_xml = f"""<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+{chr(10).join(urls)}
 </urlset>"""
 
     return Response(content=sitemap_xml, media_type="application/xml")
