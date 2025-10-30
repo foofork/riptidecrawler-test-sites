@@ -155,7 +155,7 @@ class TestSlowpokeRetries:
                     pytest.fail(f"{message}: {e}")
                 # Timeout expected for very long delays
 
-    def test_intermittent_failures(self, site_url, http_client):
+    def test_intermittent_failures(self, site_url):
         """
         Test handling of intermittent failures.
 
@@ -164,14 +164,20 @@ class TestSlowpokeRetries:
         - Some requests fail (503)
         - Retry logic eventually gets success
         """
+        import requests
+
         url = site_url(SITE_PORT, "/flaky/")
 
         results = {'success': 0, 'failure': 0}
 
+        # Create a session WITHOUT retry logic for this test
+        # (the default http_client fixture retries 5xx errors, which hides intermittent failures)
+        session = requests.Session()
+
         # Make 10 requests
         for _ in range(10):
             try:
-                response = http_client.get(url, timeout=5)
+                response = session.get(url, timeout=5)
                 if response.status_code == 200:
                     results['success'] += 1
                 else:
