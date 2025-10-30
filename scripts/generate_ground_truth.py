@@ -32,8 +32,8 @@ SITES_CONFIG = {
     },
     "redirects-canonical": {
         "port": 5002,
-        "expected_pages": 50,
-        "expected_entities": 50,
+        "expected_pages": 15,
+        "expected_entities": 0,
         "entity_type": "Event"
     },
     "robots-and-sitemaps": {

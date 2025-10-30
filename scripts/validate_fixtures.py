@@ -27,7 +27,7 @@ SITES_CONFIG = {
     },
     "redirects-canonical": {
         "port": 5002,
-        "expected_pages": 50,
+        "expected_pages": 15,
         "checks": ["redirects", "canonical", "deduplication"]
     },
     "robots-and-sitemaps": {

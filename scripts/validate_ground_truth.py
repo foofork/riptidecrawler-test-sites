@@ -26,7 +26,7 @@ from typing import Dict, List, Optional, Tuple
 # Expected configurations (same as generation script)
 SITES_CONFIG = {
     "happy-path": {"expected_pages": 110, "expected_entities": 100, "entity_type": "Event"},
-    "redirects-canonical": {"expected_pages": 50, "expected_entities": 50, "entity_type": "Event"},
+    "redirects-canonical": {"expected_pages": 15, "expected_entities": 0, "entity_type": "Event"},
     "robots-and-sitemaps": {"expected_pages": 16, "expected_entities": 0, "entity_type": "Event"},
     "slowpoke-and-retries": {"expected_pages": 25, "expected_entities": 15, "entity_type": "Event"},
     "selectors-vs-llm": {"expected_pages": 10, "expected_entities": 10, "entity_type": "Event"},

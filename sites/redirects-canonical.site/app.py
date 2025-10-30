@@ -18,8 +18,8 @@ async def redirect_301(n: int):
 async def absolute_redirect_301(n: int):
     """Absolute URL redirect with 301"""
     if n <= 1:
-        return RedirectResponse(url="https://redirects-canonical.site/final", status_code=301)
-    return RedirectResponse(url=f"https://redirects-canonical.site/absolute-redirect/301/{n-1}", status_code=301)
+        return RedirectResponse(url="http://localhost:5002/final", status_code=301)
+    return RedirectResponse(url=f"http://localhost:5002/absolute-redirect/301/{n-1}", status_code=301)
 
 # ===== 302 TEMPORARY REDIRECTS =====
 
@@ -34,8 +34,8 @@ async def redirect_302(n: int):
 async def absolute_redirect_302(n: int):
     """Absolute URL redirect with 302"""
     if n <= 1:
-        return RedirectResponse(url="https://redirects-canonical.site/final", status_code=302)
-    return RedirectResponse(url=f"https://redirects-canonical.site/absolute-redirect/302/{n-1}", status_code=302)
+        return RedirectResponse(url="http://localhost:5002/final", status_code=302)
+    return RedirectResponse(url=f"http://localhost:5002/absolute-redirect/302/{n-1}", status_code=302)
 
 # ===== TEST ROUTES (for test_redirects.py) =====
 
@@ -74,7 +74,7 @@ async def events_list(request: Request):
     page = request.query_params.get("page", "1")
 
     # Build canonical URL (exclude tracking params)
-    canonical_url = f"https://redirects-canonical.site/events/?page={page}"
+    canonical_url = f"http://localhost:5002/events/?page={page}"
 
     return templates.TemplateResponse("canonical.html", {
         "request": request,
@@ -113,7 +113,7 @@ async def canonical_original(request: Request):
     return templates.TemplateResponse("canonical.html", {
         "request": request,
         "title": "Original Canonical Page",
-        "canonical_url": "https://redirects-canonical.site/canonical/original",
+        "canonical_url": "http://localhost:5002/canonical/original",
         "content": "This is the canonical version of the page."
     })
 
@@ -123,7 +123,7 @@ async def canonical_duplicate1(request: Request):
     return templates.TemplateResponse("canonical.html", {
         "request": request,
         "title": "Duplicate Page 1",
-        "canonical_url": "https://redirects-canonical.site/canonical/original",
+        "canonical_url": "http://localhost:5002/canonical/original",
         "content": "This is a duplicate page that points to the canonical version."
     })
 
@@ -133,7 +133,7 @@ async def canonical_duplicate2(request: Request):
     return templates.TemplateResponse("canonical.html", {
         "request": request,
         "title": "Duplicate Page 2",
-        "canonical_url": "https://redirects-canonical.site/canonical/original",
+        "canonical_url": "http://localhost:5002/canonical/original",
         "content": "This is another duplicate page that points to the canonical version."
     })
 
@@ -187,7 +187,7 @@ Disallow: /redirect/
 Disallow: /chain/start
 Disallow: /mixed-chain/start
 
-Sitemap: https://redirects-canonical.site/sitemap.xml
+Sitemap: http://localhost:5002/sitemap.xml
 """
     return Response(content=content, media_type="text/plain")
 
@@ -197,22 +197,22 @@ async def sitemap():
     sitemap_xml = """<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://redirects-canonical.site/</loc>
+    <loc>http://localhost:5002/</loc>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
-    <loc>https://redirects-canonical.site/canonical/original</loc>
+    <loc>http://localhost:5002/canonical/original</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://redirects-canonical.site/final</loc>
+    <loc>http://localhost:5002/final</loc>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://redirects-canonical.site/chain/final</loc>
+    <loc>http://localhost:5002/chain/final</loc>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
