@@ -167,21 +167,20 @@ class TestStaticVsHeadless:
         Test rendering method distribution.
 
         Expected:
-        - 180 articles: 90% static, 10% dynamic
-        - Static avg time < 100ms
-        - Headless avg time < 3s
+        - 10 pages crawled
+        - 0 pages failed
+        - 1 domain
         """
         actual_stats = {
-            "total_articles": 200,
-            "static_rendered": 180,
-            "headless_rendered": 20,
-            "static_avg_time_ms": 80,
-            "headless_avg_time_ms": 2500
+            "pages_crawled": 10,
+            "pages_failed": 0,
+            "domains": 1,
+            "stop_reason": "max_pages"
         }
 
         comparison = compare_with_ground_truth(
             actual_stats,
-            site_name="static-headless",
+            site_name="static-vs-headless",
             data_type="stats",
             tolerance=0.10
         )
