@@ -1,312 +1,284 @@
 version: '3.8'
 
 services:
-  # Site 1: E-commerce Platform
-  ecommerce:
-    build: ./sites/ecommerce
-    container_name: test-site-ecommerce
+  # Phase 1 Sites - Foundation
+
+  # Site 1: Happy Path (Baseline crawling)
+  happy-path:
+    build: ./sites/happy-path.site
+    container_name: riptide-happy-path
     ports:
       - "5001:8000"
     environment:
-      - SITE_NAME=ecommerce
+      - SITE_NAME=happy-path
       - FAKER_SEED=42
       - PORT=8000
       - DATA_SIZE=100
       - DEBUG=true
-    volumes:
-      - ./sites/ecommerce:/app
     networks:
-      - test-sites-network
+      - riptide-network
     restart: unless-stopped
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:8000/api/health"]
+      test: ["CMD-SHELL", "python3 -c 'import requests; requests.get(\"http://localhost:8000/health\")' || exit 1"]
       interval: 30s
       timeout: 10s
       retries: 3
 
-  # Site 2: Blog Platform
-  blog:
-    build: ./sites/blog
-    container_name: test-site-blog
+  # Site 2: Redirects & Canonical URLs
+  redirects-canonical:
+    build: ./sites/redirects-canonical.site
+    container_name: riptide-redirects-canonical
     ports:
       - "5002:8000"
     environment:
-      - SITE_NAME=blog
+      - SITE_NAME=redirects-canonical
       - FAKER_SEED=42
       - PORT=8000
-      - DATA_SIZE=200
+      - DATA_SIZE=50
       - DEBUG=true
-    volumes:
-      - ./sites/blog:/app
     networks:
-      - test-sites-network
+      - riptide-network
     restart: unless-stopped
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:8000/api/health"]
+      test: ["CMD-SHELL", "python3 -c 'import requests; requests.get(\"http://localhost:8000/health\")' || exit 1"]
       interval: 30s
       timeout: 10s
       retries: 3
 
-  # Site 3: Social Network
-  social:
-    build: ./sites/social
-    container_name: test-site-social
+  # Site 3: Robots.txt & Sitemaps
+  robots-and-sitemaps:
+    build: ./sites/robots-and-sitemaps.site
+    container_name: riptide-robots-and-sitemaps
     ports:
       - "5003:8000"
     environment:
-      - SITE_NAME=social
-      - FAKER_SEED=42
-      - PORT=8000
-      - DATA_SIZE=100
-      - DEBUG=true
-    volumes:
-      - ./sites/social:/app
-    networks:
-      - test-sites-network
-    restart: unless-stopped
-    healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:8000/api/health"]
-      interval: 30s
-      timeout: 10s
-      retries: 3
-
-  # Site 4: Job Board
-  jobboard:
-    build: ./sites/jobboard
-    container_name: test-site-jobboard
-    ports:
-      - "5004:8000"
-    environment:
-      - SITE_NAME=jobboard
+      - SITE_NAME=robots-and-sitemaps
       - FAKER_SEED=42
       - PORT=8000
       - DATA_SIZE=150
       - DEBUG=true
-    volumes:
-      - ./sites/jobboard:/app
     networks:
-      - test-sites-network
+      - riptide-network
     restart: unless-stopped
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:8000/api/health"]
+      test: ["CMD-SHELL", "python3 -c 'import requests; requests.get(\"http://localhost:8000/health\")' || exit 1"]
       interval: 30s
       timeout: 10s
       retries: 3
 
-  # Site 5: Real Estate Listings
-  realestate:
-    build: ./sites/realestate
-    container_name: test-site-realestate
+  # Phase 2 Sites - Core Features
+
+  # Site 4: Slowpoke & Retries
+  slowpoke-and-retries:
+    build: ./sites/slowpoke-and-retries.site
+    container_name: riptide-slowpoke-and-retries
+    ports:
+      - "5004:8000"
+    environment:
+      - SITE_NAME=slowpoke-and-retries
+      - FAKER_SEED=42
+      - PORT=8000
+      - DEBUG=true
+    networks:
+      - riptide-network
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "python3 -c 'import requests; requests.get(\"http://localhost:8000/health\", timeout=5)' || exit 1"]
+      interval: 30s
+      timeout: 15s
+      retries: 3
+
+  # Site 5: Selectors vs LLM Extraction
+  selectors-vs-llm:
+    build: ./sites/selectors-vs-llm.site
+    container_name: riptide-selectors-vs-llm
     ports:
       - "5005:8000"
     environment:
-      - SITE_NAME=realestate
+      - SITE_NAME=selectors-vs-llm
       - FAKER_SEED=42
       - PORT=8000
-      - DATA_SIZE=200
+      - DATA_SIZE=10
       - DEBUG=true
-    volumes:
-      - ./sites/realestate:/app
     networks:
-      - test-sites-network
+      - riptide-network
     restart: unless-stopped
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:8000/api/health"]
+      test: ["CMD-SHELL", "python3 -c 'import requests; requests.get(\"http://localhost:8000/health\")' || exit 1"]
       interval: 30s
       timeout: 10s
       retries: 3
 
-  # Site 6: Restaurant Directory
-  restaurant:
-    build: ./sites/restaurant
-    container_name: test-site-restaurant
+  # Site 6: Static vs Headless Rendering
+  static-vs-headless:
+    build: ./sites/static-vs-headless.site
+    container_name: riptide-static-vs-headless
     ports:
       - "5006:8000"
     environment:
-      - SITE_NAME=restaurant
+      - SITE_NAME=static-vs-headless
       - FAKER_SEED=42
       - PORT=8000
-      - DATA_SIZE=100
+      - DATA_SIZE=20
       - DEBUG=true
-    volumes:
-      - ./sites/restaurant:/app
     networks:
-      - test-sites-network
+      - riptide-network
     restart: unless-stopped
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:8000/api/health"]
+      test: ["CMD-SHELL", "python3 -c 'import requests; requests.get(\"http://localhost:8000/health\")' || exit 1"]
       interval: 30s
       timeout: 10s
       retries: 3
 
-  # Site 7: Event Management
-  events:
-    build: ./sites/events
-    container_name: test-site-events
-    ports:
-      - "5007:8000"
-    environment:
-      - SITE_NAME=events
-      - FAKER_SEED=42
-      - PORT=8000
-      - DATA_SIZE=80
-      - DEBUG=true
-    volumes:
-      - ./sites/events:/app
-    networks:
-      - test-sites-network
-    restart: unless-stopped
-    healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:8000/api/health"]
-      interval: 30s
-      timeout: 10s
-      retries: 3
-
-  # Site 8: Educational Platform
-  education:
-    build: ./sites/education
-    container_name: test-site-education
+  # Site 7: Authentication & Sessions
+  auth-and-session:
+    build: ./sites/auth-and-session.site
+    container_name: riptide-auth-and-session
     ports:
       - "5008:8000"
     environment:
-      - SITE_NAME=education
+      - SITE_NAME=auth-and-session
       - FAKER_SEED=42
       - PORT=8000
-      - DATA_SIZE=60
+      - SECRET_KEY=test-secret-key-for-sessions
       - DEBUG=true
-    volumes:
-      - ./sites/education:/app
     networks:
-      - test-sites-network
+      - riptide-network
     restart: unless-stopped
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:8000/api/health"]
+      test: ["CMD-SHELL", "python3 -c 'import requests; requests.get(\"http://localhost:8000/health\")' || exit 1"]
       interval: 30s
       timeout: 10s
       retries: 3
 
-  # Site 9: Healthcare Portal
-  healthcare:
-    build: ./sites/healthcare
-    container_name: test-site-healthcare
+  # Site 8: PDFs & Binary Files
+  pdfs-and-binaries:
+    build: ./sites/pdfs-and-binaries.site
+    container_name: riptide-pdfs-and-binaries
+    ports:
+      - "5007:8000"
+    environment:
+      - SITE_NAME=pdfs-and-binaries
+      - FAKER_SEED=42
+      - PORT=8000
+      - DEBUG=true
+    networks:
+      - riptide-network
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "python3 -c 'import requests; requests.get(\"http://localhost:8000/health\")' || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  # Phase 3 Sites - Advanced Features
+
+  # Site 9: Encoding & Internationalization
+  encoding-and-i18n:
+    build: ./sites/encoding-and-i18n.site
+    container_name: riptide-encoding-and-i18n
     ports:
       - "5009:8000"
     environment:
-      - SITE_NAME=healthcare
+      - SITE_NAME=encoding-and-i18n
       - FAKER_SEED=42
       - PORT=8000
-      - DATA_SIZE=50
       - DEBUG=true
-    volumes:
-      - ./sites/healthcare:/app
     networks:
-      - test-sites-network
+      - riptide-network
     restart: unless-stopped
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:8000/api/health"]
+      test: ["CMD-SHELL", "python3 -c 'import requests; requests.get(\"http://localhost:8000/health\")' || exit 1"]
       interval: 30s
       timeout: 10s
       retries: 3
 
-  # Site 10: Travel Booking
-  travel:
-    build: ./sites/travel
-    container_name: test-site-travel
+  # Site 10: Media & Non-HTML Content
+  media-and-nonhtml:
+    build: ./sites/media-and-nonhtml.site
+    container_name: riptide-media-and-nonhtml
     ports:
       - "5010:8000"
     environment:
-      - SITE_NAME=travel
+      - SITE_NAME=media-and-nonhtml
       - FAKER_SEED=42
       - PORT=8000
-      - DATA_SIZE=100
       - DEBUG=true
-    volumes:
-      - ./sites/travel:/app
     networks:
-      - test-sites-network
+      - riptide-network
     restart: unless-stopped
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:8000/api/health"]
+      test: ["CMD-SHELL", "python3 -c 'import requests; requests.get(\"http://localhost:8000/health\")' || exit 1"]
       interval: 30s
       timeout: 10s
       retries: 3
 
-  # Site 11: News Portal
-  news:
-    build: ./sites/news
-    container_name: test-site-news
+  # Site 11: Anti-Bot Detection
+  anti-bot-lite:
+    build: ./sites/anti-bot-lite.site
+    container_name: riptide-anti-bot-lite
     ports:
       - "5011:8000"
     environment:
-      - SITE_NAME=news
+      - SITE_NAME=anti-bot-lite
       - FAKER_SEED=42
       - PORT=8000
-      - DATA_SIZE=300
       - DEBUG=true
-    volumes:
-      - ./sites/news:/app
     networks:
-      - test-sites-network
+      - riptide-network
     restart: unless-stopped
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:8000/api/health"]
+      test: ["CMD-SHELL", "python3 -c 'import requests; requests.get(\"http://localhost:8000/stats\")' || exit 1"]
       interval: 30s
       timeout: 10s
       retries: 3
 
-  # Site 12: Forum/Community
-  forum:
-    build: ./sites/forum
-    container_name: test-site-forum
+  # Site 12: Jobs & Offers (Schema.org)
+  jobs-and-offers:
+    build: ./sites/jobs-and-offers.site
+    container_name: riptide-jobs-and-offers
     ports:
       - "5012:8000"
     environment:
-      - SITE_NAME=forum
-      - FAKER_SEED=42
-      - PORT=8000
-      - DATA_SIZE=250
-      - DEBUG=true
-    volumes:
-      - ./sites/forum:/app
-    networks:
-      - test-sites-network
-    restart: unless-stopped
-    healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:8000/api/health"]
-      interval: 30s
-      timeout: 10s
-      retries: 3
-
-  # Site 13: Project Management
-  projectmgmt:
-    build: ./sites/projectmgmt
-    container_name: test-site-projectmgmt
-    ports:
-      - "5013:8000"
-    environment:
-      - SITE_NAME=projectmgmt
+      - SITE_NAME=jobs-and-offers
       - FAKER_SEED=42
       - PORT=8000
       - DATA_SIZE=50
       - DEBUG=true
-    volumes:
-      - ./sites/projectmgmt:/app
     networks:
-      - test-sites-network
+      - riptide-network
     restart: unless-stopped
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:8000/api/health"]
+      test: ["CMD-SHELL", "python3 -c 'import requests; requests.get(\"http://localhost:8000/health\")' || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  # Site 13: WebSocket Streaming
+  websocket-stream-sink:
+    build: ./sites/websocket-stream-sink
+    container_name: riptide-websocket-stream-sink
+    ports:
+      - "5013:8000"
+    environment:
+      - SITE_NAME=websocket-stream-sink
+      - FAKER_SEED=42
+      - PORT=8000
+      - DEBUG=true
+    networks:
+      - riptide-network
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "python3 -c 'import requests; requests.get(\"http://localhost:8000/health\")' || exit 1"]
       interval: 30s
       timeout: 10s
       retries: 3
 
 networks:
-  test-sites-network:
+  riptide-network:
     driver: bridge
-    name: test-sites-network
+    name: riptide-test-sites
 
 volumes:
-  # Optional: Add named volumes if persistent data needed
-  ecommerce-data:
-  blog-data:
-  social-data:
+  # Persistent volumes for generated data (optional)
+  ground-truth-data:
