@@ -159,6 +159,16 @@ async def api_job(job_id: int):
         return {"error": "Job not found"}, 404
     return job
 
+@app.get("/jobs", response_class=HTMLResponse)
+async def jobs_listing(request: Request):
+    """Job listings page (alias for home page) - tests expect this"""
+    return await home(request)
+
+@app.get("/jobs/{job_id}", response_class=HTMLResponse)
+async def jobs_detail(request: Request, job_id: int):
+    """Job detail page (alias for /job/{id}) - tests expect this"""
+    return await job_detail(request, job_id)
+
 @app.get("/health")
 async def health():
     """Health check endpoint."""

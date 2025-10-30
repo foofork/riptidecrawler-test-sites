@@ -450,6 +450,129 @@ async def hebrew_page_alt():
     """Alternative route for Hebrew page (UTF-8, RTL)"""
     return await hebrew_page()
 
+@app.get("/de/")
+async def german_page():
+    """German page with UTF-8 encoding"""
+    html = """<!DOCTYPE html>
+    <html lang="de">
+    <head>
+        <meta charset="UTF-8">
+        <title>Deutsche Seite - German Page</title>
+        <style>
+            body { font-family: Arial, sans-serif; max-width: 800px; margin: 50px auto; padding: 20px; background: #fff8e1; }
+            h1 { color: #f57c00; text-align: center; }
+            .content { background: white; padding: 20px; border-radius: 5px; line-height: 1.8; }
+            .section { margin: 20px 0; padding: 15px; background: #ffebee; border-left: 4px solid #d32f2f; }
+            a { color: #d32f2f; }
+        </style>
+    </head>
+    <body>
+        <h1>🇩🇪 Deutsche Testseite</h1>
+        <div class="content">
+            <h2>Guten Tag</h2>
+            <p>Dies ist eine deutsche Testseite für UTF-8-Kodierung und Sonderzeichen.</p>
+
+            <div class="section">
+                <h3>📝 Deutsche Sonderzeichen</h3>
+                <p><strong>Umlaute:</strong> ä, ö, ü, Ä, Ö, Ü</p>
+                <p><strong>Eszett:</strong> ß (scharfes S)</p>
+                <p><strong>Wörter:</strong> Mädchen, Größe, Füße, Käse, Bäcker</p>
+            </div>
+
+            <div class="section">
+                <h3>🏰 Deutsche Kultur</h3>
+                <p>Deutschland ist bekannt für seine Schlösser, Bier und Würstchen.</p>
+                <p>Berühmte Städte: Berlin, München, Hamburg, Köln, Frankfurt.</p>
+            </div>
+        </div>
+        <p style="margin-top: 20px; text-align: center;"><a href="/">← Zurück zur Startseite</a></p>
+    </body>
+    </html>"""
+    return HTMLResponse(content=html, headers={"Content-Type": "text/html; charset=UTF-8"})
+
+@app.get("/ru/")
+async def russian_page():
+    """Russian page with UTF-8 encoding"""
+    html = """<!DOCTYPE html>
+    <html lang="ru">
+    <head>
+        <meta charset="UTF-8">
+        <title>Русская страница - Russian Page</title>
+        <style>
+            body { font-family: Arial, sans-serif; max-width: 800px; margin: 50px auto; padding: 20px; background: #e1f5fe; }
+            h1 { color: #0277bd; text-align: center; }
+            .content { background: white; padding: 20px; border-radius: 5px; line-height: 1.8; }
+            .section { margin: 20px 0; padding: 15px; background: #fff3e0; border-left: 4px solid #ef6c00; }
+            a { color: #0277bd; }
+        </style>
+    </head>
+    <body>
+        <h1>🇷🇺 Русская тестовая страница</h1>
+        <div class="content">
+            <h2>Привет мир</h2>
+            <p>Это русская тестовая страница для проверки кодировки UTF-8 и кириллицы.</p>
+
+            <div class="section">
+                <h3>📝 Русский алфавит</h3>
+                <p><strong>Гласные:</strong> А Е Ё И О У Ы Э Ю Я</p>
+                <p><strong>Согласные:</strong> Б В Г Д Ж З К Л М Н П Р С Т Ф Х Ц Ч Ш Щ</p>
+                <p><strong>Другие:</strong> Ь Ъ</p>
+            </div>
+
+            <div class="section">
+                <h3>🏛️ Русская культура</h3>
+                <p>Россия - страна с богатой историей и культурой.</p>
+                <p>Известные города: Москва, Санкт-Петербург, Казань, Сочи.</p>
+            </div>
+        </div>
+        <p style="margin-top: 20px; text-align: center;"><a href="/">← Вернуться на главную</a></p>
+    </body>
+    </html>"""
+    return HTMLResponse(content=html, headers={"Content-Type": "text/html; charset=UTF-8"})
+
+@app.get("/fr/")
+async def french_page():
+    """French page with UTF-8 encoding"""
+    html = """<!DOCTYPE html>
+    <html lang="fr">
+    <head>
+        <meta charset="UTF-8">
+        <title>Page française - French Page</title>
+        <style>
+            body { font-family: Georgia, serif; max-width: 800px; margin: 50px auto; padding: 20px; background: #e8eaf6; }
+            h1 { color: #3f51b5; text-align: center; }
+            .content { background: white; padding: 20px; border-radius: 5px; line-height: 1.8; }
+            .section { margin: 20px 0; padding: 15px; background: #f3e5f5; border-left: 4px solid #7b1fa2; }
+            a { color: #3f51b5; }
+        </style>
+    </head>
+    <body>
+        <h1>🇫🇷 Page de test française</h1>
+        <div class="content">
+            <h2>Bonjour le monde</h2>
+            <p>Ceci est une page de test française pour l'encodage UTF-8 et les caractères accentués.</p>
+
+            <div class="section">
+                <h3>📝 Caractères français</h3>
+                <p><strong>Accents aigus:</strong> é, É</p>
+                <p><strong>Accents graves:</strong> è, à, ù</p>
+                <p><strong>Circonflexes:</strong> ê, â, î, ô, û</p>
+                <p><strong>Tréma:</strong> ë, ï, ü</p>
+                <p><strong>Cédille:</strong> ç, Ç</p>
+                <p><strong>Mots:</strong> Café, crème, naïve, Noël</p>
+            </div>
+
+            <div class="section">
+                <h3>🗼 Culture française</h3>
+                <p>La France est célèbre pour sa cuisine, son vin et sa culture.</p>
+                <p>Villes connues: Paris, Lyon, Marseille, Nice, Toulouse.</p>
+            </div>
+        </div>
+        <p style="margin-top: 20px; text-align: center;"><a href="/">← Retour à l'accueil</a></p>
+    </body>
+    </html>"""
+    return HTMLResponse(content=html, headers={"Content-Type": "text/html; charset=UTF-8"})
+
 if __name__ == "__main__":
     import uvicorn
     uvicorn.run(app, host="0.0.0.0", port=5009)

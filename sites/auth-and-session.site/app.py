@@ -113,11 +113,14 @@ async def login_page(request: Request):
 async def login(
     username: str = Form(...),
     password: str = Form(...),
-    csrf_token: str = Form(...),
+    csrf_token: str = Form(None),
     response: Response = None
 ):
     """Handle login form submission"""
-    # Verify CSRF token
+    # Verify CSRF token - check if missing first to return 403 not 422
+    if csrf_token is None or not csrf_token:
+        raise HTTPException(status_code=403, detail="CSRF token required")
+
     if not verify_csrf("pre-auth", csrf_token):
         raise HTTPException(status_code=403, detail="Invalid CSRF token")
 

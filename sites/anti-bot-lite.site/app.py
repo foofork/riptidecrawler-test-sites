@@ -423,6 +423,28 @@ async def stats(request: Request):
         "active_sessions": len(session_store)
     }
 
+@app.get("/api/data")
+async def api_data():
+    """API endpoint for rate limiting tests"""
+    return {
+        "status": "success",
+        "message": "API data endpoint",
+        "data": {
+            "timestamp": time.time(),
+            "service": "anti-bot-lite",
+            "version": "1.0.0"
+        }
+    }
+
+@app.get("/protected")
+async def protected_page():
+    """Protected page for referer header testing"""
+    return {
+        "status": "success",
+        "message": "Protected resource accessed",
+        "note": "This endpoint checks referer headers via middleware"
+    }
+
 if __name__ == "__main__":
     import uvicorn
     uvicorn.run(app, host="0.0.0.0", port=5011)

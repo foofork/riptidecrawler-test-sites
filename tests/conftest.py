@@ -308,9 +308,31 @@ def crawl_simulator(http_client):
         Returns:
             Dict with crawl results
         """
+        try:
+            from bs4 import BeautifulSoup
+            from urllib.parse import urljoin, urlparse
+        except ImportError:
+            # If BeautifulSoup not available, return minimal crawl
+            print("Warning: BeautifulSoup not installed, returning minimal crawl")
+            try:
+                response = http_client.get(start_url, timeout=10)
+                return {
+                    "pages_crawled": 1,
+                    "pages": [{
+                        "url": start_url,
+                        "status_code": response.status_code,
+                        "content_type": response.headers.get("Content-Type", ""),
+                        "content_length": len(response.content)
+                    }],
+                    "start_url": start_url
+                }
+            except:
+                return {"pages_crawled": 0, "pages": [], "start_url": start_url}
+
         visited = set()
         to_visit = [start_url]
         pages = []
+        base_domain = urlparse(start_url).netloc
 
         while to_visit and len(visited) < max_pages:
             url = to_visit.pop(0)
@@ -331,8 +353,25 @@ def crawl_simulator(http_client):
 
                 pages.append(page_data)
 
-                # TODO: Parse HTML and extract links (requires BeautifulSoup)
-                # For now, this is a simple stub
+                # Parse HTML and extract links if content is HTML
+                content_type = response.headers.get("Content-Type", "")
+                if response.status_code == 200 and "text/html" in content_type:
+                    soup = BeautifulSoup(response.content, 'html.parser')
+
+                    # Find all links
+                    for link in soup.find_all('a', href=True):
+                        href = link['href']
+
+                        # Convert relative URLs to absolute
+                        absolute_url = urljoin(url, href)
+
+                        # Only follow links on the same domain
+                        parsed = urlparse(absolute_url)
+                        if parsed.netloc == base_domain:
+                            # Remove fragment and query for deduplication
+                            clean_url = f"{parsed.scheme}://{parsed.netloc}{parsed.path}"
+                            if clean_url not in visited and clean_url not in to_visit:
+                                to_visit.append(clean_url)
 
             except Exception as e:
                 print(f"Error crawling {url}: {e}")
