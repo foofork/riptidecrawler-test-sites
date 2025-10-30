@@ -14,13 +14,18 @@ RETRY_DELAY=${RETRY_DELAY:-2}
 
 declare -A SITES=(
     ["happy-path"]=5001
-    ["selectors-vs-llm"]=5002
-    ["static-vs-headless"]=5003
-    ["pdfs-and-binaries"]=5004
-    ["redirects-canonical"]=5005
-    ["robots-and-sitemaps"]=5006
-    ["slowpoke-and-retries"]=5007
+    ["redirects-canonical"]=5002
+    ["robots-and-sitemaps"]=5003
+    ["slowpoke-and-retries"]=5004
+    ["selectors-vs-llm"]=5005
+    ["static-vs-headless"]=5006
+    ["pdfs-and-binaries"]=5007
     ["auth-and-session"]=5008
+    ["encoding-and-i18n"]=5009
+    ["media-and-nonhtml"]=5010
+    ["anti-bot-lite"]=5011
+    ["jobs-and-offers"]=5012
+    ["websocket-stream-sink"]=5013
 )
 
 WAIT_MODE=false
