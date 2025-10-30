@@ -167,7 +167,7 @@ class TestStaticVsHeadless:
         Test rendering method distribution.
 
         Expected:
-        - 10 pages crawled
+        - 16 pages crawled
         - 0 pages failed
         - 1 domain
         """
