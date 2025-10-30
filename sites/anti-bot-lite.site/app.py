@@ -1,5 +1,5 @@
 from fastapi import FastAPI, Request, Response, HTTPException, Cookie
-from fastapi.responses import HTMLResponse, JSONResponse
+from fastapi.responses import HTMLResponse, JSONResponse, PlainTextResponse
 from typing import Optional
 import time
 from collections import defaultdict
@@ -53,16 +53,23 @@ def check_rate_limit(ip: str) -> tuple[bool, str]:
     return True, "OK"
 
 def validate_headers(request: Request) -> tuple[bool, str]:
-    """Validate required headers"""
-    accept_language = request.headers.get("Accept-Language")
-    user_agent = request.headers.get("User-Agent")
+    """Validate required headers - be lenient with normal traffic"""
+    user_agent = request.headers.get("User-Agent", "")
 
-    if not accept_language:
-        return False, "Missing Accept-Language header"
-
+    # If no User-Agent at all, that's suspicious
     if not user_agent:
         return False, "Missing User-Agent header"
 
+    # Block only obvious bad bots (not polite crawlers)
+    bad_bot_patterns = ["scraper", "harvester"]
+    user_agent_lower = user_agent.lower()
+
+    # If it has a bad pattern and NOT a polite crawler, block it
+    if any(pattern in user_agent_lower for pattern in bad_bot_patterns):
+        if not is_polite_crawler(user_agent):
+            return False, "Bot-like User-Agent detected"
+
+    # Allow any reasonable User-Agent (browsers, curl, wget, etc.)
     return True, "OK"
 
 def is_polite_crawler(user_agent: str) -> bool:
@@ -108,8 +115,8 @@ def validate_session(session_id: Optional[str], ip: str) -> bool:
 async def rate_limit_middleware(request: Request, call_next):
     """Middleware to enforce rate limiting and header validation"""
 
-    # Skip rate limiting for static files and config endpoint
-    if request.url.path in ["/favicon.ico", "/stats"]:
+    # Skip rate limiting for static files, config endpoint, and robots.txt
+    if request.url.path in ["/favicon.ico", "/stats", "/robots.txt", "/health"]:
         return await call_next(request)
 
     ip = get_client_ip(request)
@@ -174,6 +181,14 @@ async def rate_limit_middleware(request: Request, call_next):
     response.headers["X-Rate-Limit-Reset"] = str(int(client_data["window_start"] + 60))
 
     return response
+
+@app.get("/robots.txt", response_class=PlainTextResponse)
+async def robots_txt():
+    """Robots.txt file for crawlers"""
+    return PlainTextResponse(
+        "User-agent: *\nDisallow: /admin/\nAllow: /\n"
+    )
+
 
 @app.get("/health")
 async def health_check():

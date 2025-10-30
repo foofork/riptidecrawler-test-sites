@@ -147,14 +147,14 @@ async def login(
     return response
 
 
-@app.get("/dashboard", response_class=HTMLResponse)
+@app.api_route("/dashboard", methods=["GET", "HEAD"], response_class=HTMLResponse)
 async def dashboard(request: Request):
     """Protected dashboard requiring authentication"""
     session_id = request.cookies.get("session_id")
     session = verify_session(session_id)
 
     if not session:
-        return RedirectResponse("/", status_code=302)
+        return RedirectResponse("/login", status_code=302)
 
     csrf_token = create_csrf_token(session_id)
 
@@ -166,7 +166,7 @@ async def dashboard(request: Request):
     })
 
 
-@app.get("/protected", response_class=HTMLResponse)
+@app.api_route("/protected", methods=["GET", "HEAD"], response_class=HTMLResponse)
 async def protected_page(request: Request):
     """Protected page requiring authentication"""
     session_id = request.cookies.get("session_id")
@@ -181,7 +181,7 @@ async def protected_page(request: Request):
         "message": "This is a protected page"
     })
 
-@app.get("/profile", response_class=HTMLResponse)
+@app.api_route("/profile", methods=["GET", "HEAD"], response_class=HTMLResponse)
 async def profile_page(request: Request):
     """Profile page requiring authentication"""
     session_id = request.cookies.get("session_id")
@@ -195,7 +195,7 @@ async def profile_page(request: Request):
         "username": session["username"]
     })
 
-@app.get("/settings", response_class=HTMLResponse)
+@app.api_route("/settings", methods=["GET", "HEAD"], response_class=HTMLResponse)
 async def settings_page(request: Request):
     """Settings page requiring authentication"""
     session_id = request.cookies.get("session_id")
