@@ -176,13 +176,25 @@ async def mixed_content(request: Request):
     })
 
 
+@app.get("/documents/", response_class=HTMLResponse)
+async def documents_list(request: Request):
+    """List of available documents (PDFs)"""
+    return templates.TemplateResponse("documents.html", {
+        "request": request,
+        "documents": [
+            {"id": 1, "title": "Simple PDF Document", "url": "/pdf/simple"},
+            {"id": 2, "title": "PDF with Data Table", "url": "/pdf/with-table"}
+        ]
+    })
+
 @app.get("/content-types")
 async def content_types_info():
     """Return information about available content types"""
     return {
         "html_pages": [
             {"url": "/", "content_type": "text/html"},
-            {"url": "/mixed-content", "content_type": "text/html"}
+            {"url": "/mixed-content", "content_type": "text/html"},
+            {"url": "/documents/", "content_type": "text/html"}
         ],
         "pdfs": [
             {"url": "/pdf/simple", "content_type": "application/pdf"},

@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ title }} - Selectors vs LLM</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+        }
+        h1 { color: #333; }
+        .item-list {
+            list-style: none;
+            padding: 0;
+        }
+        .item {
+            padding: 10px;
+            margin: 5px 0;
+            background: #f5f5f5;
+            border-radius: 3px;
+        }
+        .item a {
+            color: #0066cc;
+            text-decoration: none;
+        }
+        .item a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <h1>{{ title }}</h1>
+    <ul class="item-list">
+        {% for item_id in items %}
+        <li class="item">
+            <a href="/{{ page_type }}/{{ item_id }}">Item {{ item_id }}</a>
+        </li>
+        {% endfor %}
+    </ul>
+    <p><a href="/">Back to Home</a></p>
+</body>
+</html>

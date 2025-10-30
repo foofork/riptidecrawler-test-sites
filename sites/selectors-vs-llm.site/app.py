@@ -42,6 +42,28 @@ async def home(request: Request):
     })
 
 
+@app.get("/clean", response_class=HTMLResponse)
+async def clean_list(request: Request):
+    """List of clean HTML pages"""
+    return templates.TemplateResponse("list.html", {
+        "request": request,
+        "page_type": "clean",
+        "items": list(range(len(products))),
+        "title": "Clean HTML Pages"
+    })
+
+
+@app.get("/messy", response_class=HTMLResponse)
+async def messy_list(request: Request):
+    """List of messy HTML pages"""
+    return templates.TemplateResponse("list.html", {
+        "request": request,
+        "page_type": "messy",
+        "items": list(range(len(products))),
+        "title": "Messy HTML Pages"
+    })
+
+
 @app.get("/clean/{item_id}", response_class=HTMLResponse)
 async def clean_page(request: Request, item_id: int):
     """70% - Clean HTML with proper semantic tags and classes"""

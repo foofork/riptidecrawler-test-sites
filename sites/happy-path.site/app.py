@@ -1,5 +1,5 @@
 from fastapi import FastAPI, Request
-from fastapi.responses import HTMLResponse, Response
+from fastapi.responses import HTMLResponse, Response, RedirectResponse
 from fastapi.templating import Jinja2Templates
 from faker import Faker
 from datetime import datetime, timedelta
@@ -64,7 +64,7 @@ def get_json_ld(event):
         "organizer": event["organizer"],
         "eventStatus": event["eventStatus"],
         "eventAttendanceMode": event["eventAttendanceMode"],
-        "url": f"https://happy-path.site/event/{event['id']}"
+        "url": f"https://happy-path.site/events/{event['id']}"
     }
 
 @app.get("/", response_class=HTMLResponse)
@@ -93,9 +93,14 @@ async def home(request: Request, page: int = 1):
         "has_next": page < total_pages
     })
 
-@app.get("/event/{event_id}", response_class=HTMLResponse)
-async def event_detail(request: Request, event_id: int):
-    """Individual event detail page with JSON-LD"""
+@app.get("/events/", response_class=HTMLResponse)
+async def events_list(request: Request, page: int = 1):
+    """Events list endpoint (alias for home page) - tests expect this"""
+    return await home(request, page)
+
+@app.get("/events/{event_id}", response_class=HTMLResponse)
+async def events_detail(request: Request, event_id: int):
+    """Individual event detail page with JSON-LD and canonical link"""
     if event_id < 1 or event_id > len(EVENTS):
         return templates.TemplateResponse("404.html", {"request": request}, status_code=404)
 
@@ -105,8 +110,14 @@ async def event_detail(request: Request, event_id: int):
     return templates.TemplateResponse("event.html", {
         "request": request,
         "event": event,
-        "json_ld": json.dumps(json_ld, indent=2)
+        "json_ld": json.dumps(json_ld, indent=2),
+        "canonical_url": f"https://happy-path.site/events/{event_id}"
     })
+
+@app.get("/event/{event_id}", response_class=HTMLResponse)
+async def event_detail_legacy(request: Request, event_id: int):
+    """Legacy endpoint - redirects to /events/{id}"""
+    return RedirectResponse(url=f"/events/{event_id}", status_code=301)
 
 @app.get("/robots.txt", response_class=Response)
 async def robots():
@@ -140,7 +151,7 @@ async def sitemap():
     # All events
     for event in EVENTS:
         urls.append(f"""  <url>
-    <loc>https://happy-path.site/event/{event['id']}</loc>
+    <loc>https://happy-path.site/events/{event['id']}</loc>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>""")
