@@ -60,11 +60,13 @@ All data is **deterministically generated** (Faker seed = 42) for fully reproduc
 
 ---
 
-### 🧩 Relationship to RipTideCrawler
+### 🧩 Use With Any Crawler
 
-RipTide Test Sites is an **agnostic** testing platform for web crawlers, extractors, and agents — but it was **originally built to validate** and **benchmark** the full feature set of [**RipTideCrawler**](https://github.com/foofork/riptidecrawler).
+RipTide Test Sites is an **agnostic** testing platform for web crawlers, extractors, and agents. Originally built to validate [**RipTideCrawler**](https://github.com/foofork/riptidecrawler), it works with any crawler framework.
 
-It covers 100 % of common crawling and extraction cases exercised by RipTideCrawler, including:
+**See the [Integration Guide](docs/INTEGRATION_GUIDE.md) for examples in Rust, Python, Node.js, and more!**
+
+It covers 100% of common crawling and extraction cases, including:
 
 * WASM-based selector extraction
 * LLM fallback extraction
@@ -297,6 +299,7 @@ custom-site:
 
 ## 📚 Docs
 
+* **[Integration Guide](docs/INTEGRATION_GUIDE.md)** ⭐ - How to use these test sites with your crawler
 * [Quick Reference](docs/QUICK_REFERENCE.md)
 * [Architecture](docs/architecture.md)
 * [Deployment Guide](docs/deployment-guide.md)
