@@ -20,7 +20,14 @@ jobs:
     strategy:
       matrix:
         python-version: ["3.11"]
-        test-phase: [phase1, phase2, phase3]
+        test-level: [foundation, intermediate, advanced]
+        include:
+          - test-level: foundation
+            test-phase: phase1
+          - test-level: intermediate
+            test-phase: phase2
+          - test-level: advanced
+            test-phase: phase3
 
     steps:
       - name: Checkout code
@@ -54,21 +61,21 @@ jobs:
           chmod +x scripts/health_check_new.sh
           ./scripts/health_check_new.sh --wait
 
-      - name: Run ${{ matrix.test-phase }} tests
+      - name: Run ${{ matrix.test-level }} tests (${{ matrix.test-phase }})
         run: |
           pytest tests/ -m ${{ matrix.test-phase }} -v --tb=short --maxfail=5
 
       - name: Generate test report
         if: always()
         run: |
-          pytest tests/ -m ${{ matrix.test-phase }} --html=report-${{ matrix.test-phase }}.html --self-contained-html || true
+          pytest tests/ -m ${{ matrix.test-phase }} --html=report-${{ matrix.test-level }}.html --self-contained-html || true
 
       - name: Upload test report
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: test-report-${{ matrix.test-phase }}-py${{ matrix.python-version }}
-          path: report-${{ matrix.test-phase }}.html
+          name: test-report-${{ matrix.test-level }}-py${{ matrix.python-version }}
+          path: report-${{ matrix.test-level }}.html
           if-no-files-found: ignore
 
       - name: View Docker logs on failure
