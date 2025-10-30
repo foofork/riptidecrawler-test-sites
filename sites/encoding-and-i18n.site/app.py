@@ -323,6 +323,128 @@ async def mismatch_page():
     # Declare UTF-8 in header but encode as ISO-8859-1
     return Response(content=html.encode('iso-8859-1'), media_type="text/html; charset=utf-8")
 
+@app.get("/ja/")
+async def japanese_page():
+    """Japanese page with UTF-8 encoding and kanji characters"""
+    html = """<!DOCTYPE html>
+    <html lang="ja">
+    <head>
+        <meta charset="UTF-8">
+        <title>日本語ページ - Japanese Page</title>
+        <style>
+            body { font-family: 'Hiragino Kaku Gothic Pro', 'Meiryo', sans-serif; max-width: 800px; margin: 50px auto; padding: 20px; background: #fce4ec; }
+            h1 { color: #c2185b; text-align: center; }
+            .content { background: white; padding: 20px; border-radius: 5px; line-height: 1.8; }
+            .section { margin: 20px 0; padding: 15px; background: #f3e5f5; border-left: 4px solid #9c27b0; }
+            a { color: #7b1fa2; }
+        </style>
+    </head>
+    <body>
+        <h1>🗾 日本語テストページ</h1>
+        <div class="content">
+            <h2>こんにちは世界</h2>
+            <p>これは日本語のテストページです。UTF-8エンコーディングと漢字文字のテストを行います。</p>
+
+            <div class="section">
+                <h3>📝 日本語の文字種</h3>
+                <p><strong>ひらがな:</strong> あいうえお かきくけこ さしすせそ</p>
+                <p><strong>カタカナ:</strong> アイウエオ カキクケコ サシスセソ</p>
+                <p><strong>漢字:</strong> 日本語 東京 京都 大阪 富士山</p>
+                <p><strong>ローマ字:</strong> Nihongo (Japanese)</p>
+            </div>
+
+            <div class="section">
+                <h3>🌸 日本文化</h3>
+                <p>日本は美しい国です。桜の花、富士山、伝統的な寺院や神社があります。</p>
+                <p>日本料理は世界中で人気があります：寿司、ラーメン、天ぷら、刺身。</p>
+                <p>伝統芸能：歌舞伎、能、茶道、華道、書道。</p>
+            </div>
+
+            <div class="section">
+                <h3>🔢 数字とシンボル</h3>
+                <p>アラビア数字: 0123456789</p>
+                <p>漢数字: 一二三四五六七八九十百千万</p>
+                <p>通貨: ¥ (円) | 価格: ¥1,000</p>
+                <p>句読点: 、。「」『』</p>
+            </div>
+
+            <h3>📖 サンプルテキスト</h3>
+            <p>吾輩は猫である。名前はまだ無い。どこで生れたかとんと見当がつかぬ。何でも薄暗いじめじめした所でニャーニャー泣いていた事だけは記憶している。</p>
+            <p style="font-style: italic;">— 夏目漱石「吾輩は猫である」より</p>
+        </div>
+        <p style="margin-top: 20px; text-align: center;"><a href="/">← ホームに戻る (Back to Home)</a></p>
+    </body>
+    </html>"""
+    return HTMLResponse(content=html, headers={"Content-Type": "text/html; charset=UTF-8"})
+
+@app.get("/ar/")
+async def arabic_page_alt():
+    """Alternative route for Arabic page (UTF-8, RTL)"""
+    return await arabic_page()
+
+@app.get("/zh/")
+async def chinese_page():
+    """Chinese page with UTF-8 encoding and simplified Chinese characters"""
+    html = """<!DOCTYPE html>
+    <html lang="zh-CN">
+    <head>
+        <meta charset="UTF-8">
+        <title>中文页面 - Chinese Page</title>
+        <style>
+            body { font-family: 'Microsoft YaHei', 'SimHei', sans-serif; max-width: 800px; margin: 50px auto; padding: 20px; background: #e8f5e9; }
+            h1 { color: #2e7d32; text-align: center; }
+            .content { background: white; padding: 20px; border-radius: 5px; line-height: 1.8; }
+            .section { margin: 20px 0; padding: 15px; background: #fff9c4; border-left: 4px solid #f57f17; }
+            a { color: #558b2f; }
+        </style>
+    </head>
+    <body>
+        <h1>🇨🇳 中文测试页面</h1>
+        <div class="content">
+            <h2>你好世界</h2>
+            <p>这是一个中文测试页面。本页面用于测试UTF-8编码和简体中文字符的显示。</p>
+
+            <div class="section">
+                <h3>📝 中文特点</h3>
+                <p><strong>简体中文:</strong> 欢迎来到中国</p>
+                <p><strong>繁体中文:</strong> 歡迎來到中國</p>
+                <p><strong>拼音:</strong> Nǐ hǎo (Hello)</p>
+                <p><strong>声调:</strong> 妈麻马骂 (mā má mǎ mà)</p>
+            </div>
+
+            <div class="section">
+                <h3>🏮 中国文化</h3>
+                <p>中国是一个拥有五千年历史的文明古国。长城、故宫、兵马俑是著名的历史遗迹。</p>
+                <p>中国美食：北京烤鸭、四川火锅、广东点心、上海小笼包。</p>
+                <p>传统节日：春节、中秋节、端午节、清明节。</p>
+            </div>
+
+            <div class="section">
+                <h3>🔢 数字和符号</h3>
+                <p>阿拉伯数字: 0123456789</p>
+                <p>中文数字: 零一二三四五六七八九十百千万亿</p>
+                <p>货币: ¥ (人民币) | 价格: ¥100.00</p>
+                <p>标点符号: ，。、；：？！""''《》【】</p>
+            </div>
+
+            <h3>📖 示例文本</h3>
+            <p>学而时习之，不亦说乎？有朋自远方来，不亦乐乎？人不知而不愠，不亦君子乎？</p>
+            <p style="font-style: italic;">— 《论语·学而》</p>
+
+            <h3>🌏 中国地理</h3>
+            <p>主要城市：北京、上海、广州、深圳、成都、杭州、西安、南京、重庆、天津。</p>
+            <p>著名景点：长江三峡、桂林山水、黄山、泰山、张家界。</p>
+        </div>
+        <p style="margin-top: 20px; text-align: center;"><a href="/">← 返回首页 (Back to Home)</a></p>
+    </body>
+    </html>"""
+    return HTMLResponse(content=html, headers={"Content-Type": "text/html; charset=UTF-8"})
+
+@app.get("/he/")
+async def hebrew_page_alt():
+    """Alternative route for Hebrew page (UTF-8, RTL)"""
+    return await hebrew_page()
+
 if __name__ == "__main__":
     import uvicorn
     uvicorn.run(app, host="0.0.0.0", port=5009)

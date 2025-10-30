@@ -19,7 +19,7 @@ services:
       - riptide-network
     restart: unless-stopped
     healthcheck:
-      test: ["CMD-SHELL", "python3 -c 'import requests; requests.get(\"http://localhost:8000/health\")' || exit 1"]
+      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
       interval: 30s
       timeout: 10s
       retries: 3
@@ -40,7 +40,7 @@ services:
       - riptide-network
     restart: unless-stopped
     healthcheck:
-      test: ["CMD-SHELL", "python3 -c 'import requests; requests.get(\"http://localhost:8000/health\")' || exit 1"]
+      test: ["CMD", "curl", "-f", "http://localhost:8000/"]
       interval: 30s
       timeout: 10s
       retries: 3
@@ -61,7 +61,7 @@ services:
       - riptide-network
     restart: unless-stopped
     healthcheck:
-      test: ["CMD-SHELL", "python3 -c 'import requests; requests.get(\"http://localhost:8000/health\")' || exit 1"]
+      test: ["CMD", "curl", "-f", "http://localhost:8000/"]
       interval: 30s
       timeout: 10s
       retries: 3
@@ -83,7 +83,7 @@ services:
       - riptide-network
     restart: unless-stopped
     healthcheck:
-      test: ["CMD-SHELL", "python3 -c 'import requests; requests.get(\"http://localhost:8000/health\", timeout=5)' || exit 1"]
+      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
       interval: 30s
       timeout: 15s
       retries: 3
@@ -104,7 +104,7 @@ services:
       - riptide-network
     restart: unless-stopped
     healthcheck:
-      test: ["CMD-SHELL", "python3 -c 'import requests; requests.get(\"http://localhost:8000/health\")' || exit 1"]
+      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
       interval: 30s
       timeout: 10s
       retries: 3
@@ -125,7 +125,7 @@ services:
       - riptide-network
     restart: unless-stopped
     healthcheck:
-      test: ["CMD-SHELL", "python3 -c 'import requests; requests.get(\"http://localhost:8000/health\")' || exit 1"]
+      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
       interval: 30s
       timeout: 10s
       retries: 3
@@ -146,7 +146,7 @@ services:
       - riptide-network
     restart: unless-stopped
     healthcheck:
-      test: ["CMD-SHELL", "python3 -c 'import requests; requests.get(\"http://localhost:8000/health\")' || exit 1"]
+      test: ["CMD", "curl", "-f", "http://localhost:8000/"]
       interval: 30s
       timeout: 10s
       retries: 3
@@ -166,7 +166,7 @@ services:
       - riptide-network
     restart: unless-stopped
     healthcheck:
-      test: ["CMD-SHELL", "python3 -c 'import requests; requests.get(\"http://localhost:8000/health\")' || exit 1"]
+      test: ["CMD", "curl", "-f", "http://localhost:8000/"]
       interval: 30s
       timeout: 10s
       retries: 3
@@ -188,7 +188,7 @@ services:
       - riptide-network
     restart: unless-stopped
     healthcheck:
-      test: ["CMD-SHELL", "python3 -c 'import requests; requests.get(\"http://localhost:8000/health\")' || exit 1"]
+      test: ["CMD", "curl", "-f", "http://localhost:8000/"]
       interval: 30s
       timeout: 10s
       retries: 3
@@ -208,7 +208,7 @@ services:
       - riptide-network
     restart: unless-stopped
     healthcheck:
-      test: ["CMD-SHELL", "python3 -c 'import requests; requests.get(\"http://localhost:8000/health\")' || exit 1"]
+      test: ["CMD", "curl", "-f", "http://localhost:8000/"]
       interval: 30s
       timeout: 10s
       retries: 3
@@ -228,7 +228,7 @@ services:
       - riptide-network
     restart: unless-stopped
     healthcheck:
-      test: ["CMD-SHELL", "python3 -c 'import requests; requests.get(\"http://localhost:8000/stats\")' || exit 1"]
+      test: ["CMD", "curl", "-f", "http://localhost:8000/stats"]
       interval: 30s
       timeout: 10s
       retries: 3
@@ -249,7 +249,7 @@ services:
       - riptide-network
     restart: unless-stopped
     healthcheck:
-      test: ["CMD-SHELL", "python3 -c 'import requests; requests.get(\"http://localhost:8000/health\")' || exit 1"]
+      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
       interval: 30s
       timeout: 10s
       retries: 3
@@ -269,7 +269,7 @@ services:
       - riptide-network
     restart: unless-stopped
     healthcheck:
-      test: ["CMD-SHELL", "python3 -c 'import requests; requests.get(\"http://localhost:8000/health\")' || exit 1"]
+      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
       interval: 30s
       timeout: 10s
       retries: 3

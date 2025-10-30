@@ -92,6 +92,22 @@ async def home(request: Request):
         "csrf_token": csrf_token
     })
 
+@app.get("/login", response_class=HTMLResponse)
+async def login_page(request: Request):
+    """GET /login - Display login form"""
+    session_id = request.cookies.get("session_id")
+    session = verify_session(session_id)
+
+    if session:
+        return RedirectResponse("/dashboard", status_code=302)
+
+    csrf_token = create_csrf_token("pre-auth")
+
+    return templates.TemplateResponse("login.html", {
+        "request": request,
+        "csrf_token": csrf_token
+    })
+
 
 @app.post("/login")
 async def login(
@@ -149,6 +165,49 @@ async def dashboard(request: Request):
         "csrf_token": csrf_token
     })
 
+
+@app.get("/protected", response_class=HTMLResponse)
+async def protected_page(request: Request):
+    """Protected page requiring authentication"""
+    session_id = request.cookies.get("session_id")
+    session = verify_session(session_id)
+
+    if not session:
+        return RedirectResponse("/login", status_code=302)
+
+    return templates.TemplateResponse("protected.html", {
+        "request": request,
+        "username": session["username"],
+        "message": "This is a protected page"
+    })
+
+@app.get("/profile", response_class=HTMLResponse)
+async def profile_page(request: Request):
+    """Profile page requiring authentication"""
+    session_id = request.cookies.get("session_id")
+    session = verify_session(session_id)
+
+    if not session:
+        return RedirectResponse("/login", status_code=302)
+
+    return templates.TemplateResponse("profile.html", {
+        "request": request,
+        "username": session["username"]
+    })
+
+@app.get("/settings", response_class=HTMLResponse)
+async def settings_page(request: Request):
+    """Settings page requiring authentication"""
+    session_id = request.cookies.get("session_id")
+    session = verify_session(session_id)
+
+    if not session:
+        return RedirectResponse("/login", status_code=302)
+
+    return templates.TemplateResponse("settings.html", {
+        "request": request,
+        "username": session["username"]
+    })
 
 @app.get("/protected-data")
 async def protected_data(request: Request):

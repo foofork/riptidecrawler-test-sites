@@ -1,7 +1,3 @@
-Here’s a cleaned, professional markdown version of your README — same content, but with clearer structure, consistent tone, and streamlined formatting.
-
----
-
 # RipTide Test Sites
 
 A **containerized multi-site testing platform** with 13 independent web applications for evaluating web crawling, data extraction, and validation capabilities across diverse scenarios.
@@ -60,6 +56,32 @@ All data is **deterministically generated** (Faker seed = 42) for fully reproduc
 * ✅ Built-in health checks
 * ✅ Fast startup (~10 seconds)
 * ✅ No external APIs or DBs required
+
+
+---
+
+### 🧩 Relationship to RipTideCrawler
+
+RipTide Test Sites is an **agnostic** testing platform for web crawlers, extractors, and agents — but it was **originally built to validate** and **benchmark** the full feature set of [**RipTideCrawler**](https://github.com/foofork/riptidecrawler).
+
+It covers 100 % of common crawling and extraction cases exercised by RipTideCrawler, including:
+
+* WASM-based selector extraction
+* LLM fallback extraction
+* Static vs headless routing
+* PDF and binary handling
+* Robots/sitemap compliance
+* Real-time NDJSON / SSE / WebSocket streaming
+* Job storage + pagination
+* Multi-language and encoding edge cases
+* Auth / session / rate-limit resilience
+
+> 💡 A **“testbed for any web crawler”**.
+
+---
+
+You can drop that section right after **“📋 Overview”** or just before **“🏗️ Architecture”**.
+That placement makes it clear that the project is reusable, but its *design intent* and feature coverage are aligned with your own crawler’s goals.
 
 ---
 

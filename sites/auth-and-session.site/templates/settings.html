@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Settings - Auth Test Site</title>
+    <style>
+        body { font-family: Arial, sans-serif; max-width: 800px; margin: 50px auto; padding: 20px; }
+        .container { border: 1px solid #ddd; padding: 30px; border-radius: 8px; background: #f9f9f9; }
+        h1 { color: #2c3e50; }
+        .settings { background: #fff; padding: 15px; border-radius: 4px; margin-bottom: 20px; }
+        a { display: inline-block; padding: 10px 20px; background: #3498db; color: white; text-decoration: none;
+            border-radius: 4px; margin-right: 10px; }
+        a:hover { background: #2980b9; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>⚙️ Settings</h1>
+
+        <div class="settings">
+            <h2>User Settings</h2>
+            <p><strong>Username:</strong> {{ username }}</p>
+            <p><strong>Email Notifications:</strong> Enabled</p>
+            <p><strong>Two-Factor Auth:</strong> Disabled</p>
+        </div>
+
+        <div>
+            <a href="/dashboard">Dashboard</a>
+            <a href="/protected">Protected</a>
+            <a href="/profile">Profile</a>
+        </div>
+    </div>
+</body>
+</html>

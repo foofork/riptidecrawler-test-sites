@@ -1,0 +1,183 @@
+============================= test session starts ==============================
+platform darwin -- Python 3.9.6, pytest-7.3.1, pluggy-1.0.0 -- /Library/Developer/CommandLineTools/usr/bin/python3
+cachedir: .pytest_cache
+metadata: {'Python': '3.9.6', 'Platform': 'macOS-15.6.1-arm64-arm-64bit', 'Packages': {'pytest': '7.3.1', 'pluggy': '1.0.0'}, 'Plugins': {'asyncio': '0.21.0', 'anyio': '4.9.0', 'integration': '0.2.3', 'html': '4.1.1', 'xdist': '3.8.0', 'timeout': '2.4.0', 'metadata': '3.1.1', 'mock': '3.10.0', 'Faker': '30.8.2', 'cov': '4.0.0', 'benchmark': '4.0.0'}}
+benchmark: 4.0.0 (defaults: timer=time.perf_counter disable_gc=False min_rounds=5 min_time=0.000005 max_time=1.0 calibration_precision=10 warmup=False warmup_iterations=100000)
+rootdir: /Users/dylantullberg/Developer/riptide-test-sites
+configfile: pytest.ini
+plugins: asyncio-0.21.0, anyio-4.9.0, integration-0.2.3, html-4.1.1, xdist-3.8.0, timeout-2.4.0, metadata-3.1.1, mock-3.10.0, Faker-30.8.2, cov-4.0.0, benchmark-4.0.0
+asyncio: mode=strict
+collecting ... collected 163 items
+
+tests/test_anti_bot.py::TestAntiBotLite::test_site_is_healthy FAILED     [  0%]
+tests/test_anti_bot.py::TestAntiBotLite::test_normal_user_agent_allowed FAILED [  1%]
+tests/test_anti_bot.py::TestAntiBotLite::test_bot_user_agent_blocked FAILED [  1%]
+tests/test_anti_bot.py::TestAntiBotLite::test_rate_limiting_enforced FAILED [  2%]
+tests/test_anti_bot.py::TestAntiBotLite::test_honeypot_field_detection PASSED [  3%]
+tests/test_anti_bot.py::TestAntiBotLite::test_javascript_challenge_present PASSED [  3%]
+tests/test_anti_bot.py::TestAntiBotLite::test_cookie_validation FAILED   [  4%]
+tests/test_anti_bot.py::TestAntiBotLite::test_referer_header_checking FAILED [  4%]
+tests/test_anti_bot.py::TestAntiBotLite::test_timing_based_detection PASSED [  5%]
+tests/test_anti_bot.py::TestAntiBotLite::test_ip_based_blocking PASSED   [  6%]
+tests/test_anti_bot.py::TestAntiBotBypass::test_googlebot_allowed PASSED [  6%]
+tests/test_anti_bot.py::TestAntiBotBypass::test_robots_txt_provides_guidance FAILED [  7%]
+tests/test_auth_session.py::TestAuthenticationSession::test_site_is_healthy PASSED [  7%]
+tests/test_auth_session.py::TestAuthenticationSession::test_login_page_accessible FAILED [  8%]
+tests/test_auth_session.py::TestAuthenticationSession::test_csrf_token_present FAILED [  9%]
+tests/test_auth_session.py::TestAuthenticationSession::test_protected_page_requires_auth FAILED [  9%]
+======================================================================
+✅ Test session completed
+======================================================================
+
+
+
+=================================== FAILURES ===================================
+_____________________ TestAntiBotLite.test_site_is_healthy _____________________
+tests/test_anti_bot.py:33: in test_site_is_healthy
+    assert health_check(SITE_PORT), "anti-bot-lite.site is not healthy"
+E   AssertionError: anti-bot-lite.site is not healthy
+E   assert False
+E    +  where False = <function health_check.<locals>.check at 0x1032a1820>(5011)
+        health_check = <function health_check.<locals>.check at 0x1032a1820>
+        self       = <test_anti_bot.TestAntiBotLite object at 0x103060700>
+---------------------------- Captured stdout setup -----------------------------
+
+======================================================================
+🧪 RipTide Test Sites - Testing Environment
+======================================================================
+Base URL: http://localhost
+Fixture Seed: 42
+Test Timeout: 30s
+Ground Truth Dir: /Users/dylantullberg/Developer/riptide-test-sites/ground-truth
+======================================================================
+
+----------------------------- Captured stdout call -----------------------------
+❌ Site on port 5011 returned 400
+________________ TestAntiBotLite.test_normal_user_agent_allowed ________________
+tests/test_anti_bot.py:51: in test_normal_user_agent_allowed
+    assert response.status_code == 200, \
+E   AssertionError: Normal browser user-agent should be allowed
+E   assert 400 == 200
+E    +  where 400 = <Response [400]>.status_code
+        headers    = {'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36'}
+        http_client = <requests.sessions.Session object at 0x1032f21c0>
+        response   = <Response [400]>
+        self       = <test_anti_bot.TestAntiBotLite object at 0x10318f490>
+        site_url   = <function site_url.<locals>.generate at 0x103380550>
+        url        = 'http://localhost:5011/'
+_________________ TestAntiBotLite.test_bot_user_agent_blocked __________________
+tests/test_anti_bot.py:89: in test_bot_user_agent_blocked
+    assert blocked_count >= 2, \
+E   AssertionError: At least 2 bot user-agents should be blocked, got 0
+E   assert 0 >= 2
+        blocked_count = 0
+        bot_user_agents = ['python-requests', 'curl/7.0', 'wget/1.0', 'bot', 'crawler', 'spider']
+        response   = <Response [400]>
+        self       = <test_anti_bot.TestAntiBotLite object at 0x103187550>
+        session    = <requests.sessions.Session object at 0x1032f2d90>
+        site_url   = <function site_url.<locals>.generate at 0x1033805e0>
+        ua         = 'spider'
+        url        = 'http://localhost:5011/'
+_________________ TestAntiBotLite.test_rate_limiting_enforced __________________
+tests/test_anti_bot.py:119: in test_rate_limiting_enforced
+    assert rate_limited, "Rate limiting should be enforced after rapid requests"
+E   AssertionError: Rate limiting should be enforced after rapid requests
+E   assert False
+        http_client = <requests.sessions.Session object at 0x1032f21c0>
+        i          = 19
+        last_response = <Response [400]>
+        rate_limited = False
+        response   = <Response [400]>
+        responses  = [400, 400, 400, 400, 400, 400, ...]
+        self       = <test_anti_bot.TestAntiBotLite object at 0x103187160>
+        site_url   = <function site_url.<locals>.generate at 0x103380b80>
+        url        = 'http://localhost:5011/api/data'
+____________________ TestAntiBotLite.test_cookie_validation ____________________
+tests/test_anti_bot.py:215: in test_cookie_validation
+    assert len(cookies_after_first) > 0 or response1.status_code == 200, \
+E   AssertionError: Site should set cookies for tracking
+E   assert (0 > 0 or 400 == 200)
+E    +  where 0 = len(<RequestsCookieJar[]>)
+E    +  and   400 = <Response [400]>.status_code
+        cookies_after_first = <RequestsCookieJar[]>
+        response1  = <Response [400]>
+        response2  = <Response [400]>
+        self       = <test_anti_bot.TestAntiBotLite object at 0x1031878e0>
+        session    = <requests.sessions.Session object at 0x103396a90>
+        site_url   = <function site_url.<locals>.generate at 0x1033809d0>
+        url        = 'http://localhost:5011/'
+_________________ TestAntiBotLite.test_referer_header_checking _________________
+tests/test_anti_bot.py:239: in test_referer_header_checking
+    assert response_no_referer.status_code == 200 or response_with_referer.status_code == 200, \
+E   AssertionError: At least one referer pattern should work
+E   assert (400 == 200 or 400 == 200)
+E    +  where 400 = <Response [400]>.status_code
+E    +  and   400 = <Response [400]>.status_code
+        headers    = {'Referer': 'http://localhost:5011/'}
+        response_no_referer = <Response [400]>
+        response_with_referer = <Response [400]>
+        self       = <test_anti_bot.TestAntiBotLite object at 0x1030f90d0>
+        session    = <requests.sessions.Session object at 0x10339ea30>
+        session2   = <requests.sessions.Session object at 0x1032f2f70>
+        site_url   = <function site_url.<locals>.generate at 0x1033983a0>
+        url        = 'http://localhost:5011/protected'
+_____________ TestAntiBotBypass.test_robots_txt_provides_guidance ______________
+tests/test_anti_bot.py:340: in test_robots_txt_provides_guidance
+    assert response.status_code == 200, "robots.txt should exist"
+E   AssertionError: robots.txt should exist
+E   assert 400 == 200
+E    +  where 400 = <Response [400]>.status_code
+        http_client = <requests.sessions.Session object at 0x1032f21c0>
+        response   = <Response [400]>
+        self       = <test_anti_bot.TestAntiBotBypass object at 0x1030f9220>
+        site_url   = <function site_url.<locals>.generate at 0x103398af0>
+        url        = 'http://localhost:5011/robots.txt'
+_____________ TestAuthenticationSession.test_login_page_accessible _____________
+tests/test_auth_session.py:40: in test_login_page_accessible
+    assert response.status_code == 200, "Login page should be accessible"
+E   AssertionError: Login page should be accessible
+E   assert 405 == 200
+E    +  where 405 = <Response [405]>.status_code
+        http_client = <requests.sessions.Session object at 0x1032f21c0>
+        response   = <Response [405]>
+        self       = <test_auth_session.TestAuthenticationSession object at 0x1030f9fa0>
+        site_url   = <function site_url.<locals>.generate at 0x1033b4310>
+        url        = 'http://localhost:5008/login'
+______________ TestAuthenticationSession.test_csrf_token_present _______________
+tests/test_auth_session.py:70: in test_csrf_token_present
+    assert csrf_field, "Login form should have CSRF token"
+E   AssertionError: Login form should have CSRF token
+E   assert None
+        csrf_field = None
+        http_client = <requests.sessions.Session object at 0x1032f21c0>
+        response   = <Response [405]>
+        self       = <test_auth_session.TestAuthenticationSession object at 0x103106190>
+        site_url   = <function site_url.<locals>.generate at 0x1033b4a60>
+        soup       = {"detail":"Method Not Allowed"}
+        url        = 'http://localhost:5008/login'
+_________ TestAuthenticationSession.test_protected_page_requires_auth __________
+tests/test_auth_session.py:92: in test_protected_page_requires_auth
+    assert 'login' in location.lower(), "Should redirect to login page"
+E   AssertionError: Should redirect to login page
+E   assert 'login' in '/'
+E    +  where '/' = <built-in method lower of str object at 0x10110d730>()
+E    +    where <built-in method lower of str object at 0x10110d730> = '/'.lower
+        http_client = <requests.sessions.Session object at 0x1032f21c0>
+        location   = '/'
+        response   = <Response [302]>
+        self       = <test_auth_session.TestAuthenticationSession object at 0x103106340>
+        site_url   = <function site_url.<locals>.generate at 0x1033980d0>
+        url        = 'http://localhost:5008/dashboard'
+=========================== short test summary info ============================
+FAILED tests/test_anti_bot.py::TestAntiBotLite::test_site_is_healthy - Assert...
+FAILED tests/test_anti_bot.py::TestAntiBotLite::test_normal_user_agent_allowed
+FAILED tests/test_anti_bot.py::TestAntiBotLite::test_bot_user_agent_blocked
+FAILED tests/test_anti_bot.py::TestAntiBotLite::test_rate_limiting_enforced
+FAILED tests/test_anti_bot.py::TestAntiBotLite::test_cookie_validation - Asse...
+FAILED tests/test_anti_bot.py::TestAntiBotLite::test_referer_header_checking
+FAILED tests/test_anti_bot.py::TestAntiBotBypass::test_robots_txt_provides_guidance
+FAILED tests/test_auth_session.py::TestAuthenticationSession::test_login_page_accessible
+FAILED tests/test_auth_session.py::TestAuthenticationSession::test_csrf_token_present
+FAILED tests/test_auth_session.py::TestAuthenticationSession::test_protected_page_requires_auth
+!!!!!!!!!!!!!!!!!!!!!!!!!! stopping after 10 failures !!!!!!!!!!!!!!!!!!!!!!!!!!
+========================= 10 failed, 6 passed in 2.46s =========================

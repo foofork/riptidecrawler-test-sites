@@ -37,6 +37,52 @@ async def absolute_redirect_302(n: int):
         return RedirectResponse(url="https://redirects-canonical.site/final", status_code=302)
     return RedirectResponse(url=f"https://redirects-canonical.site/absolute-redirect/302/{n-1}", status_code=302)
 
+# ===== TEST ROUTES (for test_redirects.py) =====
+
+@app.get("/old-event/{id}")
+async def old_event(id: int):
+    """301 redirect from old event URLs to new /events/{id}"""
+    return RedirectResponse(url=f"/events/{id}", status_code=301)
+
+@app.get("/temp/{id}")
+async def temp_redirect(id: int):
+    """302 temporary redirect to /events/{id}"""
+    return RedirectResponse(url=f"/events/{id}", status_code=302)
+
+@app.get("/chain/{step}/{id}")
+async def redirect_chain(step: int, id: int):
+    """Multi-hop redirect chain: step 1 -> 2 -> 3 -> /events/{id}"""
+    if step >= 3:
+        return RedirectResponse(url=f"/events/{id}", status_code=301)
+    next_step = step + 1
+    return RedirectResponse(url=f"/chain/{next_step}/{id}", status_code=301)
+
+@app.get("/events/{id}")
+async def events_page(id: int, request: Request):
+    """Final destination for event pages"""
+    return templates.TemplateResponse("page.html", {
+        "request": request,
+        "title": f"Event {id}",
+        "content": f"This is event number {id}",
+        "path": f"/events/{id}"
+    })
+
+@app.get("/events/")
+async def events_list(request: Request):
+    """Events list page with canonical URL handling"""
+    # Get query params for canonical URL normalization
+    page = request.query_params.get("page", "1")
+
+    # Build canonical URL (exclude tracking params)
+    canonical_url = f"https://redirects-canonical.site/events/?page={page}"
+
+    return templates.TemplateResponse("canonical.html", {
+        "request": request,
+        "title": "Events List",
+        "canonical_url": canonical_url,
+        "content": f"Events list - Page {page}"
+    })
+
 # ===== REDIRECT CHAINS =====
 
 @app.get("/chain/start")
@@ -173,6 +219,16 @@ async def sitemap():
 </urlset>"""
 
     return Response(content=sitemap_xml, media_type="application/xml")
+
+@app.get("/loop/a")
+async def loop_a():
+    """Redirect loop A -> B"""
+    return RedirectResponse(url="/loop/b", status_code=301)
+
+@app.get("/loop/b")
+async def loop_b():
+    """Redirect loop B -> A"""
+    return RedirectResponse(url="/loop/a", status_code=301)
 
 @app.get("/health")
 async def health_check():

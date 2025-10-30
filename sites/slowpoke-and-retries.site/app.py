@@ -83,6 +83,27 @@ async def delay_response(seconds: int, request: Request):
         "elapsed": round(elapsed, 3)
     }
 
+@app.get("/slow/{seconds}", response_class=JSONResponse)
+async def slow_response(seconds: int, request: Request):
+    """Slow response endpoint (alias for /delay/)"""
+    if seconds > 60:
+        return JSONResponse(
+            {"error": "Maximum delay is 60 seconds"},
+            status_code=400
+        )
+
+    start_time = time.time()
+    await asyncio.sleep(seconds)
+    elapsed = time.time() - start_time
+
+    return {
+        "url": str(request.url),
+        "args": dict(request.query_params),
+        "origin": request.client.host,
+        "delay": seconds,
+        "elapsed": round(elapsed, 3)
+    }
+
 
 @app.get("/rate-limited")
 async def rate_limited_endpoint(request: Request):
@@ -122,6 +143,11 @@ async def rate_limited_endpoint(request: Request):
         }
     )
 
+@app.get("/rate-limit/")
+async def rate_limit_alias(request: Request):
+    """Alias for rate-limited endpoint"""
+    return await rate_limited_endpoint(request)
+
 
 @app.get("/unstable")
 async def unstable_endpoint():
@@ -144,6 +170,40 @@ async def unstable_endpoint():
             status_code=503,
             headers={"Retry-After": "60"}
         )
+
+@app.get("/unstable/")
+async def unstable_alias():
+    """Alias for unstable endpoint"""
+    return await unstable_endpoint()
+
+@app.get("/flaky/")
+async def flaky_endpoint():
+    """Intermittently fails - 50% success, 50% failure"""
+    import random
+
+    if random.random() < 0.5:
+        return {"success": True, "message": "Request successful"}
+    else:
+        return JSONResponse(
+            {"error": "Service temporarily unavailable"},
+            status_code=503,
+            headers={"Retry-After": "5"}
+        )
+
+@app.get("/timeout/{seconds}")
+async def timeout_test(seconds: int):
+    """Endpoint that times out after N seconds"""
+    await asyncio.sleep(seconds)
+    return {"message": f"Completed after {seconds}s"}
+
+@app.get("/always-fail/")
+async def always_fail():
+    """Always returns 503 to test circuit breaker"""
+    return JSONResponse(
+        {"error": "Service permanently unavailable"},
+        status_code=503,
+        headers={"Retry-After": "300"}
+    )
 
 
 @app.get("/timeout")
