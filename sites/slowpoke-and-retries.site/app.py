@@ -1,6 +1,6 @@
 """
 Slowpoke and Retries Test Site
-Port: 5007
+Port: 5004 (external) / 8000 (internal)
 Tests timeout handling, rate limiting, and retry logic (inspired by httpbin.org)
 """
 from fastapi import FastAPI, Request, Response
@@ -270,4 +270,4 @@ async def custom_status(code: int):
 
 if __name__ == "__main__":
     import uvicorn
-    uvicorn.run(app, host="0.0.0.0", port=5007)
+    uvicorn.run(app, host="0.0.0.0", port=8000)
