@@ -1,0 +1,6 @@
+{"url": "http://localhost:5009/", "requested_url": "http://localhost:5009/", "depth": 0, "status_code": 200, "content_type": "text/html; charset=utf-8", "content_length": 1198, "canonical_url": null, "links_count": 5}
+{"url": "http://localhost:5009/latin1", "requested_url": "http://localhost:5009/latin1", "depth": 1, "status_code": 500, "content_type": "text/plain; charset=utf-8", "content_length": 21, "canonical_url": null, "links_count": 0}
+{"url": "http://localhost:5009/utf8-arabic", "requested_url": "http://localhost:5009/utf8-arabic", "depth": 1, "status_code": 200, "content_type": "text/html; charset=utf-8", "content_length": 2003, "canonical_url": null, "links_count": 1}
+{"url": "http://localhost:5009/hebrew", "requested_url": "http://localhost:5009/hebrew", "depth": 1, "status_code": 200, "content_type": "text/html; charset=utf-8", "content_length": 2260, "canonical_url": null, "links_count": 1}
+{"url": "http://localhost:5009/emoji", "requested_url": "http://localhost:5009/emoji", "depth": 1, "status_code": 200, "content_type": "text/html; charset=utf-8", "content_length": 4733, "canonical_url": null, "links_count": 1}
+{"url": "http://localhost:5009/mismatch", "requested_url": "http://localhost:5009/mismatch", "depth": 1, "status_code": 500, "content_type": "text/plain; charset=utf-8", "content_length": 21, "canonical_url": null, "links_count": 0}
