@@ -20,21 +20,22 @@ Disallow: /temp/
 Allow: /
 Allow: /public/
 Allow: /blog/
-Crawl-delay: 1
+Allow: /admin/public/
+crawl-delay: 1
 
 # Google-specific rules
 User-agent: Googlebot
 Allow: /
 Allow: /api/public/
 Disallow: /private/
-Crawl-delay: 0
+crawl-delay: 0
 
 # Bing-specific rules
 User-agent: Bingbot
 Allow: /
 Disallow: /private/
 Disallow: /admin/
-Crawl-delay: 2
+crawl-delay: 2
 
 # Block bad bots
 User-agent: BadBot
@@ -215,6 +216,16 @@ async def admin_page(request: Request):
         "title": "Admin Page",
         "content": "This page is blocked by robots.txt",
         "status": "🚫 Not Crawlable"
+    })
+
+@app.get("/admin/public/info", response_class=HTMLResponse)
+async def admin_public_info(request: Request):
+    """Allowed public info page within admin section"""
+    return templates.TemplateResponse("page.html", {
+        "request": request,
+        "title": "Admin Public Info",
+        "content": "This public info page is allowed by robots.txt despite being in /admin/",
+        "status": "✅ Crawlable (Allow override)"
     })
 
 @app.get("/api/", response_class=HTMLResponse)

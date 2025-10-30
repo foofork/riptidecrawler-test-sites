@@ -224,7 +224,8 @@ def compare_with_ground_truth(ground_truth_loader):
                 if isinstance(expected_value, (int, float)):
                     # Allow tolerance for numeric values
                     allowed_range = abs(expected_value * tolerance)
-                    if abs(actual_value - expected_value) > allowed_range:
+                    # Handle None values before arithmetic
+                    if actual_value is None or abs(actual_value - expected_value) > allowed_range:
                         comparison["differences"].append({
                             "key": key,
                             "expected": expected_value,
