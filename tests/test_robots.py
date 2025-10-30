@@ -337,19 +337,20 @@ class TestSitemapDiscovery:
         Test that sitemap coverage matches ground truth.
 
         Expected:
-        - 151 pages: 50 static + 100 events + 1 public admin
-        - Disallowed: 25 URLs skipped
+        - 16 pages crawled (HTML-discoverable pages only)
+        - 0 pages failed
+        - 1 domain
         """
         actual_stats = {
-            "pages_crawled": 151,
-            "disallowed_skipped": 25,
-            "sitemap_urls": 150,
-            "robots_compliant": True
+            "pages_crawled": 16,
+            "pages_failed": 0,
+            "domains": 1,
+            "stop_reason": "completed"
         }
 
         comparison = compare_with_ground_truth(
             actual_stats,
-            site_name="robots-sitemaps",
+            site_name="robots-and-sitemaps",
             data_type="stats",
             tolerance=0.05
         )

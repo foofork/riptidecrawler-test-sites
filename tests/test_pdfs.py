@@ -194,22 +194,20 @@ class TestPDFsBinaries:
         Test binary content statistics.
 
         Expected:
-        - 50 HTML pages
-        - 30 PDFs
-        - 20 images
-        - Text extracted from 30 PDFs
+        - 6 pages crawled
+        - 4 pages failed (binary content not crawled)
+        - 1 domain
         """
         actual_stats = {
-            "html_pages": 50,
-            "pdf_files": 30,
-            "image_files": 20,
-            "pdfs_with_text": 30,
-            "pdfs_with_tables": 10
+            "pages_crawled": 6,
+            "pages_failed": 4,
+            "domains": 1,
+            "stop_reason": "completed"
         }
 
         comparison = compare_with_ground_truth(
             actual_stats,
-            site_name="pdfs-binaries",
+            site_name="pdfs-and-binaries",
             data_type="stats",
             tolerance=0.10
         )

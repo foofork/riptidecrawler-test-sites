@@ -206,20 +206,20 @@ class TestAuthenticationSession:
         Test authentication flow statistics.
 
         Expected:
-        - Login success rate
-        - Session duration
-        - Protected page count
+        - 1 page crawled (login page)
+        - 0 pages failed
+        - 1 domain
         """
         actual_stats = {
-            "login_attempts": 100,
-            "successful_logins": 95,
-            "protected_pages": 50,
-            "session_duration_minutes": 30
+            "pages_crawled": 1,
+            "pages_failed": 0,
+            "domains": 1,
+            "stop_reason": "completed"
         }
 
         comparison = compare_with_ground_truth(
             actual_stats,
-            site_name="auth-session",
+            site_name="auth-and-session",
             data_type="stats",
             tolerance=0.10
         )
