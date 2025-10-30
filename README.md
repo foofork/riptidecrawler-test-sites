@@ -224,10 +224,13 @@ riptide-test-sites/
 │   └── websocket-stream-sink/
 ├── docs/
 │   ├── QUICK_REFERENCE.md
+│   ├── GROUND_TRUTH_QUICK_REFERENCE.md
+│   ├── ROADMAP.md
 │   ├── architecture.md
 │   ├── deployment-guide.md
+│   ├── development.md
 │   ├── testing.md
-│   └── FINAL_SUMMARY.md
+│   └── archive/ (historical reports)
 └── scripts/
     ├── health_check.sh
     └── validate_all.sh
@@ -297,8 +300,10 @@ custom-site:
 * [Quick Reference](docs/QUICK_REFERENCE.md)
 * [Architecture](docs/architecture.md)
 * [Deployment Guide](docs/deployment-guide.md)
+* [Development Guide](docs/development.md)
 * [Testing Guide](docs/testing.md)
-* [Final Summary](docs/FINAL_SUMMARY.md)
+* [Ground Truth Reference](docs/GROUND_TRUTH_QUICK_REFERENCE.md)
+* [Roadmap](docs/ROADMAP.md)
 
 ---
 
