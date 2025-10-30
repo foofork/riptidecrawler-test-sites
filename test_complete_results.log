@@ -1,0 +1,254 @@
+============================= test session starts ==============================
+platform darwin -- Python 3.9.6, pytest-7.3.1, pluggy-1.0.0 -- /Library/Developer/CommandLineTools/usr/bin/python3
+cachedir: .pytest_cache
+metadata: {'Python': '3.9.6', 'Platform': 'macOS-15.6.1-arm64-arm-64bit', 'Packages': {'pytest': '7.3.1', 'pluggy': '1.0.0'}, 'Plugins': {'asyncio': '0.21.0', 'anyio': '4.9.0', 'integration': '0.2.3', 'html': '4.1.1', 'xdist': '3.8.0', 'timeout': '2.4.0', 'metadata': '3.1.1', 'mock': '3.10.0', 'Faker': '30.8.2', 'cov': '4.0.0', 'benchmark': '4.0.0'}}
+benchmark: 4.0.0 (defaults: timer=time.perf_counter disable_gc=False min_rounds=5 min_time=0.000005 max_time=1.0 calibration_precision=10 warmup=False warmup_iterations=100000)
+rootdir: /Users/dylantullberg/Developer/riptide-test-sites
+configfile: pytest.ini
+plugins: asyncio-0.21.0, anyio-4.9.0, integration-0.2.3, html-4.1.1, xdist-3.8.0, timeout-2.4.0, metadata-3.1.1, mock-3.10.0, Faker-30.8.2, cov-4.0.0, benchmark-4.0.0
+asyncio: mode=strict
+collecting ... collected 163 items
+
+tests/test_anti_bot.py::TestAntiBotLite::test_site_is_healthy FAILED     [  0%]
+tests/test_anti_bot.py::TestAntiBotLite::test_normal_user_agent_allowed FAILED [  1%]
+tests/test_anti_bot.py::TestAntiBotLite::test_bot_user_agent_blocked FAILED [  1%]
+tests/test_anti_bot.py::TestAntiBotLite::test_rate_limiting_enforced FAILED [  2%]
+tests/test_anti_bot.py::TestAntiBotLite::test_honeypot_field_detection PASSED [  3%]
+tests/test_anti_bot.py::TestAntiBotLite::test_javascript_challenge_present PASSED [  3%]
+tests/test_anti_bot.py::TestAntiBotLite::test_cookie_validation FAILED   [  4%]
+tests/test_anti_bot.py::TestAntiBotLite::test_referer_header_checking FAILED [  4%]
+tests/test_anti_bot.py::TestAntiBotLite::test_timing_based_detection PASSED [  5%]
+tests/test_anti_bot.py::TestAntiBotLite::test_ip_based_blocking PASSED   [  6%]
+tests/test_anti_bot.py::TestAntiBotBypass::test_googlebot_allowed PASSED [  6%]
+tests/test_anti_bot.py::TestAntiBotBypass::test_robots_txt_provides_guidance FAILED [  7%]
+tests/test_auth_session.py::TestAuthenticationSession::test_site_is_healthy PASSED [  7%]
+tests/test_auth_session.py::TestAuthenticationSession::test_login_page_accessible FAILED [  8%]
+tests/test_auth_session.py::TestAuthenticationSession::test_csrf_token_present FAILED [  9%]
+tests/test_auth_session.py::TestAuthenticationSession::test_protected_page_requires_auth FAILED [  9%]
+tests/test_auth_session.py::TestAuthenticationSession::test_successful_login FAILED [ 10%]
+tests/test_auth_session.py::TestAuthenticationSession::test_session_maintained_across_requests PASSED [ 11%]
+tests/test_auth_session.py::TestAuthenticationSession::test_logout_invalidates_session PASSED [ 11%]
+tests/test_auth_session.py::TestAuthenticationSession::test_session_expiration PASSED [ 12%]
+tests/test_auth_session.py::TestAuthenticationSession::test_ground_truth_auth_flow SKIPPED [ 12%]
+tests/test_auth_session.py::TestCSRFProtection::test_csrf_token_required FAILED [ 13%]
+tests/test_auth_session.py::TestCSRFProtection::test_csrf_token_validation PASSED [ 14%]
+tests/test_encoding_i18n.py::TestEncodingI18n::test_site_is_healthy PASSED [ 14%]
+tests/test_encoding_i18n.py::TestEncodingI18n::test_utf8_encoding_declared PASSED [ 15%]
+tests/test_encoding_i18n.py::TestEncodingI18n::test_multilanguage_content_available FAILED [ 15%]
+tests/test_encoding_i18n.py::TestEncodingI18n::test_japanese_characters_render_correctly FAILED [ 16%]
+tests/test_encoding_i18n.py::TestEncodingI18n::test_arabic_rtl_content FAILED [ 17%]
+tests/test_encoding_i18n.py::TestEncodingI18n::test_chinese_characters FAILED [ 17%]
+tests/test_encoding_i18n.py::TestEncodingI18n::test_special_characters_in_urls PASSED [ 18%]
+tests/test_encoding_i18n.py::TestEncodingI18n::test_content_language_headers PASSED [ 19%]
+tests/test_encoding_i18n.py::TestEncodingI18n::test_mixed_language_content PASSED [ 19%]
+tests/test_encoding_i18n.py::TestEncodingI18n::test_emoji_and_symbols PASSED [ 20%]
+tests/test_encoding_i18n.py::TestEncodingI18n::test_crawl_preserves_encoding FAILED [ 20%]
+tests/test_encoding_i18n.py::TestEncodingEdgeCases::test_mixed_encoding_detection PASSED [ 21%]
+tests/test_encoding_i18n.py::TestEncodingEdgeCases::test_url_encoded_query_params PASSED [ 22%]
+tests/test_encoding_i18n.py::TestEncodingEdgeCases::test_hreflang_tags_present PASSED [ 22%]
+tests/test_happy_path.py::TestHappyPath::test_site_is_healthy PASSED     [ 23%]
+tests/test_happy_path.py::TestHappyPath::test_index_page_loads PASSED    [ 23%]
+tests/test_happy_path.py::TestHappyPath::test_events_pagination FAILED   [ 24%]
+tests/test_happy_path.py::TestHappyPath::test_event_detail_has_jsonld FAILED [ 25%]
+tests/test_happy_path.py::TestHappyPath::test_canonical_urls_present FAILED [ 25%]
+tests/test_happy_path.py::TestHappyPath::test_sitemap_exists_and_valid FAILED [ 26%]
+tests/test_happy_path.py::TestHappyPath::test_robots_txt_exists PASSED   [ 26%]
+tests/test_happy_path.py::TestHappyPath::test_crawl_completes_successfully FAILED [ 27%]
+tests/test_happy_path.py::TestHappyPath::test_ground_truth_pages_match PASSED [ 28%]
+tests/test_happy_path.py::TestHappyPath::test_ground_truth_entities_match PASSED [ 28%]
+tests/test_happy_path.py::TestHappyPathDataQuality::test_deterministic_data_generation PASSED [ 29%]
+tests/test_happy_path.py::TestHappyPathDataQuality::test_all_events_have_unique_ids FAILED [ 30%]
+tests/test_jobs_offers.py::TestJobsOffers::test_site_is_healthy PASSED   [ 30%]
+tests/test_jobs_offers.py::TestJobsOffers::test_job_listings_page_loads FAILED [ 31%]
+tests/test_jobs_offers.py::TestJobsOffers::test_job_detail_has_jobposting_schema FAILED [ 31%]
+tests/test_jobs_offers.py::TestJobsOffers::test_job_location_data PASSED [ 32%]
+tests/test_jobs_offers.py::TestJobsOffers::test_salary_information PASSED [ 33%]
+tests/test_jobs_offers.py::TestJobsOffers::test_employment_type PASSED   [ 33%]
+tests/test_jobs_offers.py::TestJobsOffers::test_application_url_present PASSED [ 34%]
+tests/test_jobs_offers.py::TestJobsOffers::test_hiring_organization_details PASSED [ 34%]
+tests/test_jobs_offers.py::TestJobsOffers::test_job_date_posted PASSED   [ 35%]
+tests/test_jobs_offers.py::TestJobsOffers::test_expired_jobs_handling PASSED [ 36%]
+tests/test_jobs_offers.py::TestJobsOffers::test_job_search_filtering PASSED [ 36%]
+tests/test_jobs_offers.py::TestJobsOffers::test_job_pagination PASSED    [ 37%]
+tests/test_jobs_offers.py::TestJobsOffers::test_all_jobs_accessible FAILED [ 38%]
+tests/test_jobs_offers.py::TestJobDataQuality::test_jobs_have_complete_data PASSED [ 38%]
+tests/test_jobs_offers.py::TestJobDataQuality::test_consistent_job_ids FAILED [ 39%]
+tests/test_media_nonhtml.py::TestMediaNonHTML::test_site_is_healthy PASSED [ 39%]
+tests/test_media_nonhtml.py::TestMediaNonHTML::test_pdf_files_served_correctly PASSED [ 40%]
+tests/test_media_nonhtml.py::TestMediaNonHTML::test_image_formats_supported PASSED [ 41%]
+tests/test_media_nonhtml.py::TestMediaNonHTML::test_video_files_served PASSED [ 41%]
+tests/test_media_nonhtml.py::TestMediaNonHTML::test_audio_files_served PASSED [ 42%]
+tests/test_media_nonhtml.py::TestMediaNonHTML::test_csv_files_downloadable PASSED [ 42%]
+tests/test_media_nonhtml.py::TestMediaNonHTML::test_json_files_valid PASSED [ 43%]
+tests/test_media_nonhtml.py::TestMediaNonHTML::test_binary_files_integrity PASSED [ 44%]
+tests/test_media_nonhtml.py::TestMediaNonHTML::test_svg_files_inline_safe PASSED [ 44%]
+tests/test_media_nonhtml.py::TestMediaNonHTML::test_content_disposition_headers PASSED [ 45%]
+tests/test_media_nonhtml.py::TestMediaNonHTML::test_media_links_from_html PASSED [ 46%]
+tests/test_media_nonhtml.py::TestMediaNonHTML::test_large_file_handling PASSED [ 46%]
+tests/test_media_nonhtml.py::TestMediaMetadata::test_image_metadata_extractable PASSED [ 47%]
+tests/test_media_nonhtml.py::TestMediaMetadata::test_pdf_metadata_readable PASSED [ 47%]
+tests/test_pdfs.py::TestPDFsBinaries::test_site_is_healthy FAILED        [ 48%]
+tests/test_pdfs.py::TestPDFsBinaries::test_html_pages_list_pdfs FAILED   [ 49%]
+tests/test_pdfs.py::TestPDFsBinaries::test_pdf_download FAILED           [ 49%]
+tests/test_pdfs.py::TestPDFsBinaries::test_pdf_text_extraction FAILED    [ 50%]
+tests/test_pdfs.py::TestPDFsBinaries::test_pdf_with_tables FAILED        [ 50%]
+tests/test_pdfs.py::TestPDFsBinaries::test_image_file_handling FAILED    [ 51%]
+tests/test_pdfs.py::TestPDFsBinaries::test_archive_file_handling FAILED  [ 52%]
+tests/test_pdfs.py::TestPDFsBinaries::test_mixed_content_page FAILED     [ 52%]
+tests/test_pdfs.py::TestPDFsBinaries::test_pdf_metadata_extraction FAILED [ 53%]
+tests/test_pdfs.py::TestPDFsBinaries::test_ground_truth_binary_stats SKIPPED [ 53%]
+tests/test_pdfs.py::TestContentTypeDetection::test_detect_pdf_by_content_type FAILED [ 54%]
+tests/test_pdfs.py::TestContentTypeDetection::test_detect_pdf_by_magic_bytes FAILED [ 55%]
+tests/test_pdfs.py::TestContentTypeDetection::test_detect_image_by_content_type FAILED [ 55%]
+tests/test_pdfs.py::TestContentTypeDetection::test_html_only_mode_skips_binaries PASSED [ 56%]
+tests/test_redirects.py::TestRedirects::test_site_is_healthy PASSED      [ 57%]
+tests/test_redirects.py::TestRedirects::test_301_permanent_redirect FAILED [ 57%]
+tests/test_redirects.py::TestRedirects::test_302_temporary_redirect FAILED [ 58%]
+tests/test_redirects.py::TestRedirects::test_redirect_chain_3_hops FAILED [ 58%]
+tests/test_redirects.py::TestRedirects::test_canonical_link_present FAILED [ 59%]
+tests/test_redirects.py::TestRedirects::test_hash_variants_same_canonical FAILED [ 60%]
+tests/test_redirects.py::TestRedirects::test_query_param_variants_same_canonical PASSED [ 60%]
+tests/test_redirects.py::TestRedirects::test_deduplication_reduces_unique_pages PASSED [ 61%]
+tests/test_redirects.py::TestRedirects::test_redirect_loop_prevention FAILED [ 61%]
+tests/test_redirects.py::TestRedirects::test_ground_truth_redirect_stats FAILED [ 62%]
+tests/test_redirects.py::TestCanonicalDeduplication::test_no_duplicate_entities_extracted PASSED [ 63%]
+tests/test_redirects.py::TestCanonicalDeduplication::test_redirect_chain_metadata_preserved FAILED [ 63%]
+tests/test_robots.py::TestRobotsCompliance::test_site_is_healthy PASSED  [ 64%]
+tests/test_robots.py::TestRobotsCompliance::test_robots_txt_exists PASSED [ 65%]
+tests/test_robots.py::TestRobotsCompliance::test_robots_txt_parsing PASSED [ 65%]
+tests/test_robots.py::TestRobotsCompliance::test_disallow_rules_block_paths FAILED [ 66%]
+tests/test_robots.py::TestRobotsCompliance::test_allow_override_works PASSED [ 66%]
+tests/test_robots.py::TestRobotsCompliance::test_disallowed_path_returns_403_or_404 PASSED [ 67%]
+tests/test_robots.py::TestRobotsCompliance::test_crawl_delay_directive_present FAILED [ 68%]
+tests/test_robots.py::TestRobotsCompliance::test_crawl_delay_respected PASSED [ 68%]
+tests/test_robots.py::TestSitemapDiscovery::test_sitemap_index_exists PASSED [ 69%]
+tests/test_robots.py::TestSitemapDiscovery::test_sitemap_pages_exists FAILED [ 69%]
+tests/test_robots.py::TestSitemapDiscovery::test_sitemap_events_exists FAILED [ 70%]
+tests/test_robots.py::TestSitemapDiscovery::test_sitemap_referenced_in_robots PASSED [ 71%]
+tests/test_robots.py::TestSitemapDiscovery::test_all_sitemap_urls_accessible PASSED [ 71%]
+tests/test_robots.py::TestSitemapDiscovery::test_ground_truth_sitemap_coverage SKIPPED [ 72%]
+tests/test_robots.py::TestRobotsPoliteness::test_user_agent_required FAILED [ 73%]
+tests/test_robots.py::TestRobotsPoliteness::test_rate_limiting_not_aggressive FAILED [ 73%]
+tests/test_selectors_llm.py::TestSelectorsVsLLM::test_site_is_healthy PASSED [ 74%]
+tests/test_selectors_llm.py::TestSelectorsVsLLM::test_clean_pages_with_selectors FAILED [ 74%]
+tests/test_selectors_llm.py::TestSelectorsVsLLM::test_messy_pages_need_llm FAILED [ 75%]
+tests/test_selectors_llm.py::TestSelectorsVsLLM::test_selector_extraction_performance PASSED [ 76%]
+tests/test_selectors_llm.py::TestSelectorsVsLLM::test_llm_fallback_accuracy PASSED [ 76%]
+tests/test_selectors_llm.py::TestSelectorsVsLLM::test_extraction_method_distribution FAILED [ 77%]
+tests/test_selectors_llm.py::TestSelectorsVsLLM::test_ground_truth_extraction_stats SKIPPED [ 77%]
+tests/test_selectors_llm.py::TestSelectorsPatterns::test_nested_selectors PASSED [ 78%]
+tests/test_selectors_llm.py::TestSelectorsPatterns::test_multiple_matching_elements FAILED [ 79%]
+tests/test_selectors_llm.py::TestSelectorsPatterns::test_missing_optional_fields PASSED [ 79%]
+tests/test_slowpoke.py::TestSlowpokeRetries::test_site_is_healthy FAILED [ 80%]
+tests/test_slowpoke.py::TestSlowpokeRetries::test_slow_response_handling FAILED [ 80%]
+tests/test_slowpoke.py::TestSlowpokeRetries::test_timeout_triggers_retry PASSED [ 81%]
+tests/test_slowpoke.py::TestSlowpokeRetries::test_429_rate_limit_with_retry_after PASSED [ 82%]
+tests/test_slowpoke.py::TestSlowpokeRetries::test_5xx_error_exponential_backoff PASSED [ 82%]
+tests/test_slowpoke.py::TestSlowpokeRetries::test_progressive_delays FAILED [ 83%]
+tests/test_slowpoke.py::TestSlowpokeRetries::test_intermittent_failures FAILED [ 84%]
+tests/test_slowpoke.py::TestSlowpokeRetries::test_ground_truth_retry_stats SKIPPED [ 84%]
+tests/test_slowpoke.py::TestBackoffStrategy::test_exponential_backoff_timing PASSED [ 85%]
+tests/test_slowpoke.py::TestBackoffStrategy::test_max_retries_limit PASSED [ 85%]
+tests/test_slowpoke.py::TestBackoffStrategy::test_circuit_breaker_opens FAILED [ 86%]
+tests/test_static_headless.py::TestStaticVsHeadless::test_site_is_healthy PASSED [ 87%]
+tests/test_static_headless.py::TestStaticVsHeadless::test_static_pages_work_without_js FAILED [ 87%]
+tests/test_static_headless.py::TestStaticVsHeadless::test_dynamic_pages_need_headless FAILED [ 88%]
+tests/test_static_headless.py::TestStaticVsHeadless::test_intelligent_routing_decision FAILED [ 88%]
+tests/test_static_headless.py::TestStaticVsHeadless::test_static_extraction_performance PASSED [ 89%]
+tests/test_static_headless.py::TestStaticVsHeadless::test_headless_fallback_markers FAILED [ 90%]
+tests/test_static_headless.py::TestStaticVsHeadless::test_ground_truth_rendering_stats SKIPPED [ 90%]
+tests/test_static_headless.py::TestHeadlessDetection::test_detect_single_page_app FAILED [ 91%]
+tests/test_static_headless.py::TestHeadlessDetection::test_detect_ajax_loaded_content PASSED [ 92%]
+tests/test_websocket.py::TestWebSocketStream::test_site_is_healthy PASSED [ 92%]
+tests/test_websocket.py::TestWebSocketStream::test_websocket_endpoint_advertised PASSED [ 93%]
+tests/test_websocket.py::TestWebSocketStream::test_sse_endpoint_exists SKIPPED [ 93%]
+tests/test_websocket.py::TestWebSocketStream::test_streaming_json_api PASSED [ 94%]
+tests/test_websocket.py::TestWebSocketStream::test_long_polling_fallback PASSED [ 95%]
+tests/test_websocket.py::TestWebSocketStream::test_connection_upgrade_header SKIPPED [ 95%]
+tests/test_websocket.py::TestWebSocketStream::test_real_time_updates_api PASSED [ 96%]
+tests/test_websocket.py::TestWebSocketStream::test_message_queue_endpoint PASSED [ 96%]
+tests/test_websocket.py::TestWebSocketStream::test_chunked_response_handling PASSED [ 97%]
+tests/test_websocket.py::TestWebSocketStream::test_cors_headers_for_streaming PASSED [ 98%]
+tests/test_websocket.py::TestStreamingDataFormats::test_ndjson_format PASSED [ 98%]
+tests/test_websocket.py::TestStreamingDataFormats::test_event_stream_format PASSED [ 99%]
+tests/test_websocket.py::TestStreamingDataFormats::test_json_stream_format PASSED [100%]
+
+=========================== short test summary info ============================
+SKIPPED [1] tests/test_auth_session.py:228: Ground truth not generated yet
+SKIPPED [1] tests/test_pdfs.py:218: Ground truth not generated yet
+SKIPPED [1] tests/test_robots.py:358: Ground truth not generated yet
+SKIPPED [1] tests/test_selectors_llm.py:196: Ground truth not generated yet
+SKIPPED [1] tests/test_slowpoke.py:215: Ground truth not generated yet
+SKIPPED [1] tests/test_static_headless.py:190: Ground truth not generated yet
+SKIPPED [1] tests/test_websocket.py:98: No SSE endpoint found (may require WebSocket only)
+SKIPPED [1] tests/test_websocket.py:180: WebSocket upgrade test inconclusive: WebSocket upgrade should return appropriate status, got 403
+assert 403 in [101, 426, 404, 400]
+ +  where 403 = <Response [403]>.status_code
+FAILED tests/test_anti_bot.py::TestAntiBotLite::test_site_is_healthy - Assert...
+FAILED tests/test_anti_bot.py::TestAntiBotLite::test_normal_user_agent_allowed
+FAILED tests/test_anti_bot.py::TestAntiBotLite::test_bot_user_agent_blocked
+FAILED tests/test_anti_bot.py::TestAntiBotLite::test_rate_limiting_enforced
+FAILED tests/test_anti_bot.py::TestAntiBotLite::test_cookie_validation - Asse...
+FAILED tests/test_anti_bot.py::TestAntiBotLite::test_referer_header_checking
+FAILED tests/test_anti_bot.py::TestAntiBotBypass::test_robots_txt_provides_guidance
+FAILED tests/test_auth_session.py::TestAuthenticationSession::test_login_page_accessible
+FAILED tests/test_auth_session.py::TestAuthenticationSession::test_csrf_token_present
+FAILED tests/test_auth_session.py::TestAuthenticationSession::test_protected_page_requires_auth
+FAILED tests/test_auth_session.py::TestAuthenticationSession::test_successful_login
+FAILED tests/test_auth_session.py::TestCSRFProtection::test_csrf_token_required
+FAILED tests/test_encoding_i18n.py::TestEncodingI18n::test_multilanguage_content_available
+FAILED tests/test_encoding_i18n.py::TestEncodingI18n::test_japanese_characters_render_correctly
+FAILED tests/test_encoding_i18n.py::TestEncodingI18n::test_arabic_rtl_content
+FAILED tests/test_encoding_i18n.py::TestEncodingI18n::test_chinese_characters
+FAILED tests/test_encoding_i18n.py::TestEncodingI18n::test_crawl_preserves_encoding
+FAILED tests/test_happy_path.py::TestHappyPath::test_events_pagination - Asse...
+FAILED tests/test_happy_path.py::TestHappyPath::test_event_detail_has_jsonld
+FAILED tests/test_happy_path.py::TestHappyPath::test_canonical_urls_present
+FAILED tests/test_happy_path.py::TestHappyPath::test_sitemap_exists_and_valid
+FAILED tests/test_happy_path.py::TestHappyPath::test_crawl_completes_successfully
+FAILED tests/test_happy_path.py::TestHappyPathDataQuality::test_all_events_have_unique_ids
+FAILED tests/test_jobs_offers.py::TestJobsOffers::test_job_listings_page_loads
+FAILED tests/test_jobs_offers.py::TestJobsOffers::test_job_detail_has_jobposting_schema
+FAILED tests/test_jobs_offers.py::TestJobsOffers::test_all_jobs_accessible - ...
+FAILED tests/test_jobs_offers.py::TestJobDataQuality::test_consistent_job_ids
+FAILED tests/test_pdfs.py::TestPDFsBinaries::test_site_is_healthy - Assertion...
+FAILED tests/test_pdfs.py::TestPDFsBinaries::test_html_pages_list_pdfs - requ...
+FAILED tests/test_pdfs.py::TestPDFsBinaries::test_pdf_download - requests.exc...
+FAILED tests/test_pdfs.py::TestPDFsBinaries::test_pdf_text_extraction - reque...
+FAILED tests/test_pdfs.py::TestPDFsBinaries::test_pdf_with_tables - requests....
+FAILED tests/test_pdfs.py::TestPDFsBinaries::test_image_file_handling - reque...
+FAILED tests/test_pdfs.py::TestPDFsBinaries::test_archive_file_handling - req...
+FAILED tests/test_pdfs.py::TestPDFsBinaries::test_mixed_content_page - reques...
+FAILED tests/test_pdfs.py::TestPDFsBinaries::test_pdf_metadata_extraction - r...
+FAILED tests/test_pdfs.py::TestContentTypeDetection::test_detect_pdf_by_content_type
+FAILED tests/test_pdfs.py::TestContentTypeDetection::test_detect_pdf_by_magic_bytes
+FAILED tests/test_pdfs.py::TestContentTypeDetection::test_detect_image_by_content_type
+FAILED tests/test_redirects.py::TestRedirects::test_301_permanent_redirect - ...
+FAILED tests/test_redirects.py::TestRedirects::test_302_temporary_redirect - ...
+FAILED tests/test_redirects.py::TestRedirects::test_redirect_chain_3_hops - A...
+FAILED tests/test_redirects.py::TestRedirects::test_canonical_link_present - ...
+FAILED tests/test_redirects.py::TestRedirects::test_hash_variants_same_canonical
+FAILED tests/test_redirects.py::TestRedirects::test_redirect_loop_prevention
+FAILED tests/test_redirects.py::TestRedirects::test_ground_truth_redirect_stats
+FAILED tests/test_redirects.py::TestCanonicalDeduplication::test_redirect_chain_metadata_preserved
+FAILED tests/test_robots.py::TestRobotsCompliance::test_disallow_rules_block_paths
+FAILED tests/test_robots.py::TestRobotsCompliance::test_crawl_delay_directive_present
+FAILED tests/test_robots.py::TestSitemapDiscovery::test_sitemap_pages_exists
+FAILED tests/test_robots.py::TestSitemapDiscovery::test_sitemap_events_exists
+FAILED tests/test_robots.py::TestRobotsPoliteness::test_user_agent_required
+FAILED tests/test_robots.py::TestRobotsPoliteness::test_rate_limiting_not_aggressive
+FAILED tests/test_selectors_llm.py::TestSelectorsVsLLM::test_clean_pages_with_selectors
+FAILED tests/test_selectors_llm.py::TestSelectorsVsLLM::test_messy_pages_need_llm
+FAILED tests/test_selectors_llm.py::TestSelectorsVsLLM::test_extraction_method_distribution
+FAILED tests/test_selectors_llm.py::TestSelectorsPatterns::test_multiple_matching_elements
+FAILED tests/test_slowpoke.py::TestSlowpokeRetries::test_site_is_healthy - Ty...
+FAILED tests/test_slowpoke.py::TestSlowpokeRetries::test_slow_response_handling
+FAILED tests/test_slowpoke.py::TestSlowpokeRetries::test_progressive_delays
+FAILED tests/test_slowpoke.py::TestSlowpokeRetries::test_intermittent_failures
+FAILED tests/test_slowpoke.py::TestBackoffStrategy::test_circuit_breaker_opens
+FAILED tests/test_static_headless.py::TestStaticVsHeadless::test_static_pages_work_without_js
+FAILED tests/test_static_headless.py::TestStaticVsHeadless::test_dynamic_pages_need_headless
+FAILED tests/test_static_headless.py::TestStaticVsHeadless::test_intelligent_routing_decision
+FAILED tests/test_static_headless.py::TestStaticVsHeadless::test_headless_fallback_markers
+FAILED tests/test_static_headless.py::TestHeadlessDetection::test_detect_single_page_app
+============= 67 failed, 88 passed, 8 skipped in 123.44s (0:02:03) =============
