@@ -65,7 +65,7 @@ jobs:
 
       - name: Upload test report
         if: always()
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: test-report-${{ matrix.test-phase }}-py${{ matrix.python-version }}
           path: report-${{ matrix.test-phase }}.html
@@ -118,7 +118,7 @@ jobs:
           python scripts/generate_ground_truth.py --all --validate --include-sitemap --output ground-truth/
 
       - name: Upload ground truth artifacts
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: ground-truth-data
           path: ground-truth/
@@ -168,7 +168,7 @@ jobs:
           name: codecov-umbrella
 
       - name: Upload coverage HTML
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: coverage-report
           path: htmlcov/
