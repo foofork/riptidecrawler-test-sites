@@ -117,6 +117,14 @@ async def routing_logic():
     }
 
 
+@app.get("/spa/", response_class=HTMLResponse)
+async def single_page_app(request: Request):
+    """Single Page Application - minimal HTML with JS bundle"""
+    return templates.TemplateResponse("spa.html", {
+        "request": request
+    })
+
+
 if __name__ == "__main__":
     import uvicorn
     uvicorn.run(app, host="0.0.0.0", port=8000)

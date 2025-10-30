@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Single Page App</title>
+    <style>
+        body { margin: 0; font-family: Arial, sans-serif; }
+        #app { min-height: 100vh; }
+        .loading { text-align: center; padding: 50px; color: #999; }
+    </style>
+</head>
+<body data-requires-js="true">
+    <div id="app">
+        <div class="loading">Loading...</div>
+    </div>
+    <script>
+        // Simulated SPA - content loaded via JavaScript
+        document.addEventListener('DOMContentLoaded', function() {
+            const app = document.getElementById('app');
+            app.innerHTML = '<h1>Single Page Application</h1><p>This content is rendered by JavaScript.</p>';
+        });
+    </script>
+</body>
+</html>

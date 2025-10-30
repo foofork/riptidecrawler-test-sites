@@ -148,7 +148,7 @@ class TestStaticVsHeadless:
         - Pages with <noscript> warnings
         - Pages with data-requires-js attribute
         """
-        dynamic_url = site_url(SITE_PORT, "/articles/dynamic/1")
+        dynamic_url = site_url(SITE_PORT, "/dynamic/1")
         response = http_client.get(dynamic_url)
 
         soup = BeautifulSoup(response.content, 'html.parser')
