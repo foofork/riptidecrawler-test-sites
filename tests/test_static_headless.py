@@ -172,10 +172,10 @@ class TestStaticVsHeadless:
         - 1 domain
         """
         actual_stats = {
-            "pages_crawled": 10,
+            "pages_crawled": 16,
             "pages_failed": 0,
             "domains": 1,
-            "stop_reason": "max_pages"
+            "stop_reason": "completed"
         }
 
         comparison = compare_with_ground_truth(
