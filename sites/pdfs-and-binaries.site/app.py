@@ -204,8 +204,8 @@ async def documents_list(request: Request):
     return templates.TemplateResponse("documents.html", {
         "request": request,
         "documents": [
-            {"id": 1, "title": "Simple PDF Document", "url": "/pdf/simple"},
-            {"id": 2, "title": "PDF with Data Table", "url": "/pdf/with-table"}
+            {"id": 1, "title": "Simple PDF Document", "url": "/documents/sample.pdf"},
+            {"id": 2, "title": "PDF with Data Table", "url": "/documents/text-sample.pdf"}
         ]
     })
 

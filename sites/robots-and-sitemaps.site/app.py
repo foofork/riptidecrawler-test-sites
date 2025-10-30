@@ -140,6 +140,31 @@ async def sitemap_products():
 
     return Response(content=sitemap_xml, media_type="application/xml")
 
+
+@app.get("/sitemap-pages.xml", response_class=Response)
+async def sitemap_pages():
+    """Static pages sitemap"""
+    sitemap_xml = """<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url>
+    <loc>https://robots-and-sitemaps.site/</loc>
+    <changefreq>daily</changefreq>
+    <priority>1.0</priority>
+  </url>
+  <url>
+    <loc>https://robots-and-sitemaps.site/public/</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://robots-and-sitemaps.site/blog/</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+</urlset>"""
+
+    return Response(content=sitemap_xml, media_type="application/xml")
+
 # ===== TEST PAGES =====
 
 @app.get("/", response_class=HTMLResponse)

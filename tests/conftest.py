@@ -99,7 +99,7 @@ def health_check(http_client):
         health_check(5001)  # Check happy-path.site
         health_check(5002, path="/health")  # Custom health endpoint
     """
-    def check(port: int, path: str = "/", expected_status: int = 200) -> bool:
+    def check(port: int, path: str = "/health", expected_status: int = 200, timeout: int = 5) -> bool:
         """
         Check if a site is healthy.
 
@@ -113,7 +113,7 @@ def health_check(http_client):
         """
         url = f"{BASE_URL}:{port}{path}"
         try:
-            response = http_client.get(url, timeout=5)
+            response = http_client.get(url, timeout=timeout)
             is_healthy = response.status_code == expected_status
 
             if is_healthy:

@@ -19,15 +19,15 @@
 <body>
     <div class="product-card">
         <span class="badge">CLEAN HTML</span>
-        <h1 class="product-title" data-testid="product-name">{{ product }}</h1>
-        <div class="product-price" data-testid="product-price">${{ price }}</div>
-        <div class="product-rating" data-testid="product-rating">
+        <h1 class="product-name product-title" data-testid="product-name">{{ product }}</h1>
+        <div class="price product-price" data-testid="product-price">${{ price }}</div>
+        <div class="rating product-rating" data-testid="product-rating">
             ⭐ {{ rating }} / 5.0
         </div>
-        <div class="product-reviews" data-testid="product-reviews">
+        <div class="reviews product-reviews" data-testid="product-reviews">
             {{ reviews }} reviews
         </div>
-        <p class="product-description" data-testid="product-description">{{ description }}</p>
+        <p class="description product-description" data-testid="product-description">{{ description }}</p>
 
         <div class="confidence">
             <strong>Extraction Confidence:</strong> {{ confidence }} (High - CSS selectors work perfectly)
