@@ -28,7 +28,7 @@ User-agent: Googlebot
 Allow: /
 Allow: /api/public/
 Disallow: /private/
-Crawl-delay: 0
+Crawl-delay: 2
 
 # Bing-specific rules
 User-agent: Bingbot
@@ -42,9 +42,9 @@ User-agent: BadBot
 Disallow: /
 
 # Sitemap locations
-Sitemap: https://robots-and-sitemaps.site/sitemap-index.xml
-Sitemap: https://robots-and-sitemaps.site/sitemap-pages.xml
-Sitemap: https://robots-and-sitemaps.site/sitemap-events.xml
+Sitemap: http://localhost:5003/sitemap-index.xml
+Sitemap: http://localhost:5003/sitemap-pages.xml
+Sitemap: http://localhost:5003/sitemap-events.xml
 """
     return Response(content=content, media_type="text/plain")
 
@@ -58,11 +58,11 @@ async def sitemap_index():
     sitemap_xml = f"""<?xml version="1.0" encoding="UTF-8"?>
 <sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <sitemap>
-    <loc>https://robots-and-sitemaps.site/sitemap-pages.xml</loc>
+    <loc>http://localhost:5003/sitemap-pages.xml</loc>
     <lastmod>{now}</lastmod>
   </sitemap>
   <sitemap>
-    <loc>https://robots-and-sitemaps.site/sitemap-events.xml</loc>
+    <loc>http://localhost:5003/sitemap-events.xml</loc>
     <lastmod>{now}</lastmod>
   </sitemap>
 </sitemapindex>"""
@@ -78,22 +78,22 @@ async def sitemap_main():
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
   <url>
-    <loc>https://robots-and-sitemaps.site/</loc>
+    <loc>http://localhost:5003/</loc>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
-    <loc>https://robots-and-sitemaps.site/public/</loc>
+    <loc>http://localhost:5003/public/</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://robots-and-sitemaps.site/about</loc>
+    <loc>http://localhost:5003/about</loc>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://robots-and-sitemaps.site/contact</loc>
+    <loc>http://localhost:5003/contact</loc>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
@@ -107,7 +107,7 @@ async def sitemap_blog():
     urls = []
     for i in range(1, 21):
         urls.append(f"""  <url>
-    <loc>https://robots-and-sitemaps.site/blog/post-{i}</loc>
+    <loc>http://localhost:5003/blog/post-{i}</loc>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>""")
@@ -125,7 +125,7 @@ async def sitemap_products():
     urls = []
     for i in range(1, 31):
         urls.append(f"""  <url>
-    <loc>https://robots-and-sitemaps.site/products/item-{i}</loc>
+    <loc>http://localhost:5003/products/item-{i}</loc>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
   </url>""")
@@ -145,19 +145,19 @@ async def sitemap_pages():
 
     # Main pages
     urls.append("""  <url>
-    <loc>https://robots-and-sitemaps.site/</loc>
+    <loc>http://localhost:5003/</loc>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
   </url>""")
 
     urls.append("""  <url>
-    <loc>https://robots-and-sitemaps.site/public/</loc>
+    <loc>http://localhost:5003/public/</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>""")
 
     urls.append("""  <url>
-    <loc>https://robots-and-sitemaps.site/admin/public/info</loc>
+    <loc>http://localhost:5003/admin/public/info</loc>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>""")
@@ -165,7 +165,7 @@ async def sitemap_pages():
     # Add 50 static pages to meet test requirements (53 total with above pages)
     for i in range(1, 51):
         urls.append(f"""  <url>
-    <loc>https://robots-and-sitemaps.site/page/{i}</loc>
+    <loc>http://localhost:5003/page/{i}</loc>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>""")
@@ -185,7 +185,7 @@ async def sitemap_events():
     # Add 100 event pages
     for i in range(1, 101):
         urls.append(f"""  <url>
-    <loc>https://robots-and-sitemaps.site/events/{i}</loc>
+    <loc>http://localhost:5003/events/{i}</loc>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>""")

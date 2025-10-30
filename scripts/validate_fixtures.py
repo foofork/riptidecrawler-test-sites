@@ -194,13 +194,24 @@ class FixtureValidator:
 
         response = self.session.get(f"{self.base_url}/robots.txt")
         content = response.text
+        content_lower = content.lower()
 
-        if 'Disallow:' in content and 'Allow:' in content:
+        # Check for Disallow and Allow (case-insensitive)
+        has_disallow = 'disallow:' in content_lower
+        has_allow = 'allow:' in content_lower
+
+        if has_disallow and has_allow:
             print("    ✓ Has Disallow and Allow directives")
         else:
-            self.warnings.append("Missing Disallow or Allow directives")
+            missing = []
+            if not has_disallow:
+                missing.append("Disallow")
+            if not has_allow:
+                missing.append("Allow")
+            self.warnings.append(f"Missing {' or '.join(missing)} directives")
 
-        if 'Crawl-delay:' in content:
+        # Check for Crawl-delay (case-insensitive)
+        if 'crawl-delay:' in content_lower:
             print("    ✓ Has Crawl-delay directive")
         else:
             self.warnings.append("Missing Crawl-delay directive")

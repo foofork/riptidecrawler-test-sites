@@ -39,7 +39,7 @@ async def absolute_redirect_302(n: int):
 
 # ===== TEST ROUTES (for test_redirects.py) =====
 
-@app.get("/old-event/{id}")
+@app.api_route("/old-event/{id}", methods=["GET", "HEAD"])
 async def old_event(id: int):
     """301 redirect from old event URLs to new /events/{id}"""
     return RedirectResponse(url=f"/events/{id}", status_code=301)
