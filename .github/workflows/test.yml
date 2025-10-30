@@ -46,7 +46,7 @@ jobs:
 
       - name: Start Docker Compose services
         run: |
-          docker-compose up -d --build
+          docker compose up -d --build
           echo "Waiting for services to be healthy..."
 
       - name: Wait for services
@@ -73,12 +73,12 @@ jobs:
       - name: View Docker logs on failure
         if: failure()
         run: |
-          docker-compose logs --tail=100
+          docker compose logs --tail=100
 
       - name: Cleanup Docker services
         if: always()
         run: |
-          docker-compose down -v
+          docker compose down -v
 
   ground-truth-validation:
     runs-on: ubuntu-latest
@@ -100,7 +100,7 @@ jobs:
 
       - name: Start Docker services
         run: |
-          docker-compose up -d --build
+          docker compose up -d --build
 
       - name: Wait for services
         run: |
@@ -126,7 +126,7 @@ jobs:
       - name: Cleanup
         if: always()
         run: |
-          docker-compose down -v
+          docker compose down -v
 
   coverage:
     runs-on: ubuntu-latest
@@ -149,7 +149,7 @@ jobs:
 
       - name: Start Docker services
         run: |
-          docker-compose up -d --build
+          docker compose up -d --build
 
       - name: Wait for services
         run: |
@@ -176,7 +176,7 @@ jobs:
       - name: Cleanup
         if: always()
         run: |
-          docker-compose down -v
+          docker compose down -v
 
   integration:
     runs-on: ubuntu-latest
@@ -199,7 +199,7 @@ jobs:
 
       - name: Start all services
         run: |
-          docker-compose up -d --build
+          docker compose up -d --build
 
       - name: Wait for services
         run: |
@@ -220,10 +220,10 @@ jobs:
           echo "## Test Summary" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
           echo "- Python Version: 3.11" >> $GITHUB_STEP_SUMMARY
-          echo "- Docker Services: $(docker-compose ps --services | wc -l)" >> $GITHUB_STEP_SUMMARY
+          echo "- Docker Services: $(docker compose ps --services | wc -l)" >> $GITHUB_STEP_SUMMARY
           echo "- Test Files: $(find tests/ -name 'test_*.py' | wc -l)" >> $GITHUB_STEP_SUMMARY
 
       - name: Cleanup
         if: always()
         run: |
-          docker-compose down -v
+          docker compose down -v
