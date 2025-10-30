@@ -80,11 +80,6 @@ It covers 100 % of common crawling and extraction cases exercised by RipTideCraw
 
 ---
 
-You can drop that section right after **“📋 Overview”** or just before **“🏗️ Architecture”**.
-That placement makes it clear that the project is reusable, but its *design intent* and feature coverage are aligned with your own crawler’s goals.
-
----
-
 ## 🏗️ Architecture
 
 Each site is a **FastAPI** application running in Docker with:
