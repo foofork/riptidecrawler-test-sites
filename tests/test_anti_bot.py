@@ -89,7 +89,7 @@ class TestAntiBotLite:
         assert blocked_count >= 2, \
             f"At least 2 bot user-agents should be blocked, got {blocked_count}"
 
-    def test_rate_limiting_enforced(self, site_url, http_client):
+    def test_rate_limiting_enforced(self, site_url):
         """
         Test that rate limiting is enforced on rapid requests.
 
@@ -99,10 +99,14 @@ class TestAntiBotLite:
         """
         url = site_url(SITE_PORT, "/api/data")
 
+        # Create a session WITHOUT retry logic for this test
+        # (the default http_client fixture retries 429s, which hides rate limiting)
+        session = requests.Session()
+
         # Make rapid requests
         responses = []
         for i in range(20):
-            response = http_client.get(url)
+            response = session.get(url)
             responses.append(response.status_code)
             time.sleep(0.1)  # Small delay
 
@@ -111,7 +115,7 @@ class TestAntiBotLite:
 
         # If not rate limited by status code, check for rate limit messages
         if not rate_limited:
-            last_response = http_client.get(url)
+            last_response = session.get(url)
             if last_response.status_code == 200:
                 content = last_response.text.lower()
                 rate_limited = 'rate limit' in content or 'too many requests' in content
