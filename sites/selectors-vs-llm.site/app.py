@@ -22,6 +22,17 @@ products = [fake.catch_phrase() for _ in range(20)]
 prices = [round(random.uniform(10, 1000), 2) for _ in range(20)]
 
 
+@app.get("/health")
+async def health_check():
+    """Health check endpoint"""
+    return {
+        "status": "healthy",
+        "service": "selectors-vs-llm",
+        "port": 5005,
+        "uptime": "operational"
+    }
+
+
 @app.get("/", response_class=HTMLResponse)
 async def home(request: Request):
     """Home page with site overview"""

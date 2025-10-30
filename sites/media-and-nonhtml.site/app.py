@@ -15,6 +15,17 @@ CRAWL_CONFIG = {
     "full_resources": True  # Full resource download including images, fonts, etc.
 }
 
+@app.get("/health")
+async def health_check():
+    """Health check endpoint"""
+    return {
+        "status": "healthy",
+        "service": "media-and-nonhtml",
+        "port": 5010,
+        "uptime": "operational"
+    }
+
+
 @app.get("/", response_class=HTMLResponse)
 async def index():
     """Index page with links to various resource types"""

@@ -175,6 +175,17 @@ async def rate_limit_middleware(request: Request, call_next):
 
     return response
 
+@app.get("/health")
+async def health_check():
+    """Health check endpoint"""
+    return {
+        "status": "healthy",
+        "service": "anti-bot-lite",
+        "port": 5011,
+        "uptime": "operational"
+    }
+
+
 @app.get("/", response_class=HTMLResponse)
 async def index():
     """Index page explaining the anti-bot measures"""

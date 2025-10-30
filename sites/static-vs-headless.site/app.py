@@ -29,6 +29,17 @@ articles = [
 ]
 
 
+@app.get("/health")
+async def health_check():
+    """Health check endpoint"""
+    return {
+        "status": "healthy",
+        "service": "static-vs-headless",
+        "port": 5006,
+        "uptime": "operational"
+    }
+
+
 @app.get("/", response_class=HTMLResponse)
 async def home(request: Request):
     """Home page with test overview"""

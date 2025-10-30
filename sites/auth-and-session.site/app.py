@@ -65,6 +65,17 @@ def verify_csrf(session_id: str, token: str) -> bool:
     return session_id in csrf_tokens and csrf_tokens[session_id] == token
 
 
+@app.get("/health")
+async def health_check():
+    """Health check endpoint"""
+    return {
+        "status": "healthy",
+        "service": "auth-and-session",
+        "port": 5008,
+        "uptime": "operational"
+    }
+
+
 @app.get("/", response_class=HTMLResponse)
 async def home(request: Request):
     """Home page with login form"""

@@ -41,6 +41,17 @@ def check_rate_limit(client_id: str) -> tuple[bool, int]:
     return True, 0
 
 
+@app.get("/health")
+async def health_check():
+    """Health check endpoint"""
+    return {
+        "status": "healthy",
+        "service": "slowpoke-and-retries",
+        "port": 5004,
+        "uptime": "operational"
+    }
+
+
 @app.get("/", response_class=HTMLResponse)
 async def home(request: Request):
     """Home page with test overview"""

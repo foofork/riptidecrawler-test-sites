@@ -87,6 +87,17 @@ def generate_fake_image() -> bytes:
     return png_data
 
 
+@app.get("/health")
+async def health_check():
+    """Health check endpoint"""
+    return {
+        "status": "healthy",
+        "service": "pdfs-and-binaries",
+        "port": 5007,
+        "uptime": "operational"
+    }
+
+
 @app.get("/", response_class=HTMLResponse)
 async def home(request: Request):
     """Home page with file type overview"""
