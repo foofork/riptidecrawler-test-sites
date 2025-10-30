@@ -10,6 +10,11 @@ fake_en = Faker('en_US')
 fake_ar = Faker('ar_SA')
 fake_he = Faker('he_IL')
 
+@app.get("/health")
+async def health():
+    """Health check endpoint"""
+    return {"status": "healthy", "site": "encoding-and-i18n"}
+
 @app.get("/", response_class=HTMLResponse)
 async def index():
     """Index page with navigation to all encoding tests"""
