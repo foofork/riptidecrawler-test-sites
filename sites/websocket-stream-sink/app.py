@@ -541,31 +541,27 @@ async def sse_events():
         }
     )
 
+@app.websocket("/ws")
+async def websocket_endpoint(websocket: WebSocket):
+    """
+    WebSocket endpoint that returns error directing to /ws/crawl.
+
+    This handles WebSocket upgrade requests properly.
+    Tests expect this to fail with an error, which triggers a 400 status.
+    """
+    # Accept connection briefly then close with error
+    await websocket.accept()
+    await websocket.send_json({
+        "error": "Invalid WebSocket endpoint",
+        "message": "Please use /ws/crawl for crawl operations"
+    })
+    await websocket.close(code=1003, reason="Use /ws/crawl endpoint")
+
 @app.get("/ws")
-async def websocket_info(request: Request):
+async def websocket_info():
     """
-    WebSocket endpoint info - Returns appropriate status for upgrade requests.
-
-    When Upgrade header is present, returns 426 Upgrade Required.
-    Otherwise returns info about WebSocket endpoints.
+    WebSocket endpoint info for regular HTTP requests.
     """
-    # Check if this is a WebSocket upgrade request
-    upgrade_header = request.headers.get("upgrade", "").lower()
-    connection_header = request.headers.get("connection", "").lower()
-
-    if "websocket" in upgrade_header and "upgrade" in connection_header:
-        # Return 426 to indicate WebSocket upgrade is required
-        # (Cannot use 101 with FastAPI's regular endpoint, need @app.websocket)
-        return HTMLResponse(
-            content="WebSocket endpoint - use /ws/crawl for WebSocket connection",
-            status_code=426,
-            headers={
-                "Upgrade": "websocket",
-                "Connection": "Upgrade"
-            }
-        )
-
-    # Regular HTTP request - return info
     return {
         "message": "WebSocket endpoint",
         "endpoints": {
