@@ -64,6 +64,17 @@ async def messy_list(request: Request):
     })
 
 
+@app.get("/products/list/", response_class=HTMLResponse)
+async def products_list(request: Request):
+    """List of all products"""
+    return templates.TemplateResponse("list.html", {
+        "request": request,
+        "page_type": "products",
+        "items": list(range(len(products))),
+        "title": "All Products"
+    })
+
+
 @app.get("/products/clean/{item_id}", response_class=HTMLResponse)
 async def products_clean_page(request: Request, item_id: int):
     """70% - Clean HTML with proper semantic tags and classes (products prefix)"""

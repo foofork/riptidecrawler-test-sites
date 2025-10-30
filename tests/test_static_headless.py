@@ -34,7 +34,7 @@ class TestStaticVsHeadless:
         - No JavaScript required for rendering
         - Fast extraction (< 100ms)
         """
-        url = site_url(SITE_PORT, "/articles/static/1")
+        url = site_url(SITE_PORT, "/static/1")
 
         start_time = time.time()
         response = http_client.get(url)
@@ -65,7 +65,7 @@ class TestStaticVsHeadless:
         - Real content loaded via JavaScript
         - Headless browser required for extraction
         """
-        url = site_url(SITE_PORT, "/articles/dynamic/1")
+        url = site_url(SITE_PORT, "/dynamic/1")
         response = http_client.get(url)
 
         assert response.status_code == 200
@@ -95,8 +95,8 @@ class TestStaticVsHeadless:
         - Static pages: data-rendering="static" or full content
         - Dynamic pages: data-rendering="dynamic" or minimal content
         """
-        static_url = site_url(SITE_PORT, "/articles/static/1")
-        dynamic_url = site_url(SITE_PORT, "/articles/dynamic/1")
+        static_url = site_url(SITE_PORT, "/static/1")
+        dynamic_url = site_url(SITE_PORT, "/dynamic/1")
 
         # Check static page
         static_response = http_client.get(static_url)
@@ -121,7 +121,7 @@ class TestStaticVsHeadless:
         - Consistent across multiple pages
         """
         urls = [
-            site_url(SITE_PORT, f"/articles/static/{i}")
+            site_url(SITE_PORT, f"/static/{i}")
             for i in range(1, 11)
         ]
 
